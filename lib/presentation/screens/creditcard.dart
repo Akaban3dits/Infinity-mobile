@@ -1,0 +1,154 @@
+import 'package:flutter/material.dart';
+import 'package:infinity_bank/domain/entities/movements.dart';
+import 'package:infinity_bank/domain/entities/people.dart';
+import 'package:infinity_bank/presentation/widgets/Recentlypeople.dart';
+import 'package:infinity_bank/presentation/widgets/card.dart';
+import 'package:infinity_bank/presentation/widgets/movesinformation.dart';
+
+class CreditCard extends StatefulWidget {
+  const CreditCard({super.key});
+
+  @override
+  State<CreditCard> createState() => _CreditCardState();
+}
+
+class _CreditCardState extends State<CreditCard> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xff6717CD),
+      body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                "Bienvenido [User]", //TODO: Colocar de lista los nombres
+                style: TextStyle(
+                    fontSize: 30,
+                    color: Colors.white,
+                    fontFamily: 'Coolvetica'),
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: Text(
+                "Cuentas",
+                style: TextStyle(
+                    fontFamily: 'Coolvetica',
+                    fontSize: 20,
+                    color: Colors.white),
+              ),
+            ),
+            const SizedBox(height: 20),
+            SizedBox(
+              height: 200,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: CardList.length,
+                itemBuilder: (context, index) {
+                  final card = CardList[index];
+                  return CCard(
+                      money: card.money,
+                      names: card.name,
+                      vig: card.vig,
+                      vig1: card.vig1,
+                      account: card.account);
+                },
+              ),
+            ),
+            const Row(
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                  child: Text(
+                    "Recently people",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'Coolvetica',
+                        fontSize: 20),
+                  ),
+                )
+              ],
+            ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                const SizedBox(width: 10), // Espacio inicial de width: 10
+                ...List<Widget>.generate(usuarios.length * 2 - 1, (index) {
+                  if (index % 2 == 0) {
+                    Usuario usuario = usuarios[index ~/ 2];
+                    return ButtonPearson(
+                      link_image_profile: usuario.url,
+                      name: usuario.nombre,
+                      account_num: usuario.numeroDeCuenta,
+                    );
+                  } else {
+                    return const SizedBox(width: 10);
+                  }
+                }),
+              ]),
+            ),
+            SizedBox(height: 20),
+            Expanded(
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: Color(0xff16045D),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
+                  ),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            "Movimientos Recientes",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'Coolvetica',
+                              fontSize: 20,
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () {},
+                            icon: const Icon(Icons.remove_red_eye_outlined),
+                            color: Colors
+                                .white, // Asegúrate de tener una propiedad color válida aquí o elimínala si es innecesaria
+                          ),
+                        ],
+                      ),
+                      Expanded(
+                        // Agrega un widget Expanded aquí
+                        child: ListView.builder(
+                          itemCount: MoveList.length,
+                          itemBuilder: (context, index) {
+                            final cl = MoveList[index];
+                            return MovesData(
+                              usuario: cl.usuario,
+                              monto: cl.monto,
+                              fecha: cl.fecha,
+                              tipo: cl.tipo,
+                              estado: cl.estado,
+                              detalle: cl.detalle,
+                              id: cl.id,
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
