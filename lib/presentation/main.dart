@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:infinity_bank/presentation/screens/home.dart';
+import 'package:infinity_bank/presentation/screens/login.dart';
 
 void main() => runApp(const Infinity());
 
@@ -11,7 +11,7 @@ class Infinity extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Infinity',
-      home: HomePage(),
+      home: Login(),
     );
   }
 }

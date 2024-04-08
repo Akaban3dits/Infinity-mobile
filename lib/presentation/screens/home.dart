@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:infinity_bank/presentation/screens/creditcard.dart';
 import 'package:infinity_bank/presentation/screens/settings.dart';

@@ -1,4 +1,7 @@
-// ignore_for_file: avoid_unnecessary_containers, unnecessary_import, sized_box_for_whitespace
+// ignore: file_names
+// ignore: file_names
+// ignore: file_names
+// ignore_for_file: avoid_unnecessary_containers, unnecessary_import, sized_box_for_whitespace, sort_child_properties_last
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -27,7 +30,6 @@ class ButtonPearson extends StatelessWidget {
         onPressed: () {
           _display(context);
         },
-        // ignore: sort_child_properties_last
         child: Column(
           children: <Widget>[
             const SizedBox(height: 12),
@@ -282,14 +284,14 @@ class ButtonPearson extends StatelessWidget {
                             onPressed: () {
                               Navigator.pop(context);
                             },
-                            child: Text(
+                            child: const Text(
                               "Cancel operation",
                               style: TextStyle(
                                   fontFamily: 'Coolvetica',
                                   fontSize: 18,
                                   color: Colors.white),
                             ),
-                            style: ButtonStyle(
+                            style: const ButtonStyle(
                                 backgroundColor:
                                     MaterialStatePropertyAll(Colors.red)))
                       ],

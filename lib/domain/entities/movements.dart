@@ -1,5 +1,4 @@
 
-import 'package:flutter/material.dart';
 
 class MovementsBank {
   String usuario;
@@ -33,11 +32,13 @@ class CardName {
       required this.vig1});
 }
 
+// ignore: non_constant_identifier_names
 List<CardName> CardList = [
   CardName(money: 150.00, account: '0129', name: 'Rosario Joahan', vig: 12 , vig1: 23),
   CardName(money: 1700.00, account: '5412', name: 'Rosario Joahan', vig: 12, vig1: 29)
 ];
 
+// ignore: non_constant_identifier_names
 List<MovementsBank> MoveList = [
   MovementsBank(
     usuario: 'Usuario1',

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class CCard extends StatefulWidget {
-  CCard(
+  const CCard(
       {super.key,
       required this.money,
       required this.names,
@@ -28,8 +28,10 @@ class _CCardState extends State<CCard> {
     numeroConComas = NumberFormat("#,##0.00", "en_US").format(widget.money);
   }
 
+  @override
   Widget build(BuildContext context) {
     return Center(
+      // ignore: avoid_unnecessary_containers
       child: Container(
         child: SizedBox(
           width: 350,
@@ -81,9 +83,9 @@ class _CCardState extends State<CCard> {
                             children: [
                               Row(
                                 children: [
-                                  Text(
+                                  const Text(
                                     "\$",
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 20,
                                         fontFamily: 'Monofonto'),

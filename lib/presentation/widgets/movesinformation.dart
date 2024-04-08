@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:infinity_bank/presentation/screens/settings.dart';
+import 'package:infinity_bank/presentation/screens/movinfo.dart';
 
 // ignore: must_be_immutable
 class MovesData extends StatefulWidget {
@@ -33,7 +33,17 @@ class _MovesDataState extends State<MovesData> {
       child: InkWell(
         onTap: () {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => const Settings()));
+              context,
+              MaterialPageRoute(
+                  builder: (context) => Infomoves(
+                        usuario: widget.usuario,
+                        monto: widget.monto,
+                        fecha: widget.fecha,
+                        tipo: widget.tipo,
+                        estado: widget.estado,
+                        detalle: widget.detalle,
+                        id: widget.id,
+                      )));
         },
         // ignore: sized_box_for_whitespace
         child: Container(

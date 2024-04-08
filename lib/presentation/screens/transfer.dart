@@ -41,9 +41,9 @@ class _TransferPageState extends State<TransferPage> {
                         name: "Withdraw")
                   ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: const Row(
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8),
+                  child: Row(
                     children: [
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 8.0),

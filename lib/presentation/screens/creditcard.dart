@@ -24,7 +24,7 @@ class _CreditCardState extends State<CreditCard> {
             const Padding(
               padding: EdgeInsets.all(8.0),
               child: Text(
-                "Bienvenido [User]", //TODO: Colocar de lista los nombres
+                "Bienvenido, Joahan", //TODO: Colocar de lista los nombres
                 style: TextStyle(
                     fontSize: 30,
                     color: Colors.white,
@@ -90,7 +90,7 @@ class _CreditCardState extends State<CreditCard> {
                 }),
               ]),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Expanded(
               child: Container(
                 decoration: const BoxDecoration(
@@ -101,7 +101,7 @@ class _CreditCardState extends State<CreditCard> {
                   ),
                 ),
                 child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                  padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
                   child: Column(
                     children: [
                       Row(
