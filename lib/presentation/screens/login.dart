@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:infinity_bank/presentation/blocs/text_styles.dart';
 import 'package:infinity_bank/presentation/screens/home.dart';
 import 'package:infinity_bank/presentation/widgets/texfld.dart';
 
@@ -19,48 +20,42 @@ class _LoginState extends State<Login> {
       width: double.infinity,
       height: double.infinity,
       decoration: const BoxDecoration(
-          gradient:
-              LinearGradient(colors: [Color(0xff6717CD), Color(0xff16035C)])),
+          gradient: LinearGradient(
+              colors: [AppColorStyle.primary, AppColorStyle.secundary])),
       child: Center(
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         // ignore: avoid_unnecessary_containers
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 15.0),
-          child: Container(
-            child: Image.asset(
-              "assets/images/InfinityVerticalLogo 1.png",
-              width: 180.0,
-            ),
+          child: Image.asset(
+            "assets/images/InfinityVerticalLogo 1.png",
+            width: 180.0,
           ),
         ),
-        // ignore: sized_box_for_whitespace
-        Container(
+        const SizedBox(
             height: 50.0,
-            child: const TextfUs(
+            child: TextfUs(
               hintText: "User",
               obscureText: false,
-              icon: Icons.person,
+              icon: AppIconStyle.person,
             )),
         const SizedBox(height: 10.0),
-        // ignore: sized_box_for_whitespace
-        Container(
+        const SizedBox(
             height: 50.0,
-            child: const TextfUs(
-              hintText: "Password",
-              obscureText: true,
-              icon: Icons.lock,
-            )),
-
-        // ignore: avoid_unnecessary_containers
+            child: TextfUs(
+                hintText: "Password",
+                obscureText: true,
+                icon: AppIconStyle.password)),
         Container(
             padding: const EdgeInsets.symmetric(horizontal: 30),
             alignment: Alignment.centerRight,
             height: 30.0,
             child: TextButton(
                 onPressed: () {},
-                child: const Text(
+                child: Text(
                   "Olvide mi contraseña",
-                  style: TextStyle(color: Colors.white, fontSize: 12),
+                  style:
+                      AppTextStyles.h4s1.copyWith(color: AppColorStyle.white),
                 ))),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 70),
@@ -69,25 +64,23 @@ class _LoginState extends State<Login> {
           child: ElevatedButton(
               style: ButtonStyle(
                   backgroundColor:
-                      MaterialStateProperty.all(const Color(0xff0386D0))),
+                      MaterialStateProperty.all(AppColorStyle.secundary)),
               onPressed: () {},
               child: const Text(
                 "Log In",
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: AppColorStyle.white),
               )),
         ),
         const SizedBox(
           height: 20,
         ),
-        // ignore: avoid_unnecessary_containers
-        Container(
-            child: IconButton(
-                onPressed: () {
-                  _auth();
-                },
-                icon: const Icon(Icons.fingerprint),
-                iconSize: 50,
-                color: Colors.white))
+        IconButton(
+            onPressed: () {
+              _auth();
+            },
+            icon: const Icon(AppIconStyle.fingercheck),
+            iconSize: 50,
+            color: AppColorStyle.white)
       ])),
     ));
   }
@@ -108,8 +101,7 @@ class _LoginState extends State<Login> {
       Navigator.pushReplacement<void, void>(
           // ignore: use_build_context_synchronously
           context,
-          MaterialPageRoute<void>(
-              builder: ((context) => const HomePage())));
+          MaterialPageRoute<void>(builder: ((context) => const HomePage())));
     }
   }
 }

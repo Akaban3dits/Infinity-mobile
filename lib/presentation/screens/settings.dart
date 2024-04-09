@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:infinity_bank/presentation/blocs/text_styles.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -11,7 +12,7 @@ class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColorStyle.white,
     );
   }
 }

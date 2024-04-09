@@ -1,7 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:infinity_bank/presentation/screens/login.dart';
+import 'package:flutter/services.dart';
 
-void main() => runApp(const Infinity());
+void main() {
+  WidgetsFlutterBinding
+      .ensureInitialized(); 
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]).then((_) {
+    runApp(const Infinity());
+  });
+
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.landscapeRight,
+    DeviceOrientation.landscapeLeft,
+  ]);
+}
 
 class Infinity extends StatelessWidget {
   const Infinity({super.key});

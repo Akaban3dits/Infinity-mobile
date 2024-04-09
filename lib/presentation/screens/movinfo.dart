@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:infinity_bank/presentation/blocs/text_styles.dart';
 
 // ignore: must_be_immutable
 class Infomoves extends StatefulWidget {
@@ -29,39 +30,54 @@ class _InfomovesState extends State<Infomoves> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xff6717CD),
+      backgroundColor: AppColorStyle.primary,
       appBar: AppBar(
-        iconTheme: const IconThemeData(color: Colors.white),
-        title: const Row(
+        iconTheme: const IconThemeData(color: AppColorStyle.white),
+        title: Row(
           children: [
-            Icon(Icons.info, color: Colors.white),
+            const Icon(AppIconStyle.info, color: AppColorStyle.white),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 4),
+              padding: const EdgeInsets.symmetric(horizontal: 4),
               child: Text(
                 "Informacion del movimiento",
-                style: TextStyle(
-                    fontFamily: 'Coolvetica',
-                    color: Colors.white,
-                    fontSize: 21),
+                style: AppTextStyles.h3s1.copyWith(color: AppColorStyle.white)
               ),
             )
           ],
         ),
-        backgroundColor: const Color(0xff6717CD),
+        backgroundColor: AppColorStyle.primary,
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Wrap(
-          spacing: 8.0, // Espacio horizontal entre los Containers
-          runSpacing: 15.0, // Espacio vertical entre los Containers
-          alignment: WrapAlignment.spaceBetween,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            _buildDataContainer(Icons.person, "Usuario", widget.usuario),
-            _buildDataContainer(Icons.attach_money, "Monto", "\$${widget.monto}"),
-            _buildDataContainer(Icons.date_range, "Fecha", widget.fecha.toIso8601String().split('T').first),
-            _buildDataContainer(Icons.info_outline, "Estado", widget.estado),
-            _buildDataContainer(Icons.details, "Detalle", widget.detalle),
-            _buildDataContainer(Icons.vpn_key, "ID", widget.id),
+            Wrap(
+              spacing: 8.0, 
+              runSpacing: 15.0, 
+              alignment: WrapAlignment.spaceBetween,
+              children: [
+                _buildDataContainer(AppIconStyle.person, "Usuario", widget.usuario),
+                _buildDataContainer(
+                    AppIconStyle.money, "Monto", "\$${widget.monto}"),
+                _buildDataContainer(AppIconStyle.date, "Fecha",
+                    widget.fecha.toIso8601String().split('T').first),
+                _buildDataContainer(
+                    AppIconStyle.info, "Estado", widget.estado),
+                _buildDataContainer(AppIconStyle.details, "Detalle", widget.detalle),
+                _buildDataContainer(AppIconStyle.key, "ID", widget.id),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                    child: ElevatedButton(
+                  onPressed: () {},
+                  style: ButtonStyle( backgroundColor: MaterialStateProperty.all(AppColorStyle.red)),
+                  child: Text("Enviar Reclamo", style: AppTextStyles.h3s1.copyWith(color: AppColorStyle.white)),
+                ))
+              ],
+            )
           ],
         ),
       ),
@@ -80,12 +96,16 @@ class _InfomovesState extends State<Infomoves> {
       child: Column(
         children: [
           Icon(icon, color: Colors.white),
-          Text(label, style: TextStyle(color: Colors.white, fontFamily: 'Coolvetica',fontSize: 25)),
-          Text(data, style: TextStyle(color: Colors.white, fontFamily: 'Coolvetica', fontSize: 14),),
+          Text(label,
+              style: TextStyle(
+                  color: Colors.white, fontFamily: 'Coolvetica', fontSize: 25)),
+          Text(
+            data,
+            style: TextStyle(
+                color: Colors.white, fontFamily: 'Coolvetica', fontSize: 14),
+          ),
         ],
       ),
     );
   }
 }
-
-

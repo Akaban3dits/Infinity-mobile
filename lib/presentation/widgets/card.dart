@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:infinity_bank/presentation/blocs/text_styles.dart';
+import 'package:infinity_bank/presentation/screens/datacard.dart';
 import 'package:intl/intl.dart';
 
 class CCard extends StatefulWidget {
@@ -31,127 +33,123 @@ class _CCardState extends State<CCard> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      // ignore: avoid_unnecessary_containers
-      child: Container(
-        child: SizedBox(
-          width: 350,
-          height: 180,
-          child: ElevatedButton(
-            onPressed: () {
-              // Tu acción aquí
-            },
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(
-                  Colors.transparent), // Fondo transparente
-              shadowColor:
-                  MaterialStateProperty.all(Colors.transparent), // Sin sombra
-              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              overlayColor: MaterialStateProperty.all(
-                  Colors.transparent), // Sin efecto overlay al presionar
-            ),
-            child: Ink(
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [Color.fromARGB(24, 22, 3, 92), Color(0xff3263F3)],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                ),
+      child: SizedBox(
+        width: 350,
+        height: 180,
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => DataCard(
+                        money: widget.money,
+                        names: widget.names,
+                        vig: widget.vig,
+                        vig1: widget.vig1,
+                        account: widget.account)));
+          },
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(Colors.transparent),
+            shadowColor: MaterialStateProperty.all(Colors.transparent),
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Container(
-                alignment: Alignment.center,
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 12, horizontal: 5),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            children: [
-                              Image.asset("assets/images/Logo Doble.png",
-                                  height: 30)
-                            ],
-                          ),
-                          Column(
-                            children: [
-                              Row(
-                                children: [
-                                  const Text(
-                                    "\$",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 20,
-                                        fontFamily: 'Monofonto'),
-                                  ),
-                                  Text(
-                                    numeroConComas,
-                                    style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 20,
-                                        fontFamily: 'Monofonto'),
-                                  ),
-                                ],
-                              )
-                            ],
-                          )
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          const SizedBox(width: 15),
-                          Image.network(
-                            "https://cdn-icons-png.flaticon.com/512/6404/6404100.png",
-                            width: 30,
-                          )
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("**** **** **** ${widget.account}",
-                              style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 21,
-                                  fontFamily: 'Monofonto')),
-                          Column(
-                            children: [
-                              const Row(
-                                children: [
-                                  Text("Vigencia",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontFamily: 'Coolvetica'))
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Text("${widget.vig}/${widget.vig1}",
-                                      style: const TextStyle(
-                                          color: Colors.white,
-                                          fontFamily: 'Coolvetica'))
-                                ],
-                              )
-                            ],
-                          )
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Text(widget.names,
-                              style: const TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'Coolvetica'))
-                        ],
-                      ),
-                    ],
-                  ),
+            ),
+            overlayColor: MaterialStateProperty.all(Colors.transparent),
+          ),
+          child: Ink(
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                colors: [
+                  Color.fromARGB(24, 22, 3, 92),
+                  AppColorStyle.secundary
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Container(
+              alignment: Alignment.center,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 12, horizontal: 5),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          children: [
+                            Image.asset("assets/images/Logo Doble.png",
+                                height: 30)
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  "\$",
+                                  style: AppTextStyles.h3s2
+                                      .copyWith(color: AppColorStyle.white),
+                                ),
+                                Text(
+                                  numeroConComas,
+                                  style: AppTextStyles.h3s2
+                                      .copyWith(color: AppColorStyle.white),
+                                ),
+                              ],
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        const SizedBox(width: 15),
+                        Image.network(
+                          "https://cdn-icons-png.flaticon.com/512/6404/6404100.png",
+                          width: 30,
+                        )
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("**** **** **** ${widget.account}",
+                            style: AppTextStyles.h3s2
+                                .copyWith(color: AppColorStyle.white)),
+                        Column(
+                          children: [
+                            Row(
+                              children: [
+                                Text("Vigencia",
+                                    style: AppTextStyles.h3s2
+                                        .copyWith(color: AppColorStyle.white))
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Text("${widget.vig}/${widget.vig1}",
+                                    style: AppTextStyles.h2s1
+                                        .copyWith(color: AppColorStyle.white))
+                              ],
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text(widget.names,
+                            style: AppTextStyles.h3s1
+                                .copyWith(color: AppColorStyle.white))
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ),

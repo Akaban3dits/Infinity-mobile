@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:infinity_bank/presentation/blocs/text_styles.dart';
 import 'package:infinity_bank/presentation/screens/movinfo.dart';
 
 // ignore: must_be_immutable
@@ -72,17 +73,13 @@ class _MovesDataState extends State<MovesData> {
                           children: [
                             Text(
                               widget.usuario,
-                              style: const TextStyle(
-                                  fontFamily: 'Coolvetica',
-                                  color: Colors.white,
-                                  fontSize: 18),
+                              style: AppTextStyles.h4s1
+                                  .copyWith(color: AppColorStyle.white),
                             ),
                             Text(
                               widget.tipo,
-                              style: const TextStyle(
-                                  fontFamily: 'Coolvetica',
-                                  color: Colors.white,
-                                  fontSize: 18),
+                              style: AppTextStyles.h4s1
+                                  .copyWith(color: AppColorStyle.white),
                               textAlign: TextAlign.start,
                             )
                           ],
@@ -96,10 +93,8 @@ class _MovesDataState extends State<MovesData> {
                 children: [
                   Text(
                     "\$${widget.monto}",
-                    style: const TextStyle(
-                        fontFamily: 'Coolvetica',
-                        color: Colors.white,
-                        fontSize: 18),
+                    style:
+                        AppTextStyles.h4s1.copyWith(color: AppColorStyle.white),
                   )
                 ],
               ),
@@ -108,8 +103,8 @@ class _MovesDataState extends State<MovesData> {
                 child: Column(
                   children: [
                     Icon(
-                      Icons.arrow_forward_ios,
-                      color: Colors.white,
+                      AppIconStyle.arrowforward,
+                      color: AppColorStyle.white,
                     ),
                   ],
                 ),

@@ -8,19 +8,13 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter/services.dart';
 
 class ButtonPearson extends StatelessWidget {
-  // ignore: non_constant_identifier_names
   const ButtonPearson(
-      // ignore: non_constant_identifier_names
       {super.key,
-      // ignore: non_constant_identifier_names
       required this.link_image_profile,
       required this.name,
-      // ignore: non_constant_identifier_names
       required this.account_num});
   final String name;
-  // ignore: non_constant_identifier_names
   final String link_image_profile;
-  // ignore: non_constant_identifier_names
   final int account_num;
 
   @override

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:infinity_bank/presentation/blocs/text_styles.dart';
 
 class BtnTransfer extends StatefulWidget {
   const BtnTransfer({super.key, required this.iconname, required this.name});
@@ -15,29 +16,30 @@ class _BtnTransferState extends State<BtnTransfer> {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Column(
-          children: [Row(
-                children: [
-                  Container(
-                    height: 70,
-                    width: 70,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Color(0xff16035C),
-                    ),
-                    child: IconButton(
-                      icon: Icon(widget.iconname),iconSize: 30,
-                      onPressed: () {},
-                      color: Colors.white,
-                    ),
-                  )
-                ],
-              ),
+          children: [
             Row(
               children: [
-                Text(
-                  widget.name,
-                  style: const TextStyle(color: Colors.white, fontFamily: 'Coolvetica', fontSize: 16),
+                Container(
+                  height: 70,
+                  width: 70,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: AppColorStyle.secundary2,
+                  ),
+                  child: IconButton(
+                    icon: Icon(widget.iconname),
+                    iconSize: 30,
+                    onPressed: () {},
+                    color: AppColorStyle.white,
+                  ),
                 )
+              ],
+            ),
+            Row(
+              children: [
+                Text(widget.name,
+                    style:
+                        AppTextStyles.h4s1.copyWith(color: AppColorStyle.white))
               ],
             )
           ],

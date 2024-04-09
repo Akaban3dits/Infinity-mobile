@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:infinity_bank/domain/entities/movements.dart';
 import 'package:infinity_bank/domain/entities/people.dart';
+import 'package:infinity_bank/presentation/blocs/text_styles.dart';
 import 'package:infinity_bank/presentation/widgets/Recentlypeople.dart';
 import 'package:infinity_bank/presentation/widgets/card.dart';
 import 'package:infinity_bank/presentation/widgets/movesinformation.dart';
@@ -16,29 +17,23 @@ class _CreditCardState extends State<CreditCard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xff6717CD),
+      backgroundColor: AppColorStyle.primary,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Padding(
-              padding: EdgeInsets.all(8.0),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
               child: Text(
-                "Bienvenido, Joahan", //TODO: Colocar de lista los nombres
-                style: TextStyle(
-                    fontSize: 30,
-                    color: Colors.white,
-                    fontFamily: 'Coolvetica'),
+                "Bienvenido, Joahan",
+                style: AppTextStyles.h1s1.copyWith(color: AppColorStyle.white)
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Text(
                 "Cuentas",
-                style: TextStyle(
-                    fontFamily: 'Coolvetica',
-                    fontSize: 20,
-                    color: Colors.white),
+                style: AppTextStyles.h3s1.copyWith(color: AppColorStyle.white)
               ),
             ),
             const SizedBox(height: 20),
@@ -58,16 +53,13 @@ class _CreditCardState extends State<CreditCard> {
                 },
               ),
             ),
-            const Row(
+            Row(
               children: [
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
                   child: Text(
-                    "Recently people",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: 'Coolvetica',
-                        fontSize: 20),
+                    "Contactos recientes",
+                    style: AppTextStyles.h3s1.copyWith(color: AppColorStyle.white),
                   ),
                 )
               ],
@@ -75,7 +67,7 @@ class _CreditCardState extends State<CreditCard> {
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                const SizedBox(width: 10), // Espacio inicial de width: 10
+                const SizedBox(width: 10),
                 ...List<Widget>.generate(usuarios.length * 2 - 1, (index) {
                   if (index % 2 == 0) {
                     Usuario usuario = usuarios[index ~/ 2];
@@ -94,37 +86,32 @@ class _CreditCardState extends State<CreditCard> {
             Expanded(
               child: Container(
                 decoration: const BoxDecoration(
-                  color: Color(0xff16045D),
+                  color: AppColorStyle.secundary2,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(20),
                     topRight: Radius.circular(20),
                   ),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
                   child: Column(
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
+                          Text(
                             "Movimientos Recientes",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: 'Coolvetica',
-                              fontSize: 20,
-                            ),
+                            style: AppTextStyles.h3s2.copyWith(color: AppColorStyle.white)
                           ),
                           IconButton(
                             onPressed: () {},
                             icon: const Icon(Icons.remove_red_eye_outlined),
-                            color: Colors
-                                .white, // Asegúrate de tener una propiedad color válida aquí o elimínala si es innecesaria
+                            color: AppColorStyle.white, 
                           ),
                         ],
                       ),
                       Expanded(
-                        // Agrega un widget Expanded aquí
                         child: ListView.builder(
                           itemCount: MoveList.length,
                           itemBuilder: (context, index) {
