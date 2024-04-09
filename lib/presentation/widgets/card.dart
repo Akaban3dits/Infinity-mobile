@@ -127,14 +127,14 @@ class _CCardState extends State<CCard> {
                             Row(
                               children: [
                                 Text("Vigencia",
-                                    style: AppTextStyles.h3s2
+                                    style: AppTextStyles.h4s2
                                         .copyWith(color: AppColorStyle.white))
                               ],
                             ),
                             Row(
                               children: [
                                 Text("${widget.vig}/${widget.vig1}",
-                                    style: AppTextStyles.h2s1
+                                    style: AppTextStyles.h4s1
                                         .copyWith(color: AppColorStyle.white))
                               ],
                             )
@@ -145,7 +145,7 @@ class _CCardState extends State<CCard> {
                     Row(
                       children: [
                         Text(widget.names,
-                            style: AppTextStyles.h3s1
+                            style: AppTextStyles.h4s1
                                 .copyWith(color: AppColorStyle.white))
                       ],
                     ),

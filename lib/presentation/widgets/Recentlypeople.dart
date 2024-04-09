@@ -6,6 +6,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/services.dart';
+import 'package:infinity_bank/presentation/blocs/text_styles.dart';
 
 class ButtonPearson extends StatelessWidget {
   const ButtonPearson(
@@ -39,8 +40,7 @@ class ButtonPearson extends StatelessWidget {
             const SizedBox(height: 5),
             Text(
               name,
-              style: const TextStyle(
-                  color: Colors.white, fontFamily: 'Coolvetica', fontSize: 15),
+              style: AppTextStyles.h4s1.copyWith(color: AppColorStyle.white),
             )
           ],
         ),
@@ -49,7 +49,7 @@ class ButtonPearson extends StatelessWidget {
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
             fixedSize: const Size(100, 110),
-            backgroundColor: const Color(0xff16035C)),
+            backgroundColor: AppColorStyle.secundary2),
       ),
     );
   }
@@ -57,7 +57,7 @@ class ButtonPearson extends StatelessWidget {
   Future _display(BuildContext context) {
     return showModalBottomSheet(
         context: context,
-        backgroundColor: const Color(0xff16045D),
+        backgroundColor: AppColorStyle.secundary2,
         barrierColor: Colors.black38.withOpacity(0),
         isDismissible: true,
         isScrollControlled: true,
@@ -68,18 +68,12 @@ class ButtonPearson extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   const SizedBox(height: 10),
-                  const Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        SizedBox(width: 30),
-                        Text(
-                          "Concepto",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: 'Coolvetica',
-                              fontSize: 20),
-                        )
-                      ]),
+                  Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                    const SizedBox(width: 30),
+                    Text("Concepto",
+                        style: AppTextStyles.h3s1
+                            .copyWith(color: AppColorStyle.white))
+                  ]),
                   Container(
                     height: 60,
                     child: Expanded(
@@ -90,32 +84,25 @@ class ButtonPearson extends StatelessWidget {
                           height: 60,
                           child: TextField(
                             decoration: InputDecoration(
-                              fillColor: Colors.white,
+                              fillColor: AppColorStyle.white,
                               filled: true,
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               hintText: 'Ingresa tu concepto',
-                              hintStyle: const TextStyle(
-                                  fontFamily: 'Coolvetica', fontSize: 18),
+                              hintStyle: AppTextStyles.h4s1,
                             ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                  const Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        SizedBox(width: 30),
-                        Text(
-                          "Monto",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: 'Coolvetica',
-                              fontSize: 20),
-                        )
-                      ]),
+                  Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                    const SizedBox(width: 30),
+                    Text("Monto",
+                        style: AppTextStyles.h3s1
+                            .copyWith(color: AppColorStyle.white))
+                  ]),
                   Container(
                     height: 75,
                     child: Padding(
@@ -123,11 +110,9 @@ class ButtonPearson extends StatelessWidget {
                           horizontal: 12, vertical: 8),
                       child: Row(
                         children: <Widget>[
-                          const Text("\$",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'Coolvetica',
-                                  fontSize: 22)),
+                          Text("\$",
+                              style: AppTextStyles.h3s1
+                                  .copyWith(color: AppColorStyle.white)),
                           Expanded(
                             child: Padding(
                               padding: const EdgeInsets.only(
@@ -135,23 +120,19 @@ class ButtonPearson extends StatelessWidget {
                               child: TextField(
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
-                                  fillColor: Colors.white,
-                                  filled: true,
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  hintText: 'Ingresa tu monto',
-                                  hintStyle: const TextStyle(
-                                      fontFamily: 'Coolvetica', fontSize: 18),
-                                ),
+                                    fillColor: AppColorStyle.white,
+                                    filled: true,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    hintText: 'Ingresa tu monto',
+                                    hintStyle: AppTextStyles.h4s1),
                               ),
                             ),
                           ),
-                          const Text(".",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'Coolvetica',
-                                  fontSize: 20)),
+                          Text(".",
+                              style: AppTextStyles.h3s1
+                                  .copyWith(color: AppColorStyle.white)),
                           Container(
                             width: 80,
                             child: Padding(
@@ -165,14 +146,13 @@ class ButtonPearson extends StatelessWidget {
                                 maxLength: 2,
                                 decoration: InputDecoration(
                                   counterText: "",
-                                  fillColor: Colors.white,
+                                  fillColor: AppColorStyle.white,
                                   filled: true,
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(12),
                                   ),
                                   hintText: '00',
-                                  hintStyle: const TextStyle(
-                                      fontFamily: 'Coolvetica', fontSize: 18),
+                                  hintStyle: AppTextStyles.h4s1,
                                 ),
                               ),
                             ),
@@ -181,18 +161,14 @@ class ButtonPearson extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        SizedBox(width: 30),
-                        Text(
-                          "Transferencia a:",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: 'Coolvetica',
-                              fontSize: 20),
-                        )
-                      ]),
+                  Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                    const SizedBox(width: 30),
+                    Text(
+                      "Transferencia a:",
+                      style: AppTextStyles.h3s1
+                          .copyWith(color: AppColorStyle.white),
+                    )
+                  ]),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -202,7 +178,7 @@ class ButtonPearson extends StatelessWidget {
                             width: 370,
                             height: 80,
                             decoration: BoxDecoration(
-                                color: const Color(0xff6717CD),
+                                color: AppColorStyle.primary,
                                 borderRadius: BorderRadius.circular(20.0)),
                             child: Column(children: [
                               Row(
@@ -230,20 +206,18 @@ class ButtonPearson extends StatelessWidget {
                                             MainAxisAlignment.start,
                                         children: [
                                           Text(name,
-                                              style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 16,
-                                                  fontFamily: 'Coolvetica')),
+                                              style: AppTextStyles.h4s1
+                                                  .copyWith(
+                                                      color:
+                                                          AppColorStyle.white)),
                                         ],
                                       ),
                                       Row(
                                         children: [
                                           Text(
                                             account_num.toString(),
-                                            style: const TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 16,
-                                                fontFamily: 'Monofonto'),
+                                            style: AppTextStyles.h4s2.copyWith(
+                                                color: AppColorStyle.white),
                                           ),
                                         ],
                                       )
@@ -259,7 +233,7 @@ class ButtonPearson extends StatelessWidget {
                                         style: ButtonStyle(
                                             backgroundColor:
                                                 MaterialStateProperty.all(
-                                                    const Color(0xffD9D9D9))),
+                                                    AppColorStyle.white)),
                                       )
                                     ],
                                   ),
@@ -278,12 +252,10 @@ class ButtonPearson extends StatelessWidget {
                             onPressed: () {
                               Navigator.pop(context);
                             },
-                            child: const Text(
+                            child: Text(
                               "Cancel operation",
-                              style: TextStyle(
-                                  fontFamily: 'Coolvetica',
-                                  fontSize: 18,
-                                  color: Colors.white),
+                              style: AppTextStyles.h4s1
+                                  .copyWith(color: AppColorStyle.white),
                             ),
                             style: const ButtonStyle(
                                 backgroundColor:

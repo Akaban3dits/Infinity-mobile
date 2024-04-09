@@ -11,11 +11,6 @@ void main() {
   ]).then((_) {
     runApp(const Infinity());
   });
-
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.landscapeRight,
-    DeviceOrientation.landscapeLeft,
-  ]);
 }
 
 class Infinity extends StatelessWidget {

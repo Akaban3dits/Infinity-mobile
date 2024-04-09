@@ -38,10 +38,9 @@ class _InfomovesState extends State<Infomoves> {
             const Icon(AppIconStyle.info, color: AppColorStyle.white),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 4),
-              child: Text(
-                "Informacion del movimiento",
-                style: AppTextStyles.h3s1.copyWith(color: AppColorStyle.white)
-              ),
+              child: Text("Informacion del movimiento",
+                  style:
+                      AppTextStyles.h3s1.copyWith(color: AppColorStyle.white)),
             )
           ],
         ),
@@ -53,18 +52,19 @@ class _InfomovesState extends State<Infomoves> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Wrap(
-              spacing: 8.0, 
-              runSpacing: 15.0, 
+              spacing: 8.0,
+              runSpacing: 15.0,
               alignment: WrapAlignment.spaceBetween,
               children: [
-                _buildDataContainer(AppIconStyle.person, "Usuario", widget.usuario),
+                _buildDataContainer(
+                    AppIconStyle.person, "Usuario", widget.usuario),
                 _buildDataContainer(
                     AppIconStyle.money, "Monto", "\$${widget.monto}"),
                 _buildDataContainer(AppIconStyle.date, "Fecha",
                     widget.fecha.toIso8601String().split('T').first),
+                _buildDataContainer(AppIconStyle.info, "Estado", widget.estado),
                 _buildDataContainer(
-                    AppIconStyle.info, "Estado", widget.estado),
-                _buildDataContainer(AppIconStyle.details, "Detalle", widget.detalle),
+                    AppIconStyle.details, "Detalle", widget.detalle),
                 _buildDataContainer(AppIconStyle.key, "ID", widget.id),
               ],
             ),
@@ -72,9 +72,38 @@ class _InfomovesState extends State<Infomoves> {
               children: [
                 Expanded(
                     child: ElevatedButton(
-                  onPressed: () {},
-                  style: ButtonStyle( backgroundColor: MaterialStateProperty.all(AppColorStyle.red)),
-                  child: Text("Enviar Reclamo", style: AppTextStyles.h3s1.copyWith(color: AppColorStyle.white)),
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text("Enviar reclamo"),
+                            content: Text(
+                                "¿Estas seguro que deseas enviar un reclamo por el movimiento con id ${widget.id}?"),
+                            actions: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  ElevatedButton(
+                                      onPressed: () {},
+                                      child: const Text("Si, envialo.")),
+                                  ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text("No, cancelar."))
+                                ],
+                              )
+                            ],
+                          );
+                        });
+                  },
+                  style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all(AppColorStyle.red)),
+                  child: Text("Enviar Reclamo",
+                      style: AppTextStyles.h3s1
+                          .copyWith(color: AppColorStyle.white)),
                 ))
               ],
             )
@@ -87,22 +116,20 @@ class _InfomovesState extends State<Infomoves> {
   Widget _buildDataContainer(IconData icon, String label, String data) {
     return Container(
       width: (MediaQuery.of(context).size.width - 36) / 2,
-      padding: EdgeInsets.all(8),
+      padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        color: Color(0xff16045D),
-        border: Border.all(color: Color(0xff16045D)),
+        color: AppColorStyle.secundary2,
+        border: Border.all(color: AppColorStyle.secundary2),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
         children: [
-          Icon(icon, color: Colors.white),
+          Icon(icon, color: AppColorStyle.white),
           Text(label,
-              style: TextStyle(
-                  color: Colors.white, fontFamily: 'Coolvetica', fontSize: 25)),
+              style: AppTextStyles.h3s1.copyWith(color: AppColorStyle.white)),
           Text(
             data,
-            style: TextStyle(
-                color: Colors.white, fontFamily: 'Coolvetica', fontSize: 14),
+            style: AppTextStyles.h4s1.copyWith(color: AppColorStyle.white)
           ),
         ],
       ),

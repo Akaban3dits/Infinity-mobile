@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage> {
                 GButton(icon: AppIconStyle.wallet, text: "Wallet"),
                 GButton(
                   icon: AppIconStyle.swap,
-                  text: "Transferencia",
+                  text: "Send",
                 ),
                 GButton(icon: AppIconStyle.settings, text: "Settings")
               ],

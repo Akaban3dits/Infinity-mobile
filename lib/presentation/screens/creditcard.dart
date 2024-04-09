@@ -24,17 +24,15 @@ class _CreditCardState extends State<CreditCard> {
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(
-                "Bienvenido, Joahan",
-                style: AppTextStyles.h1s1.copyWith(color: AppColorStyle.white)
-              ),
+              child: Text("Bienvenido, Joahan",
+                  style:
+                      AppTextStyles.h1s1.copyWith(color: AppColorStyle.white)),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Text(
-                "Cuentas",
-                style: AppTextStyles.h3s1.copyWith(color: AppColorStyle.white)
-              ),
+              child: Text("Cuentas",
+                  style:
+                      AppTextStyles.h3s1.copyWith(color: AppColorStyle.white)),
             ),
             const SizedBox(height: 20),
             SizedBox(
@@ -56,10 +54,12 @@ class _CreditCardState extends State<CreditCard> {
             Row(
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 8.0, vertical: 4.0),
                   child: Text(
                     "Contactos recientes",
-                    style: AppTextStyles.h3s1.copyWith(color: AppColorStyle.white),
+                    style:
+                        AppTextStyles.h3s1.copyWith(color: AppColorStyle.white),
                   ),
                 )
               ],
@@ -94,26 +94,26 @@ class _CreditCardState extends State<CreditCard> {
                 ),
                 child: Padding(
                   padding:
-                      const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                      const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
                   child: Column(
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            "Movimientos Recientes",
-                            style: AppTextStyles.h3s2.copyWith(color: AppColorStyle.white)
-                          ),
+                          Text("Movimientos Recientes",
+                              style: AppTextStyles.h3s1
+                                  .copyWith(color: AppColorStyle.white)),
                           IconButton(
                             onPressed: () {},
                             icon: const Icon(Icons.remove_red_eye_outlined),
-                            color: AppColorStyle.white, 
+                            color: AppColorStyle.white,
                           ),
                         ],
                       ),
+                      const SizedBox(height: 5),
                       Expanded(
                         child: ListView.builder(
-                          itemCount: MoveList.length,
+                          itemCount: MoveList.length > 5 ? 5 : MoveList.length,
                           itemBuilder: (context, index) {
                             final cl = MoveList[index];
                             return MovesData(
