@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:infinity_bank/presentation/blocs/text_styles.dart';
 import 'package:infinity_bank/presentation/screens/creditcard.dart';
+import 'package:infinity_bank/presentation/screens/services.dart';
 import 'package:infinity_bank/presentation/screens/settings.dart';
 import 'package:infinity_bank/presentation/screens/transfer.dart';
 import 'package:infinity_bank/presentation/screens/wallet.dart';
@@ -17,7 +18,7 @@ class _HomePageState extends State<HomePage> {
   int _selectedindex = 0;
   final List<Widget> _widgetOptions = <Widget>[
     const CreditCard(),
-    const WalletPage(),
+    const ServicesArea(),
     const TransferPage(),
     const Settings()
   ];

@@ -25,8 +25,8 @@ class _TransferPageState extends State<TransferPage> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: Text(
-                      "Transactions",
-                      style: AppTextStyles.h1s1
+                      "Movimientos",
+                      style: AppTextStyles.h2s1
                           .copyWith(color: AppColorStyle.white),
                     ),
                   )
@@ -34,8 +34,28 @@ class _TransferPageState extends State<TransferPage> {
               ),
               const Row(
                 children: [
-                  BtnTransfer(iconname: AppIconStyle.send, name: "Transfer"),
-                  BtnTransfer(iconname: AppIconStyle.withdraw, name: "Withdraw")
+                  BtnTransfer(iconname: AppIconStyle.send, name: "Transferencia"),
+                  BtnTransfer(iconname: AppIconStyle.withdraw, name: "Retirar"),
+                  BtnTransfer(iconname: Icons.compare_arrows_sharp, name: "Entre cuentas")
+                ],
+              ),
+              Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Text(
+                      "Servicios",
+                      style: AppTextStyles.h2s1
+                          .copyWith(color: AppColorStyle.white),
+                    ),
+                  )
+                ],
+              ),
+              const Row(
+                children: [
+                  BtnTransfer(
+                      iconname: Icons.lightbulb_outline, name: "Servicios"),
+                  BtnTransfer(iconname: Icons.favorite, name: "Donar")
                 ],
               ),
               Padding(
@@ -45,8 +65,8 @@ class _TransferPageState extends State<TransferPage> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: Text(
-                        "Recently people",
-                        style: AppTextStyles.h1s1
+                        "Contactos Recientes",
+                        style: AppTextStyles.h2s1
                             .copyWith(color: AppColorStyle.white),
                       ),
                     )
