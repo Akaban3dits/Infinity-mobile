@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:infinity_bank/presentation/blocs/text_styles.dart';
+import 'package:infinity_bank/presentation/screens/services.dart';
 import 'package:infinity_bank/presentation/widgets/buttontransfer.dart';
 import 'package:infinity_bank/domain/entities/people.dart';
 import 'package:infinity_bank/presentation/widgets/Recentlypeople.dart';
@@ -32,11 +33,35 @@ class _TransferPageState extends State<TransferPage> {
                   )
                 ],
               ),
-              const Row(
+              Row(
                 children: [
-                  BtnTransfer(iconname: AppIconStyle.send, name: "Transferencia"),
-                  BtnTransfer(iconname: AppIconStyle.withdraw, name: "Retirar"),
-                  BtnTransfer(iconname: Icons.compare_arrows_sharp, name: "Entre cuentas")
+                  BtnTransfer(
+                      iconname: AppIconStyle.send,
+                      name: "Transferencia",
+                      onPressed: () => {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const ServicesArea()))
+                          }),
+                  BtnTransfer(
+                      iconname: AppIconStyle.withdraw,
+                      name: "Retirar",
+                      onPressed: () => {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const ServicesArea()))
+                          }),
+                  BtnTransfer(
+                      iconname: Icons.compare_arrows_sharp,
+                      name: "Entre cuentas",
+                      onPressed: () => {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const ServicesArea()))
+                          })
                 ],
               ),
               Row(
@@ -51,11 +76,26 @@ class _TransferPageState extends State<TransferPage> {
                   )
                 ],
               ),
-              const Row(
+              Row(
                 children: [
                   BtnTransfer(
-                      iconname: Icons.lightbulb_outline, name: "Servicios"),
-                  BtnTransfer(iconname: Icons.favorite, name: "Donar")
+                      iconname: Icons.lightbulb_outline,
+                      name: "Servicios",
+                      onPressed: () => {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const ServicesArea()))
+                          }),
+                  BtnTransfer(
+                      iconname: Icons.favorite,
+                      name: "Donar",
+                      onPressed: () => {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const ServicesArea()))
+                          })
                 ],
               ),
               Padding(

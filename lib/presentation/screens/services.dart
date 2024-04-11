@@ -18,40 +18,54 @@ class _ServicesAreaState extends State<ServicesArea> {
       backgroundColor: AppColorStyle.primary,
       appBar: AppBar(
         backgroundColor: AppColorStyle.primary,
-        title: Text("Pago de servicios",
-            style: AppTextStyles.h1s1.copyWith(color: AppColorStyle.white)),
+        title: Text(
+          "Pago de servicios",
+          style: AppTextStyles.h1s1.copyWith(color: AppColorStyle.white),
+        ),
         iconTheme: const IconThemeData(color: AppColorStyle.white),
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Text("Streaming",
-                    style:
-                        AppTextStyles.h2s1.copyWith(color: AppColorStyle.white))
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: SizedBox(
-              height: 100,
-              child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: streaming.length,
-                  itemBuilder: (context, index) {
-                    final svc = streaming[index];
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 3.0),
-                      child: Btnservice(name: svc.servname, url: svc.url),
-                    );
-                  }),
-            ),
-          ),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            section("Servicios Públicos", publicos),
+            section("Tiendas en línea", store),
+            section("Streaming", streaming),
+            section("Recargas", movil), // Nueva sección agregada.
+          ],
+        ),
       ),
+    );
+  }
+
+  Widget section(String title, List<Services> services) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            title,
+            style: AppTextStyles.h2s1.copyWith(color: AppColorStyle.white),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: SizedBox(
+            height: 90,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: services.length,
+              itemBuilder: (context, index) {
+                final svc = services[index];
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 3.0),
+                  child: Btnservice(name: svc.servname, url: svc.url),
+                );
+              },
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
