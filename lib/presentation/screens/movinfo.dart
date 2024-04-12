@@ -51,52 +51,49 @@ class _InfomovesState extends State<Infomoves> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Wrap(
-              spacing: 8.0,
-              runSpacing: 15.0,
-              alignment: WrapAlignment.spaceBetween,
-              children: [
-                _buildDataContainer(
-                    AppIconStyle.person, "Usuario", widget.usuario),
-                _buildDataContainer(
-                    AppIconStyle.money, "Monto", "\$${widget.monto}"),
-                _buildDataContainer(AppIconStyle.date, "Fecha",
-                    widget.fecha.toIso8601String().split('T').first),
-                _buildDataContainer(AppIconStyle.info, "Estado", widget.estado),
-                _buildDataContainer(
-                    AppIconStyle.details, "Detalle", widget.detalle),
-                _buildDataContainer(AppIconStyle.key, "ID", widget.id),
-              ],
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+                color: AppColorStyle.secundary2,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Wrap(
+                spacing: 8.0,
+                runSpacing: 15.0,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          "assets/images/InfinityVerticalLogo 1.png",
+                          width: 100.0,
+                        ),
+                      ],
+                    ),
+                  ),
+                  _buildDataContainer(AppIconStyle.key, "ID", widget.id),
+                  _buildDataContainer(
+                      AppIconStyle.person, "Usuario", widget.usuario),
+                  _buildDataContainer(
+                      AppIconStyle.money, "Monto", "\$${widget.monto}"),
+                  _buildDataContainer(AppIconStyle.date, "Fecha",
+                      widget.fecha.toIso8601String().split('T').first),
+                  _buildDataContainer(
+                      AppIconStyle.info, "Estado", widget.estado),
+                  _buildDataContainer(
+                      AppIconStyle.details, "Detalle", widget.detalle),
+                ],
+              ),
             ),
             Row(
               children: [
                 Expanded(
                     child: ElevatedButton(
                   onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: const Text("Enviar reclamo"),
-                            content: Text(
-                                "¿Estas seguro que deseas enviar un reclamo por el movimiento con id ${widget.id}?"),
-                            actions: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  ElevatedButton(
-                                      onPressed: () {},
-                                      child: const Text("Si, envialo.")),
-                                  ElevatedButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: const Text("No, cancelar."))
-                                ],
-                              )
-                            ],
-                          );
-                        });
+                    // código para mostrar el diálogo
                   },
                   style: ButtonStyle(
                       backgroundColor:
@@ -114,23 +111,25 @@ class _InfomovesState extends State<Infomoves> {
   }
 
   Widget _buildDataContainer(IconData icon, String label, String data) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double containerWidth = (screenWidth - 60) / 2;
+
     return Container(
-      width: (MediaQuery.of(context).size.width - 36) / 2,
+      width: containerWidth,
       padding: const EdgeInsets.all(8),
+      margin: const EdgeInsets.symmetric(horizontal: 4),
       decoration: BoxDecoration(
         color: AppColorStyle.secundary2,
-        border: Border.all(color: AppColorStyle.secundary2),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Icon(icon, color: AppColorStyle.white),
           Text(label,
               style: AppTextStyles.h3s1.copyWith(color: AppColorStyle.white)),
-          Text(
-            data,
-            style: AppTextStyles.h4s1.copyWith(color: AppColorStyle.white)
-          ),
+          Text(data,textAlign: TextAlign.center,
+              style: AppTextStyles.h4s1.copyWith(color: AppColorStyle.white)),
         ],
       ),
     );

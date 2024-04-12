@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:infinity_bank/domain/entities/services.dart';
 import 'package:infinity_bank/presentation/blocs/text_styles.dart';
+import 'package:infinity_bank/presentation/screens/servicepay.dart';
 import 'package:infinity_bank/presentation/widgets/servicebuttons.dart';
+import 'package:infinity_bank/presentation/widgets/Modalservice.dart';
 
 class ServicesArea extends StatefulWidget {
   const ServicesArea({super.key});
@@ -12,6 +14,42 @@ class ServicesArea extends StatefulWidget {
 }
 
 class _ServicesAreaState extends State<ServicesArea> {
+  void navigateToPublicos(Services service) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) =>
+              Payserv(image: service.url, name: service.servname),
+        ));
+  }
+
+  void navigateToStore(Services service) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) =>
+              Payserv(image: service.url, name: service.servname),
+        ));
+  }
+
+  void navigateToStreaming(Services service) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) =>
+              Payserv(image: service.url, name: service.servname),
+        ));
+  }
+
+  void navigateToMovil(Services service) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) =>
+              Payserv(image: service.url, name: service.servname),
+        ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,17 +65,20 @@ class _ServicesAreaState extends State<ServicesArea> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            section("Servicios Públicos", publicos),
-            section("Tiendas en línea", store),
-            section("Streaming", streaming),
-            section("Recargas", movil), // Nueva sección agregada.
+            section("Servicios Públicos", publicos, navigateToPublicos,
+                "Referencia"),
+            section("Tiendas en línea", store, navigateToStore, "Referencia"),
+            section("Streaming", streaming, navigateToStreaming,
+                "Numero de cliente"),
+            section("Recargas", movil, navigateToMovil, "Numero de telefono"),
           ],
         ),
       ),
     );
   }
 
-  Widget section(String title, List<Services> services) {
+  Widget section(String title, List<Services> services,
+      Function(Services) navigationFunction, String label) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -58,9 +99,12 @@ class _ServicesAreaState extends State<ServicesArea> {
               itemBuilder: (context, index) {
                 final svc = services[index];
                 return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 3.0),
-                  child: Btnservice(name: svc.servname, url: svc.url),
-                );
+                    padding: const EdgeInsets.symmetric(horizontal: 3.0),
+                    child: Btnservice(
+                        name: svc.servname,
+                        url: svc.url,
+                        funcion: () => ModalService.displayComprobante(context,
+                            label, () => navigationFunction(svc))));
               },
             ),
           ),

@@ -43,7 +43,7 @@ android {
     }
 
     defaultConfig {
-        multiDexEnabled true
+        
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.example.infinity_digital_bank"
         // You can update the following values to match your application needs.
@@ -53,6 +53,7 @@ android {
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        multiDexEnabled true
     }
 
     buildTypes {

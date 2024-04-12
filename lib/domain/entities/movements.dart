@@ -41,7 +41,7 @@ List<CardName> CardList = [
 // ignore: non_constant_identifier_names
 List<MovementsBank> MoveList = [
   MovementsBank(
-    usuario: 'Usuario1',
+    usuario: 'Yeimi Noemi',
     monto: 100.00,
     fecha: DateTime(2024, 4, 1),
     tipo: 'Depósito',
@@ -50,7 +50,7 @@ List<MovementsBank> MoveList = [
     id: '001',
   ),
   MovementsBank(
-    usuario: 'Usuario2',
+    usuario: 'Beto Fuentes',
     monto: -50.00,
     fecha: DateTime(2024, 4, 2),
     tipo: 'Retiro',
@@ -59,7 +59,7 @@ List<MovementsBank> MoveList = [
     id: '002',
   ),
   MovementsBank(
-    usuario: 'Usuario3',
+    usuario: 'Mau Molina',
     monto: -23.90,
     fecha: DateTime(2024, 3, 31),
     tipo: 'Pago',

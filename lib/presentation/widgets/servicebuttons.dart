@@ -4,8 +4,9 @@ import 'package:infinity_bank/presentation/blocs/text_styles.dart';
 class Btnservice extends StatefulWidget {
   final String url;
   final String name;
+  final VoidCallback funcion;
 
-  const Btnservice({super.key, required this.name, required this.url});
+  const Btnservice({super.key, required this.name, required this.url, required this.funcion});
 
   @override
   State<Btnservice> createState() => _BtnserviceState();
@@ -15,7 +16,7 @@ class _BtnserviceState extends State<Btnservice> {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: widget.funcion,
       style: ElevatedButton.styleFrom(
         padding: const EdgeInsets.all(0),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),

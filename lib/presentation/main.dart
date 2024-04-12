@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:infinity_bank/presentation/blocs/notifservice.dart';
 import 'package:infinity_bank/presentation/screens/login.dart';
 import 'package:flutter/services.dart';
 
 void main() {
-  WidgetsFlutterBinding
-      .ensureInitialized(); 
+  WidgetsFlutterBinding.ensureInitialized();
+  NotificationService.initializeNotifications();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,

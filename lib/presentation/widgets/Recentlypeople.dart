@@ -1,55 +1,67 @@
 // ignore: file_names
-// ignore: file_names
-// ignore: file_names
-// ignore_for_file: avoid_unnecessary_containers, unnecessary_import, sized_box_for_whitespace, sort_child_properties_last
-
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter/services.dart';
 import 'package:infinity_bank/presentation/blocs/text_styles.dart';
+import 'package:infinity_bank/presentation/blocs/notifservice.dart';
 
-class ButtonPearson extends StatelessWidget {
+// ButtonPearson ahora es StatefulWidget.
+class ButtonPearson extends StatefulWidget {
+  final String name;
+  // ignore: non_constant_identifier_names
+  final String link_image_profile;
+  // ignore: non_constant_identifier_names
+  final int account_num;
+
   const ButtonPearson(
       {super.key,
+      // ignore: non_constant_identifier_names
       required this.link_image_profile,
       required this.name,
+      // ignore: non_constant_identifier_names
       required this.account_num});
-  final String name;
-  final String link_image_profile;
-  final int account_num;
+
+  @override
+  // ignore: library_private_types_in_public_api
+  _ButtonPearsonState createState() => _ButtonPearsonState();
+}
+
+class _ButtonPearsonState extends State<ButtonPearson> {
+  final TextEditingController titleController = TextEditingController();
+  final TextEditingController bodyController = TextEditingController();
+  final TextEditingController body2Controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: ElevatedButton(
-        onPressed: () {
-          _display(context);
-        },
-        child: Column(
-          children: <Widget>[
-            const SizedBox(height: 12),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: Image.network(
-                link_image_profile,
-                width: 60,
-                height: 60,
-                fit: BoxFit.cover,
-              ),
+    return ElevatedButton(
+      onPressed: () {
+        _display(context);
+      },
+      // ignore: sort_child_properties_last
+      child: Column(
+        children: <Widget>[
+          const SizedBox(height: 12),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: Image.network(
+              widget
+                  .link_image_profile, // Acceso a las variables a través de 'widget.'
+              width: 60,
+              height: 60,
+              fit: BoxFit.cover,
             ),
-            const SizedBox(height: 5),
-            Text(
-              name,
-              style: AppTextStyles.h4s1.copyWith(color: AppColorStyle.white),
-            )
-          ],
-        ),
-        style: ElevatedButton.styleFrom(
-            padding: const EdgeInsets.all(0),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-            fixedSize: const Size(100, 110),
-            backgroundColor: AppColorStyle.secundary2),
+          ),
+          const SizedBox(height: 5),
+          Text(
+            widget.name,
+            style: AppTextStyles.h4s1.copyWith(color: AppColorStyle.white),
+          )
+        ],
+      ),
+      style: ElevatedButton.styleFrom(
+        padding: const EdgeInsets.all(0),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+        fixedSize: const Size(100, 110),
+        backgroundColor: AppColorStyle.secundary2,
       ),
     );
   }
@@ -74,15 +86,16 @@ class ButtonPearson extends StatelessWidget {
                         style: AppTextStyles.h3s1
                             .copyWith(color: AppColorStyle.white))
                   ]),
-                  Container(
+                  SizedBox(
                     height: 60,
                     child: Expanded(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 25, vertical: 6),
-                        child: Container(
+                        child: SizedBox(
                           height: 60,
                           child: TextField(
+                            controller: titleController,
                             decoration: InputDecoration(
                               fillColor: AppColorStyle.white,
                               filled: true,
@@ -103,7 +116,7 @@ class ButtonPearson extends StatelessWidget {
                         style: AppTextStyles.h3s1
                             .copyWith(color: AppColorStyle.white))
                   ]),
-                  Container(
+                  SizedBox(
                     height: 75,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
@@ -118,6 +131,7 @@ class ButtonPearson extends StatelessWidget {
                               padding: const EdgeInsets.only(
                                   left: 5, right: 5, top: 6, bottom: 6),
                               child: TextField(
+                                controller: bodyController,
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
                                     fillColor: AppColorStyle.white,
@@ -133,12 +147,13 @@ class ButtonPearson extends StatelessWidget {
                           Text(".",
                               style: AppTextStyles.h3s1
                                   .copyWith(color: AppColorStyle.white)),
-                          Container(
+                          SizedBox(
                             width: 80,
                             child: Padding(
                               padding: const EdgeInsets.only(
                                   left: 5, right: 15, top: 6, bottom: 6),
                               child: TextField(
+                                controller: body2Controller,
                                 keyboardType: TextInputType.number,
                                 inputFormatters: [
                                   FilteringTextInputFormatter.digitsOnly
@@ -190,7 +205,7 @@ class ButtonPearson extends StatelessWidget {
                                       ClipRRect(
                                         borderRadius: BorderRadius.circular(20),
                                         child: Image.network(
-                                          link_image_profile,
+                                          widget.link_image_profile,
                                           width: 60,
                                           height: 60,
                                           fit: BoxFit.cover,
@@ -205,7 +220,7 @@ class ButtonPearson extends StatelessWidget {
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
                                         children: [
-                                          Text(name,
+                                          Text(widget.name,
                                               style: AppTextStyles.h4s1
                                                   .copyWith(
                                                       color:
@@ -215,7 +230,7 @@ class ButtonPearson extends StatelessWidget {
                                       Row(
                                         children: [
                                           Text(
-                                            account_num.toString(),
+                                            widget.account_num.toString(),
                                             style: AppTextStyles.h4s2.copyWith(
                                                 color: AppColorStyle.white),
                                           ),
@@ -228,7 +243,26 @@ class ButtonPearson extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       IconButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          if (titleController.text.isNotEmpty &&
+                                              bodyController.text.isNotEmpty) {
+                                            String cents =
+                                                body2Controller.text.isEmpty
+                                                    ? "00"
+                                                    : body2Controller.text;
+                                            String body =
+                                                "Has enviado \$${bodyController.text}.$cents a ${widget.name}";
+
+                                            NotificationService
+                                                .showNotification(body);
+                                          } else {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(const SnackBar(
+                                              content: Text(
+                                                  'Por favor complete los campos de concepto y monto'),
+                                            ));
+                                          }
+                                        },
                                         icon: const Icon(Icons.send),
                                         style: ButtonStyle(
                                             backgroundColor:
@@ -252,19 +286,26 @@ class ButtonPearson extends StatelessWidget {
                             onPressed: () {
                               Navigator.pop(context);
                             },
+                            style: const ButtonStyle(
+                                backgroundColor:
+                                    MaterialStatePropertyAll(Colors.red)),
                             child: Text(
                               "Cancel operation",
                               style: AppTextStyles.h4s1
                                   .copyWith(color: AppColorStyle.white),
-                            ),
-                            style: const ButtonStyle(
-                                backgroundColor:
-                                    MaterialStatePropertyAll(Colors.red)))
+                            ))
                       ],
                     ),
                   )
                 ],
               ),
             ));
+  }
+
+  @override
+  void dispose() {
+    titleController.dispose();
+    bodyController.dispose();
+    super.dispose();
   }
 }
