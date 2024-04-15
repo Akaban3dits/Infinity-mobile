@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:infinity_bank/domain/entities/movements.dart';
 import 'package:infinity_bank/domain/entities/people.dart';
 import 'package:infinity_bank/presentation/blocs/text_styles.dart';
+import 'package:infinity_bank/presentation/screens/moveview.dart';
 import 'package:infinity_bank/presentation/widgets/Recentlypeople.dart';
 import 'package:infinity_bank/presentation/widgets/card.dart';
 import 'package:infinity_bank/presentation/widgets/movesinformation.dart';
@@ -104,7 +105,13 @@ class _CreditCardState extends State<CreditCard> {
                               style: AppTextStyles.h3s1
                                   .copyWith(color: AppColorStyle.white)),
                           IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const Moveview()),
+                              );
+                            },
                             icon: const Icon(Icons.remove_red_eye_outlined),
                             color: AppColorStyle.white,
                           ),
@@ -124,6 +131,7 @@ class _CreditCardState extends State<CreditCard> {
                               estado: cl.estado,
                               detalle: cl.detalle,
                               id: cl.id,
+                              url: cl.url,
                             );
                           },
                         ),

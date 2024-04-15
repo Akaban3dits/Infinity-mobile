@@ -1,8 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:infinity_bank/presentation/blocs/text_styles.dart';
 import 'package:infinity_bank/presentation/screens/movinfo.dart';
 
-// ignore: must_be_immutable
 class MovesData extends StatefulWidget {
   MovesData({
     super.key,
@@ -13,14 +13,12 @@ class MovesData extends StatefulWidget {
     required this.estado,
     required this.detalle,
     required this.id,
+    required this.url,
   });
-  String usuario;
-  double monto; // Cambiado de String a double
-  DateTime fecha; // Cambiado de String a DateTime
-  String tipo;
-  String estado;
-  String detalle;
-  String id;
+
+  final String usuario, tipo, estado, detalle, id, url;
+  final double monto;
+  final DateTime fecha;
 
   @override
   State<MovesData> createState() => _MovesDataState();
@@ -34,81 +32,63 @@ class _MovesDataState extends State<MovesData> {
       child: InkWell(
         onTap: () {
           Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => Infomoves(
-                        usuario: widget.usuario,
-                        monto: widget.monto,
-                        fecha: widget.fecha,
-                        tipo: widget.tipo,
-                        estado: widget.estado,
-                        detalle: widget.detalle,
-                        id: widget.id,
-                      )));
+            context,
+            MaterialPageRoute(
+              builder: (context) => Infomoves(
+                usuario: widget.usuario,
+                monto: widget.monto,
+                fecha: widget.fecha,
+                tipo: widget.tipo,
+                estado: widget.estado,
+                detalle: widget.detalle,
+                id: widget.id,
+              ),
+            ),
+          );
         },
-        // ignore: sized_box_for_whitespace
         child: Container(
           height: 80,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: Image.network(
-                          'https://i.pinimg.com/564x/b6/af/36/b6af36fc4de4e73288a3eca57101e5b7.jpg',
-                          width: 60,
-                          height: 60,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              widget.usuario,
-                              style: AppTextStyles.h4s1
-                                  .copyWith(color: AppColorStyle.white),
-                            ),
-                            Text(
-                              widget.tipo,
-                              style: AppTextStyles.h4s1
-                                  .copyWith(color: AppColorStyle.white),
-                              textAlign: TextAlign.start,
-                            )
-                          ],
-                        ),
-                      )
-                    ],
-                  )
-                ],
+              ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: CachedNetworkImage(
+                  imageUrl: widget.url,
+                  width: 60,
+                  height: 60,
+                  fit: BoxFit.cover,
+                  placeholder: (context, url) =>
+                      const CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                ),
               ),
-              Column(
-                children: [
-                  Text(
-                    "\$${widget.monto}",
-                    style:
-                        AppTextStyles.h4s1.copyWith(color: AppColorStyle.white),
-                  )
-                ],
-              ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8.0),
+              SizedBox(width: 10),
+              Expanded(
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Icon(
-                      AppIconStyle.arrowforward,
-                      color: AppColorStyle.white,
+                    Text(
+                      widget.usuario,
+                      style: AppTextStyles.h2s1
+                          .copyWith(color: AppColorStyle.white),
                     ),
+                    Text(
+                      widget.tipo,
+                      style: AppTextStyles.h4s1
+                          .copyWith(color: AppColorStyle.white),
+                      textAlign: TextAlign.start,
+                    )
                   ],
                 ),
-              )
+              ),
+              Text(
+                "\$${widget.monto.toStringAsFixed(2)}",
+                style: AppTextStyles.h3s1.copyWith(color: AppColorStyle.white),
+              ),
+              const Icon(
+                Icons.arrow_forward_ios,
+                color: AppColorStyle.white,
+              ),
             ],
           ),
         ),

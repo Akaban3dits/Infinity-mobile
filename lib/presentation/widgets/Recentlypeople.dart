@@ -1,4 +1,7 @@
+// ignore: duplicate_ignore
 // ignore: file_names
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:infinity_bank/presentation/blocs/text_styles.dart';
@@ -132,6 +135,9 @@ class _ButtonPearsonState extends State<ButtonPearson> {
                                   left: 5, right: 5, top: 6, bottom: 6),
                               child: TextField(
                                 controller: bodyController,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
                                     fillColor: AppColorStyle.white,

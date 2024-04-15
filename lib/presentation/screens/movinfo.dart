@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:infinity_bank/presentation/blocs/notifservice.dart';
 import 'package:infinity_bank/presentation/blocs/text_styles.dart';
 
 // ignore: must_be_immutable
@@ -15,8 +16,8 @@ class Infomoves extends StatefulWidget {
   });
 
   String usuario;
-  double monto; // Cambiado de String a double
-  DateTime fecha; // Cambiado de String a DateTime
+  double monto; 
+  DateTime fecha;
   String tipo;
   String estado;
   String detalle;
@@ -64,12 +65,22 @@ class _InfomovesState extends State<Infomoves> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    child: Column(
                       children: [
-                        Image.asset(
-                          "assets/images/InfinityVerticalLogo 1.png",
-                          width: 100.0,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              "assets/images/InfinityVerticalLogo 1.png",
+                              width: 100.0,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+                        Container(
+                          width: double.infinity,
+                          height: 1.0,
+                          color: Colors.white.withOpacity(0.5),
                         ),
                       ],
                     ),
@@ -93,7 +104,7 @@ class _InfomovesState extends State<Infomoves> {
                 Expanded(
                     child: ElevatedButton(
                   onPressed: () {
-                    // código para mostrar el diálogo
+                    _showConfirmationDialog(context);
                   },
                   style: ButtonStyle(
                       backgroundColor:
@@ -128,10 +139,42 @@ class _InfomovesState extends State<Infomoves> {
           Icon(icon, color: AppColorStyle.white),
           Text(label,
               style: AppTextStyles.h3s1.copyWith(color: AppColorStyle.white)),
-          Text(data,textAlign: TextAlign.center,
+          Text(data,
+              textAlign: TextAlign.center,
               style: AppTextStyles.h4s1.copyWith(color: AppColorStyle.white)),
         ],
       ),
+    );
+  }
+
+  void _showConfirmationDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: AppColorStyle.primary,
+          title: Text('Confirmación', style: AppTextStyles.h3s1.copyWith(color: AppColorStyle.white)),
+          content: Text('¿Deseas reclamar el siguiente movimiento?', style: AppTextStyles.h4s1.copyWith(color: AppColorStyle.white)),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                String body = "El reclamo al movimiento con id ${widget.id} fue enviado exitosamente";
+                
+                Navigator.of(context).pop(); 
+                NotificationService.showNotification(body);
+                
+              },
+              child: Text('Sí', style: AppTextStyles.h4s1.copyWith(color: AppColorStyle.white)),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); 
+              },
+              child: Text('No', style: AppTextStyles.h4s1.copyWith(color: AppColorStyle.white)),
+            ),
+          ],
+        );
+      },
     );
   }
 }

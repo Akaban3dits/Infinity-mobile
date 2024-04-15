@@ -45,15 +45,6 @@ class _TransferPageState extends State<TransferPage> {
                                     builder: (context) => const ServicesArea()))
                           }),
                   BtnTransfer(
-                      iconname: AppIconStyle.withdraw,
-                      name: "Retirar",
-                      onPressed: () => {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const ServicesArea()))
-                          }),
-                  BtnTransfer(
                       iconname: Icons.compare_arrows_sharp,
                       name: "Entre cuentas",
                       onPressed: () => {

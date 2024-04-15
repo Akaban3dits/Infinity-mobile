@@ -1,5 +1,9 @@
+
+// ignore_for_file: file_names
+
+// ignore: duplicate_ignore
+// ignore: file_names
 import 'package:flutter/material.dart';
-import 'package:infinity_bank/presentation/blocs/notifservice.dart';
 import 'package:infinity_bank/presentation/blocs/text_styles.dart';
 
 class ModalService {
@@ -63,9 +67,7 @@ class ModalService {
                                   Navigator.pop(context);
                                   Future.delayed(const Duration(seconds: 1),
                                       () {
-                                    if (navigationFunction != null) {
-                                      navigationFunction();
-                                    }
+                                    navigationFunction(referencia.text);
                                   });
                                 },
                                 style: const ButtonStyle(

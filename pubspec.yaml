@@ -8,9 +8,11 @@ environment:
   sdk: ">=3.3.0 <4.0.0"
 
 dependencies:
+  cached_network_image: ^3.3.1
   cupertino_icons: ^1.0.6
   flutter:
     sdk: flutter
+  flutter_launcher_icons: ^0.13.1
   flutter_local_notifications: ^17.0.0
   google_nav_bar: ^5.0.6
   intl: ^0.19.0
@@ -31,3 +33,7 @@ flutter:
     - family: Monofonto
       fonts:
         - asset: assets\fonts\monofonto rg.otf
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/logoapp.jpg"

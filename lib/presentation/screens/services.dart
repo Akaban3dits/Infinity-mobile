@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:infinity_bank/domain/entities/services.dart';
 import 'package:infinity_bank/presentation/blocs/text_styles.dart';
 import 'package:infinity_bank/presentation/screens/servicepay.dart';
@@ -14,39 +13,39 @@ class ServicesArea extends StatefulWidget {
 }
 
 class _ServicesAreaState extends State<ServicesArea> {
-  void navigateToPublicos(Services service) {
+  void navigateToPublicos(Services service, String ref) {
     Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) =>
-              Payserv(image: service.url, name: service.servname),
+              Payserv(image: service.url, name: service.servname, ref: ref),
         ));
   }
 
-  void navigateToStore(Services service) {
+  void navigateToStore(Services service, String ref) {
     Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) =>
-              Payserv(image: service.url, name: service.servname),
+              Payserv(image: service.url, name: service.servname, ref: ref),
         ));
   }
 
-  void navigateToStreaming(Services service) {
+  void navigateToStreaming(Services service, String ref) {
     Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) =>
-              Payserv(image: service.url, name: service.servname),
+              Paystr(image: service.url, name: service.servname, ref: ref),
         ));
   }
 
-  void navigateToMovil(Services service) {
+  void navigateToMovil(Services service, String ref) {
     Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) =>
-              Payserv(image: service.url, name: service.servname),
+              Paymovil(image: service.url, name: service.servname, ref: ref),
         ));
   }
 
@@ -78,7 +77,7 @@ class _ServicesAreaState extends State<ServicesArea> {
   }
 
   Widget section(String title, List<Services> services,
-      Function(Services) navigationFunction, String label) {
+      void Function(Services, String) navigationFunction, String label) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -103,8 +102,11 @@ class _ServicesAreaState extends State<ServicesArea> {
                     child: Btnservice(
                         name: svc.servname,
                         url: svc.url,
-                        funcion: () => ModalService.displayComprobante(context,
-                            label, () => navigationFunction(svc))));
+                        funcion: () => ModalService.displayComprobante(
+                            context,
+                            label,
+                            (ref) => navigationFunction(
+                                svc, ref)))); // Actualizado para pasar 'ref'
               },
             ),
           ),

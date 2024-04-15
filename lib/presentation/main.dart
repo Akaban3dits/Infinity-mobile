@@ -1,28 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:infinity_bank/presentation/blocs/notifservice.dart';
-import 'package:infinity_bank/presentation/screens/login.dart';
 import 'package:flutter/services.dart';
+import 'package:infinity_bank/presentation/screens/splashscreen.dart';
+import 'package:intl/date_symbol_data_local.dart'; 
 
-void main() {
+import 'package:infinity_bank/presentation/blocs/notifservice.dart';
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await initializeDateFormatting(
+      'es_ES', null); 
   NotificationService.initializeNotifications();
-  SystemChrome.setPreferredOrientations([
+  await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]).then((_) {
-    runApp(const Infinity());
+    runApp(const InfinityApp());
   });
 }
 
-class Infinity extends StatelessWidget {
-  const Infinity({super.key});
+class InfinityApp extends StatelessWidget {
+  const InfinityApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Infinity',
-      home: Login(),
+      home: SplashScreen(), 
     );
   }
 }

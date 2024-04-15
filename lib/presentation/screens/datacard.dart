@@ -27,18 +27,14 @@ class _DataCardState extends State<DataCard> {
       backgroundColor: AppColorStyle.primary,
       appBar: AppBar(
         iconTheme: const IconThemeData(color: AppColorStyle.white),
-        title: const Row(
+        title: Row(
           children: [
-            Icon(Icons.info, color: AppColorStyle.white),
+            const Icon(AppIconStyle.info, color: AppColorStyle.white),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 4),
-              child: Text(
-                "Informacion del movimiento",
-                style: TextStyle(
-                    fontFamily: 'Coolvetica',
-                    color: AppColorStyle.white,
-                    fontSize: 21),
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 4),
+              child: Text("Informacion de la tarjeta",
+                  style:
+                      AppTextStyles.h3s1.copyWith(color: AppColorStyle.white)),
             )
           ],
         ),
@@ -46,20 +42,53 @@ class _DataCardState extends State<DataCard> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Wrap(
-          spacing: 8.0, // Espacio horizontal entre los Containers
-          runSpacing: 15.0, // Espacio vertical entre los Containers
-          alignment: WrapAlignment.spaceBetween,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            _buildDataContainer(AppIconStyle.user, "Usuario", widget.names),
-            _buildDataContainer(
-                AppIconStyle.money, "Saldo", "\$${widget.money}"),
-            _buildDataContainer(
-                AppIconStyle.accbox, "Numero de cuenta", widget.account),
-            _buildDataContainer(
-                AppIconStyle.date, "Mes", widget.vig.toString()),
-            _buildDataContainer(
-                AppIconStyle.date, "Año", widget.vig1.toString()),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+                color: AppColorStyle.secundary2,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Wrap(
+                spacing: 8.0,
+                runSpacing: 15.0,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              "assets/images/InfinityVerticalLogo 1.png",
+                              width: 100.0,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+                        Container(
+                          width: double.infinity,
+                          height: 1.0,
+                          color: Colors.white.withOpacity(0.5),
+                        ),
+                      ],
+                    ),
+                  ),
+                  _buildDataContainer(
+                      AppIconStyle.user, "Usuario", widget.names),
+                  _buildDataContainer(
+                      AppIconStyle.money, "Saldo", "\$${widget.money}"),
+                  _buildDataContainer(
+                      AppIconStyle.accbox, "Numero de cuenta", widget.account),
+                  _buildDataContainer(
+                      AppIconStyle.date, "Vigencia", "${widget.vig.toString()}/${ widget.vig1.toString()}")
+                ],
+              ),
+            ),
           ],
         ),
       ),
@@ -67,23 +96,26 @@ class _DataCardState extends State<DataCard> {
   }
 
   Widget _buildDataContainer(IconData icon, String label, String data) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double containerWidth = (screenWidth - 60) / 2;
+
     return Container(
-      width: (MediaQuery.of(context).size.width - 36) / 2,
+      width: containerWidth,
       padding: const EdgeInsets.all(8),
+      margin: const EdgeInsets.symmetric(horizontal: 4),
       decoration: BoxDecoration(
         color: AppColorStyle.secundary2,
-        border: Border.all(color: AppColorStyle.secundary2),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, color: Colors.white),
+          Icon(icon, color: AppColorStyle.white),
           Text(label,
-              style: AppTextStyles.h2s1.copyWith(color: AppColorStyle.white)),
-          Text(
-            data,
-            style: AppTextStyles.h4s1.copyWith(color: AppColorStyle.white),
-          ),
+              style: AppTextStyles.h3s1.copyWith(color: AppColorStyle.white)),
+          Text(data,
+              textAlign: TextAlign.center,
+              style: AppTextStyles.h4s1.copyWith(color: AppColorStyle.white)),
         ],
       ),
     );

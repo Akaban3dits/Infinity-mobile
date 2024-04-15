@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:infinity_bank/presentation/blocs/text_styles.dart';
 import 'package:infinity_bank/presentation/screens/creditcard.dart';
-import 'package:infinity_bank/presentation/screens/services.dart';
+import 'package:infinity_bank/presentation/screens/edocuenta.dart';
 import 'package:infinity_bank/presentation/screens/settings.dart';
 import 'package:infinity_bank/presentation/screens/transfer.dart';
-import 'package:infinity_bank/presentation/screens/wallet.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -18,7 +17,7 @@ class _HomePageState extends State<HomePage> {
   int _selectedindex = 0;
   final List<Widget> _widgetOptions = <Widget>[
     const CreditCard(),
-    const ServicesArea(),
+    const ContCuenta(),
     const TransferPage(),
     const Settings()
   ];
@@ -38,17 +37,28 @@ class _HomePageState extends State<HomePage> {
               backgroundColor: AppColorStyle.secundary,
               color: AppColorStyle.secundary2,
               activeColor: AppColorStyle.white,
-              tabs: const [
+              tabs: [
                 GButton(
-                  icon: AppIconStyle.home,
-                  text: "Home",
-                ),
-                GButton(icon: AppIconStyle.wallet, text: "Wallet"),
+                    icon: AppIconStyle.home,
+                    text: "Home",
+                    textStyle: AppTextStyles.h4s1
+                        .copyWith(color: AppColorStyle.white)),
                 GButton(
-                  icon: AppIconStyle.swap,
-                  text: "Send",
-                ),
-                GButton(icon: AppIconStyle.settings, text: "Settings")
+                    icon: AppIconStyle.wallet,
+                    text: "Wallet",
+                    textStyle: AppTextStyles.h4s1
+                        .copyWith(color: AppColorStyle.white)),
+                GButton(
+                    icon: AppIconStyle.swap,
+                    text: "Send",
+                    textStyle: AppTextStyles.h4s1
+                        .copyWith(color: AppColorStyle.white)),
+                GButton(
+                  icon: AppIconStyle.settings,
+                  text: "Settings",
+                  textStyle:
+                      AppTextStyles.h4s1.copyWith(color: AppColorStyle.white),
+                )
               ],
               selectedIndex: _selectedindex,
               onTabChange: (index) {

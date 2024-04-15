@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:infinity_bank/presentation/blocs/notifservice.dart';
 import 'package:infinity_bank/presentation/blocs/text_styles.dart';
 import 'package:intl/intl.dart';
 
 class Referencia extends StatefulWidget {
-  const Referencia({super.key, required this.image, required this.name});
+  const Referencia({super.key, required this.image, required this.name, required this.lbl, required this.lbl2});
   final String name;
   final String image;
+  final String lbl;
+  final String lbl2;
 
   @override
   State<Referencia> createState() => _ReferenciaState();
@@ -62,7 +65,7 @@ class _ReferenciaState extends State<Referencia> {
                           child: Column(
                             children: [
                               Text(
-                                "Referencia",
+                                widget.lbl,
                                 style: AppTextStyles.h3s1
                                     .copyWith(color: AppColorStyle.white),
                               ),
@@ -73,7 +76,7 @@ class _ReferenciaState extends State<Referencia> {
                             child: Column(
                           children: [
                             Text(
-                              "01990002909",
+                              widget.lbl2,
                               style: AppTextStyles.h4s1
                                   .copyWith(color: AppColorStyle.white),
                             )
@@ -177,17 +180,17 @@ class _ReferenciaState extends State<Referencia> {
                         Expanded(
                             child: ElevatedButton(
                           onPressed: () {
-                            //TODO:Hacer un showmodal que invoque con un si la notificacion
-
+                            String body = "El pago a ${widget.name} con referencia a ${widget.lbl2} de \$500.54 ha sido exitoso";
+                            NotificationService.showNotification(body);
                           },
+                          style: const ButtonStyle(
+                              backgroundColor: MaterialStatePropertyAll(
+                                  AppColorStyle.primary)),
                           child: Text(
                             "Pagar",
                             style: AppTextStyles.h3s1
                                 .copyWith(color: AppColorStyle.white),
                           ),
-                          style: const ButtonStyle(
-                              backgroundColor: MaterialStatePropertyAll(
-                                  AppColorStyle.primary)),
                         ))
                       ],
                     ),
