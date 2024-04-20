@@ -4,7 +4,7 @@ import 'package:infinity_bank/presentation/blocs/text_styles.dart';
 import 'package:infinity_bank/presentation/screens/movinfo.dart';
 
 class MovesData extends StatefulWidget {
-  MovesData({
+  const MovesData({
     super.key,
     required this.usuario,
     required this.monto,
@@ -46,7 +46,7 @@ class _MovesDataState extends State<MovesData> {
             ),
           );
         },
-        child: Container(
+        child: SizedBox(
           height: 80,
           child: Row(
             children: [
@@ -62,7 +62,7 @@ class _MovesDataState extends State<MovesData> {
                   errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

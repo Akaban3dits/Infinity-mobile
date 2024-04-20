@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:infinity_bank/domain/entities/movements.dart';
 import 'package:infinity_bank/presentation/blocs/text_styles.dart';
 import 'package:infinity_bank/presentation/widgets/movesinformation.dart';
@@ -34,11 +33,11 @@ class _MoveviewState extends State<Moveview> {
     dummySearchList.addAll(MoveList);
     if (query.isNotEmpty) {
       List<MovementsBank> dummyListData = [];
-      dummySearchList.forEach((item) {
+      for (var item in dummySearchList) {
         if (item.usuario.toLowerCase().contains(query.toLowerCase())) {
           dummyListData.add(item);
         }
-      });
+      }
       setState(() {
         filteredList = dummyListData;
       });
@@ -96,7 +95,7 @@ class _MoveviewState extends State<Moveview> {
             child: Container(
               decoration: const BoxDecoration(
                   color: AppColorStyle.secundary2,
-                  borderRadius: const BorderRadius.only(
+                  borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20))),
               child: Padding(
