@@ -1,0 +1,11 @@
+{
+    "usuario": "Beto Fuentes",
+    "monto": 50.00,
+    "fecha": "2024, 4, 2",
+    "tipo": "Retiro",
+    "estado": "Completado",
+    "detalle": "Retiro en ATM",
+    "id": "002",
+    "url":
+        "https://i.pinimg.com/736x/84/7b/83/847b830fbe4c00b39351645e6c114de4.jpg"
+}

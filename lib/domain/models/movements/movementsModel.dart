@@ -1,14 +1,18 @@
-class MovementsBank {
+import 'package:json_annotation/json_annotation.dart';
+part 'movementsModel.g.dart';
+
+@JsonSerializable()
+class movementsModel {
   String usuario;
   double monto; // Cambiado de String a double
-  DateTime fecha; // Cambiado de String a DateTime
+  String fecha; // Cambiado de String a DateTime
   String tipo;
   String estado;
   String detalle;
   String id;
   String url;
 
-  MovementsBank(
+  movementsModel(
       {required this.usuario,
       required this.monto,
       required this.fecha,
@@ -17,16 +21,8 @@ class MovementsBank {
       required this.detalle,
       required this.id,
       required this.url});
-}
 
-class CardName {
-  double money;
-  String name, account;
-  int vig, vig1;
-  CardName(
-      {required this.money,
-      required this.account,
-      required this.name,
-      required this.vig,
-      required this.vig1});
+  factory movementsModel.fromJson(Map<String, dynamic> json) =>
+      _$movementsModelFromJson(json);
+  Map<String, dynamic> toJson() => _$movementsModelToJson(this);
 }
