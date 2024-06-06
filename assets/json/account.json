@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "customerId": 1,
+        "accountNumber": "1234567890",
+        "accountType": "Checking",
+        "balance": 1500.50,
+        "createdAt": "2023-01-01T00:00:00Z"
+    },
+    {
+        "id": 2,
+        "customerId": 2,
+        "accountNumber": "0987654321",
+        "accountType": "Savings",
+        "balance": 2500.75,
+        "createdAt": "2023-01-02T00:00:00Z"
+    },
+    {
+        "id": 3,
+        "customerId": 3,
+        "accountNumber": "1122334455",
+        "accountType": "Checking",
+        "balance": 3200.00,
+        "createdAt": "2023-01-03T00:00:00Z"
+    }
+]
