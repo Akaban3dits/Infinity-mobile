@@ -6,21 +6,21 @@ class Customer {
   int id;
   String firstName;
   String lastName;
-  DateTime dateOfBirth;
   String email;
   String phoneNumber;
-  String address;
-  DateTime createdAt;
+  String rfc;
+  String password;
+  int idbank;
 
   Customer({
     required this.id,
     required this.firstName,
     required this.lastName,
-    required this.dateOfBirth,
     required this.email,
     required this.phoneNumber,
-    required this.address,
-    required this.createdAt,
+    required this.rfc,
+    required this.password,
+    required this.idbank
   });
 
   factory Customer.fromJson(Map<String, dynamic> json) =>

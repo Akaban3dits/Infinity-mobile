@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:infinity_bank/presentation/blocs/text_styles.dart';
 import 'package:infinity_bank/presentation/screens/login.dart';
+import 'package:infinity_bank/presentation/screens/register_user.dart';
 import 'package:infinity_bank/presentation/widgets/TileSetting.dart';
 
 class Profileinfo extends StatefulWidget {
@@ -42,7 +43,13 @@ class _ProfileinfoState extends State<Profileinfo> {
                 icon: Icons.payment,
                 title: "Métodos de Pago",
                 subtitle: "Edita tus métodos de pago",
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const RegisterUser()),
+                  );
+                },
               ),
               BtnTileSetts(
                 icon: Icons.history,

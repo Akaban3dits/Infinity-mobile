@@ -40,6 +40,10 @@ class AppColorStyle {
 }
 
 class AppIconStyle {
+  static const IconData file = Icons.archive;
+  static const IconData address = Icons.directions;
+  static const IconData phone = Icons.phone;
+  static const IconData email = Icons.email;
   static const IconData home = Icons.home;
   static const IconData ver = Icons.remove_red_eye_outlined;
   static const IconData user = Icons.person;

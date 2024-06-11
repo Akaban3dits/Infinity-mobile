@@ -12,6 +12,8 @@ Account _$AccountFromJson(Map<String, dynamic> json) => Account(
       accountNumber: json['accountNumber'] as String,
       accountType: json['accountType'] as String,
       balance: (json['balance'] as num).toDouble(),
+      photo: json['photo'] as String,
+      password: json['password'] as String,
       createdAt: DateTime.parse(json['createdAt'] as String),
     );
 
@@ -21,5 +23,7 @@ Map<String, dynamic> _$AccountToJson(Account instance) => <String, dynamic>{
       'accountNumber': instance.accountNumber,
       'accountType': instance.accountType,
       'balance': instance.balance,
+      'photo': instance.photo,
+      'password': instance.password,
       'createdAt': instance.createdAt.toIso8601String(),
     };

@@ -9,6 +9,8 @@ class Account {
   String accountNumber;
   String accountType;
   double balance;
+  String photo;
+  String password;
   DateTime createdAt;
 
   Account({
@@ -17,6 +19,8 @@ class Account {
     required this.accountNumber,
     required this.accountType,
     required this.balance,
+    required this.photo,
+    required this.password,
     required this.createdAt,
   });
 

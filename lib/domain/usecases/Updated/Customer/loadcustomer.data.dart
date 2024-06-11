@@ -9,25 +9,34 @@ class LoadCustomerData {
   Future<Customer> call() async {
     final customerData = await repository.loadCustomerData();
 
-    if (customerData.firstName.isEmpty || !RegExp(r'^[a-zA-Z]+$').hasMatch(customerData.firstName)) {
+    if (customerData.firstName.isEmpty ||
+        !RegExp(r'^[a-zA-Z]+$').hasMatch(customerData.firstName)) {
       throw Exception("First name cannot be empty or invalid");
     }
-    if (customerData.lastName.isEmpty || !RegExp(r'^[a-zA-Z]+$').hasMatch(customerData.lastName)) {
+    if (customerData.lastName.isEmpty ||
+        !RegExp(r'^[a-zA-Z]+$').hasMatch(customerData.lastName)) {
       throw Exception("Last name cannot be empty or invalid");
     }
-    if (customerData.dateOfBirth.isAfter(DateTime.now())) {
-      throw Exception("Date of birth cannot be in the future");
-    }
-    if (customerData.email.isEmpty || !RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(customerData.email)) {
+    if (customerData.email.isEmpty ||
+        !RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(customerData.email)) {
       throw Exception("Email cannot be empty or invalid");
     }
-    if (customerData.phoneNumber.isEmpty || !RegExp(r'^\d{3}-\d{3}-\d{4}$').hasMatch(customerData.phoneNumber)) {
+    if (customerData.phoneNumber.isEmpty ||
+        !RegExp(r'^\d{3}-\d{3}-\d{4}$').hasMatch(customerData.phoneNumber)) {
       throw Exception("Phone number cannot be empty or invalid");
     }
-    if (customerData.address.isEmpty) {
-      throw Exception("Address cannot be empty");
+    if (customerData.rfc.isEmpty ||
+        !RegExp(r'^[a-zA-Z0-9]+$').hasMatch(customerData.rfc)) {
+      throw Exception(
+          "RFC cannot be empty and must contain only letters and numbers");
     }
-
+    if (customerData.password.isEmpty ||
+        !RegExp(r'^(?=.*[!@#$%^&*(),.?":{}|<>])[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]{8,12}$')
+            .hasMatch(customerData.password)) {
+      throw Exception(
+          "Password cannot be empty and must be between 8 and 12 characters including special characters");
+    }
+  
     return customerData;
   }
 }

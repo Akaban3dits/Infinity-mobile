@@ -8,6 +8,8 @@ class LoadAccountData {
       accountNumber: "1234567890",
       accountType: "Checking",
       balance: 1500.50,
+      photo: '[url]',
+      password: 'securePass452',
       createdAt: DateTime.now(),
     );
   }
