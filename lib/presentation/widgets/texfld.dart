@@ -6,17 +6,22 @@ class TextfUs extends StatelessWidget {
       {super.key,
       required this.hintText,
       required this.obscureText,
-      required this.icon});
+      required this.icon,
+      this.controller, this.onChanged});
 
   final String hintText;
   final bool obscureText;
   final IconData icon;
+  final TextEditingController? controller;
+  final ValueChanged? onChanged;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 30.0),
       child: TextField(
+        onChanged: onChanged,
         obscureText: obscureText,
+        controller: controller,
         decoration: InputDecoration(
           enabledBorder: const OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(15)),

@@ -1,0 +1,10 @@
+{
+  "id": 1,
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "john.doe@example.com",
+  "phoneNumber": "1234567890",
+  "rfc": "XAXX010101000",
+  "password": "password123",
+  "idbank": 101
+}
