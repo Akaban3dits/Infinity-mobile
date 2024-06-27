@@ -7,7 +7,6 @@ class LoadTransactionData {
       accountId: 1,
       transactionType: "Deposit",
       amount: 500.00,
-      transactionDate: DateTime.now(),
       description: "Salary Deposit",
     );
   }

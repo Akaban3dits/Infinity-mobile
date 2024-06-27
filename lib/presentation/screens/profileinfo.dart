@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:infinity_bank/presentation/blocs/text_styles.dart';
 import 'package:infinity_bank/presentation/screens/login.dart';
+import 'package:infinity_bank/presentation/screens/register_account.dart';
 import 'package:infinity_bank/presentation/screens/register_user.dart';
 import 'package:infinity_bank/presentation/widgets/TileSetting.dart';
 
@@ -37,7 +38,13 @@ class _ProfileinfoState extends State<Profileinfo> {
                 icon: Icons.swap_horiz,
                 title: "Límites de Transferencia",
                 subtitle: "Administra tus límites de transferencia",
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const RegisterAccount()),
+                  );
+                },
               ),
               BtnTileSetts(
                 icon: Icons.payment,

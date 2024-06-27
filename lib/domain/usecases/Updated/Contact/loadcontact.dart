@@ -7,7 +7,6 @@ class LoadContactData {
       customerId: 1,
       contactName: "Jane Doe",
       contactAccountNumber: "9876543210",
-      createdAt: DateTime.now(),
     );
   }
 }

@@ -7,7 +7,6 @@ class ServicePayment {
   int accountId;
   int serviceId;
   double amount;
-  DateTime paymentDate;
   String description;
 
   ServicePayment({
@@ -15,7 +14,6 @@ class ServicePayment {
     required this.accountId,
     required this.serviceId,
     required this.amount,
-    required this.paymentDate,
     required this.description,
   });
 

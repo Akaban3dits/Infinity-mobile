@@ -11,7 +11,6 @@ Transaction _$TransactionFromJson(Map<String, dynamic> json) => Transaction(
       accountId: json['accountId'] as int,
       transactionType: json['transactionType'] as String,
       amount: (json['amount'] as num).toDouble(),
-      transactionDate: DateTime.parse(json['transactionDate'] as String),
       description: json['description'] as String,
     );
 
@@ -21,6 +20,5 @@ Map<String, dynamic> _$TransactionToJson(Transaction instance) =>
       'accountId': instance.accountId,
       'transactionType': instance.transactionType,
       'amount': instance.amount,
-      'transactionDate': instance.transactionDate.toIso8601String(),
       'description': instance.description,
     };

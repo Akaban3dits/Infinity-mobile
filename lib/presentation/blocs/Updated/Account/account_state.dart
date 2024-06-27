@@ -7,15 +7,17 @@ class AccountState extends Equatable {
   final String accountNumber;
   final String accountType;
   final double balance;
-  final DateTime createdAt;
+  final String photo;
+  final String password;
 
-  AccountState({
+  const AccountState({
     this.id = 0,
     this.customerId = 0,
     this.accountNumber = '',
     this.accountType = '',
     this.balance = 0.0,
-    required this.createdAt,
+    this.password = '',
+    this.photo = '',
   });
 
   AccountState copyWith({
@@ -24,7 +26,8 @@ class AccountState extends Equatable {
     String? accountNumber,
     String? accountType,
     double? balance,
-    DateTime? createdAt,
+    String? photo,
+    String? password,
   }) {
     return AccountState(
       id: id ?? this.id,
@@ -32,13 +35,13 @@ class AccountState extends Equatable {
       accountNumber: accountNumber ?? this.accountNumber,
       accountType: accountType ?? this.accountType,
       balance: balance ?? this.balance,
-      createdAt: createdAt ?? this.createdAt,
+      photo: photo ?? this.photo,
+      password: password ?? this.password,
     );
   }
 
   @override
-  List<Object> get props =>
-      [id, customerId, accountNumber, accountType, balance, createdAt];
+  List<Object> get props => [id, customerId, accountNumber, accountType, balance, photo, password];
 
   factory AccountState.fromModel(Account model) {
     return AccountState(
@@ -47,7 +50,8 @@ class AccountState extends Equatable {
       accountNumber: model.accountNumber,
       accountType: model.accountType,
       balance: model.balance,
-      createdAt: model.createdAt,
+      password: model.password,
+      photo: model.photo,
     );
   }
 }

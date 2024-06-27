@@ -11,7 +11,6 @@ class Account {
   double balance;
   String photo;
   String password;
-  DateTime createdAt;
 
   Account({
     required this.id,
@@ -20,8 +19,7 @@ class Account {
     required this.accountType,
     required this.balance,
     required this.photo,
-    required this.password,
-    required this.createdAt,
+    required this.password
   });
 
   factory Account.fromJson(Map<String, dynamic> json) => _$AccountFromJson(json);

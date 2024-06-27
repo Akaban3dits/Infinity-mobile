@@ -6,8 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
   final usecase.LoadTransactionData loadTransactionData;
   TransactionBloc(this.loadTransactionData)
-      : super(TransactionState(
-            transactionDate: DateTime.now())) {
+      : super(const TransactionState()) {
     on<LoadTransactionDataEvent>((event, emit) async {
       final transactionData = await loadTransactionData();
       emit(TransactionState.fromModel(transactionData));

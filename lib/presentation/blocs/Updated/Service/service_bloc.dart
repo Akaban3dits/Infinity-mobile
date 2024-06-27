@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class ServiceBloc extends Bloc<ServiceEvent, ServiceState> {
   final usecase.LoadServiceData loadServiceData;
   ServiceBloc(this.loadServiceData)
-      : super(ServiceState()) {
+      : super(const ServiceState()) {
     on<LoadServiceDataEvent>((event, emit) async {
       final serviceData = await loadServiceData();
       emit(ServiceState.fromModel(serviceData));

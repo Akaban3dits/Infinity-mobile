@@ -7,14 +7,12 @@ class Contact {
   int customerId;
   String contactName;
   String contactAccountNumber;
-  DateTime createdAt;
 
   Contact({
     required this.id,
     required this.customerId,
     required this.contactName,
     required this.contactAccountNumber,
-    required this.createdAt,
   });
 
   factory Contact.fromJson(Map<String, dynamic> json) =>

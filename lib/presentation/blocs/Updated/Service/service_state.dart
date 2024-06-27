@@ -6,7 +6,7 @@ class ServiceState extends Equatable {
   final String serviceName;
   final String serviceDescription;
 
-  ServiceState({
+  const ServiceState({
     this.id = 0,
     this.serviceName = '',
     this.serviceDescription = '',

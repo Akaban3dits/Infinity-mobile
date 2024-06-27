@@ -6,8 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class AccountBloc extends Bloc<AccountEvent, AccountState> {
   final usecase.LoadAccountData loadAccountData;
   AccountBloc(this.loadAccountData)
-      : super(AccountState(
-            createdAt: DateTime.now())) {
+      : super(const AccountState()) {
     on<LoadAccountDataEvent>((event, emit) async {
       final accountData = await loadAccountData();
       emit(AccountState.fromModel(accountData));

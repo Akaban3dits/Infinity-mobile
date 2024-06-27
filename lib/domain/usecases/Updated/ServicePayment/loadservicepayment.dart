@@ -7,7 +7,6 @@ class LoadServicePaymentData {
       accountId: 1,
       serviceId: 1,
       amount: 100.00,
-      paymentDate: DateTime.now(),
       description: "Electricity bill payment",
     );
   }

@@ -10,14 +10,12 @@ Contact _$ContactFromJson(Map<String, dynamic> json) => Contact(
       id: json['id'] as int,
       customerId: json['customerId'] as int,
       contactName: json['contactName'] as String,
-      contactAccountNumber: json['contactAccountNumber'] as String,
-      createdAt: DateTime.parse(json['createdAt'] as String),
+      contactAccountNumber: json['contactAccountNumber'] as String
     );
 
 Map<String, dynamic> _$ContactToJson(Contact instance) => <String, dynamic>{
       'id': instance.id,
       'customerId': instance.customerId,
       'contactName': instance.contactName,
-      'contactAccountNumber': instance.contactAccountNumber,
-      'createdAt': instance.createdAt.toIso8601String(),
+      'contactAccountNumber': instance.contactAccountNumber
     };

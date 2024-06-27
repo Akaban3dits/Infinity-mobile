@@ -6,15 +6,13 @@ class TransactionState extends Equatable {
   final int accountId;
   final String transactionType;
   final double amount;
-  final DateTime transactionDate;
   final String description;
 
-  TransactionState({
+  const TransactionState({
     this.id = 0,
     this.accountId = 0,
     this.transactionType = '',
     this.amount = 0.0,
-    required this.transactionDate,
     this.description = '',
   });
 
@@ -23,7 +21,6 @@ class TransactionState extends Equatable {
     int? accountId,
     String? transactionType,
     double? amount,
-    DateTime? transactionDate,
     String? description,
   }) {
     return TransactionState(
@@ -31,14 +28,13 @@ class TransactionState extends Equatable {
       accountId: accountId ?? this.accountId,
       transactionType: transactionType ?? this.transactionType,
       amount: amount ?? this.amount,
-      transactionDate: transactionDate ?? this.transactionDate,
       description: description ?? this.description,
     );
   }
 
   @override
   List<Object> get props =>
-      [id, accountId, transactionType, amount, transactionDate, description];
+      [id, accountId, transactionType, amount, description];
 
   factory TransactionState.fromModel(Transaction model) {
     return TransactionState(
@@ -46,7 +42,6 @@ class TransactionState extends Equatable {
       accountId: model.accountId,
       transactionType: model.transactionType,
       amount: model.amount,
-      transactionDate: model.transactionDate,
       description: model.description,
     );
   }

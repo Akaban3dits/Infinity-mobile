@@ -10,15 +10,14 @@ class LoadAccountData {
     final accountData = await repository.loadAccountData();
 
     if (accountData.accountNumber.isEmpty ||
-        !RegExp(r'^\d{10}$').hasMatch(accountData.accountNumber) &&
-            accountData.accountNumber.length > 18) {
+        !RegExp(r'^\d{10,18}$').hasMatch(accountData.accountNumber)) {
       throw Exception("Account number cannot be empty or invalid");
     }
     if (accountData.accountType.isEmpty ||
         !RegExp(r'^[a-zA-Z]+$').hasMatch(accountData.accountType)) {
       throw Exception("Account type cannot be empty or invalid");
     }
-    if (accountData.balance.isNegative || accountData.balance > 50.00) {
+    if (accountData.balance.isNegative) {
       throw Exception("Balance cannot be negative");
     }
 

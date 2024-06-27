@@ -16,6 +16,24 @@ class RegisterUser extends StatefulWidget {
 }
 
 class _RegisterUserState extends State<RegisterUser> {
+  final nameController = TextEditingController();
+  final lastNameController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final rfcController = TextEditingController();
+  final phoneNumberController = TextEditingController();
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    lastNameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    rfcController.dispose();
+    phoneNumberController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -27,29 +45,12 @@ class _RegisterUserState extends State<RegisterUser> {
         body: Center(
           child: BlocBuilder<CustomerBloc, CustomerState>(
             builder: (BuildContext context, CustomerState state) {
-              // Define los TextEditingController fuera del BlocBuilder
-              final nameController =
-                  TextEditingController(text: state.firstName);
-              final lastNameController =
-                  TextEditingController(text: state.lastName);
-              final emailController = TextEditingController(text: state.email);
-              final passwordController =
-                  TextEditingController(text: state.password);
-              final rfcController = TextEditingController(text: state.rfc);
-              final phoneNumberController =
-                  TextEditingController(text: state.phoneNumber);
-
-              // Agrega una función para limpiar los controladores cuando el widget se deshace
-              @override
-              void dispose() {
-                nameController.dispose();
-                lastNameController.dispose();
-                emailController.dispose();
-                passwordController.dispose();
-                rfcController.dispose();
-                phoneNumberController.dispose();
-                super.dispose();
-              }
+              nameController.text = state.firstName;
+              lastNameController.text = state.lastName;
+              emailController.text = state.email;
+              passwordController.text = state.password;
+              rfcController.text = state.rfc;
+              phoneNumberController.text = state.phoneNumber;
 
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,

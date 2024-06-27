@@ -11,7 +11,7 @@ class CustomerState extends Equatable {
   final String rfc;
   final int idbank;
 
-  CustomerState(
+  const CustomerState(
       {this.id = 0,
       this.firstName = '',
       this.lastName = '',

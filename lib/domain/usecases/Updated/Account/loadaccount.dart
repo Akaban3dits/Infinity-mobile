@@ -1,16 +1,10 @@
 import 'package:infinity_bank/domain/models/Updated/Account/accountModel.dart';
+import 'package:infinity_bank/domain/repositories/Updated/Account/account_repository.dart';
 
 class LoadAccountData {
+  final AccountRepository repository;
+  LoadAccountData(this.repository);
   Future<Account> call() async {
-    return Account(
-      id: 1,
-      customerId: 1,
-      accountNumber: "1234567890",
-      accountType: "Checking",
-      balance: 1500.50,
-      photo: '[url]',
-      password: 'securePass452',
-      createdAt: DateTime.now(),
-    );
+    return await repository.loadAccountData();
   }
 }

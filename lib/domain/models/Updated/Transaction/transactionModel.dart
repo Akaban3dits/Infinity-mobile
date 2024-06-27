@@ -7,7 +7,6 @@ class Transaction {
   int accountId;
   String transactionType;
   double amount;
-  DateTime transactionDate;
   String description;
 
   Transaction({
@@ -15,7 +14,6 @@ class Transaction {
     required this.accountId,
     required this.transactionType,
     required this.amount,
-    required this.transactionDate,
     required this.description,
   });
 

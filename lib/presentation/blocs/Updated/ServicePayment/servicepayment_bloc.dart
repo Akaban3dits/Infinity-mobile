@@ -6,8 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class ServicePaymentBloc extends Bloc<ServicePaymentEvent, ServicePaymentState> {
   final usecase.LoadServicePaymentData loadServicePaymentData;
   ServicePaymentBloc(this.loadServicePaymentData)
-      : super(ServicePaymentState(
-            paymentDate: DateTime.now())) {
+      : super(const ServicePaymentState()) {
     on<LoadServicePaymentDataEvent>((event, emit) async {
       final servicePaymentData = await loadServicePaymentData();
       emit(ServicePaymentState.fromModel(servicePaymentData));
