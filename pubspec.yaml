@@ -8,12 +8,13 @@ environment:
   sdk: ">=3.3.0 <4.0.0"
 
 dependencies:
+  dio: ^5.1.1
   cached_network_image: ^3.3.1
   cupertino_icons: ^1.0.6
   equatable: ^2.0.5
   flutter:
     sdk: flutter
-  flutter_bloc: ^8.1.5
+  flutter_bloc: ^8.0.1
   flutter_launcher_icons: ^0.13.1
   flutter_local_notifications: ^17.0.0
   google_nav_bar: ^5.0.6

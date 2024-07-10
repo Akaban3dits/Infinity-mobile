@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:infinity_bank/presentation/blocs/text_styles.dart';
-import 'package:infinity_bank/presentation/screens/login.dart';
+import 'package:infinity_bank/presentation/screens/register_user.dart';
 
 class SplashScreen extends StatefulWidget {
   // ignore: use_super_parameters
@@ -18,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(const Duration(seconds: 2), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const Login()),
+        MaterialPageRoute(builder: (context) => const RegisterUser()),
       );
     });
   }

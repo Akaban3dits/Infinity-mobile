@@ -6,7 +6,6 @@ abstract class CustomerEvent extends Equatable {
   List<Object> get props => [];
 }
 
-// ignore: camel_case_types
 class FirstNameChanged extends CustomerEvent{
 
   final String firstName;
@@ -62,3 +61,11 @@ class PhoneNumberChanged extends CustomerEvent{
 }
 
 class LoadCustomerDataEvent extends CustomerEvent {}
+
+class RegisterUserEvent extends CustomerEvent {
+  final Map<String, dynamic> userData;
+  const RegisterUserEvent(this.userData);
+
+  @override
+  List<Object> get props => [userData];
+}
