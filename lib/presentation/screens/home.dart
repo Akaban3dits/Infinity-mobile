@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:infinity_bank/presentation/blocs/secure_storage_service.dart';
 import 'package:infinity_bank/presentation/blocs/text_styles.dart';
 import 'package:infinity_bank/presentation/screens/creditcard.dart';
 import 'package:infinity_bank/presentation/screens/edocuenta.dart';
@@ -21,6 +22,22 @@ class _HomePageState extends State<HomePage> {
     const TransferPage(),
     const Settings()
   ];
+
+  final SecureStorageService _secureStorageService = SecureStorageService();
+  String? _token;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadToken();
+  }
+
+  Future<void> _loadToken() async {
+    final token = await _secureStorageService.readToken();
+    setState(() {
+      _token = token;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

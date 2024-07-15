@@ -6,8 +6,7 @@ abstract class CustomerEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class FirstNameChanged extends CustomerEvent{
-
+class FirstNameChanged extends CustomerEvent {
   final String firstName;
   const FirstNameChanged(this.firstName);
 
@@ -15,8 +14,7 @@ class FirstNameChanged extends CustomerEvent{
   List<Object> get props => [firstName];
 }
 
-class LastNameChanged extends CustomerEvent{
-  
+class LastNameChanged extends CustomerEvent {
   final String lastName;
   const LastNameChanged(this.lastName);
 
@@ -24,8 +22,7 @@ class LastNameChanged extends CustomerEvent{
   List<Object> get props => [lastName];
 }
 
-class EmailChanged extends CustomerEvent{
-  
+class EmailChanged extends CustomerEvent {
   final String email;
   const EmailChanged(this.email);
 
@@ -33,8 +30,7 @@ class EmailChanged extends CustomerEvent{
   List<Object> get props => [email];
 }
 
-class PasswordChanged extends CustomerEvent{
-  
+class PasswordChanged extends CustomerEvent {
   final String password;
   const PasswordChanged(this.password);
 
@@ -42,8 +38,7 @@ class PasswordChanged extends CustomerEvent{
   List<Object> get props => [password];
 }
 
-class RFCChanged extends CustomerEvent{
-  
+class RFCChanged extends CustomerEvent {
   final String rfc;
   const RFCChanged(this.rfc);
 
@@ -51,8 +46,7 @@ class RFCChanged extends CustomerEvent{
   List<Object> get props => [rfc];
 }
 
-class PhoneNumberChanged extends CustomerEvent{
-  
+class PhoneNumberChanged extends CustomerEvent {
   final String phoneNumber;
   const PhoneNumberChanged(this.phoneNumber);
 
@@ -68,4 +62,19 @@ class RegisterUserEvent extends CustomerEvent {
 
   @override
   List<Object> get props => [userData];
+}
+
+class UpdateUserEvent extends CustomerEvent {
+  final Map<String, dynamic> userData;
+  const UpdateUserEvent(this.userData);
+
+  @override
+  List<Object> get props => [userData];
+}
+
+class LoadUserDataEvent extends CustomerEvent {
+  const LoadUserDataEvent();
+
+  @override
+  List<Object> get props => [];
 }

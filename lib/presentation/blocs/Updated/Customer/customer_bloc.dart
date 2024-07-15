@@ -36,27 +36,48 @@ class CustomerBloc extends Bloc<CustomerEvent, CustomerState> {
       emit(state.copyWith(phoneNumber: event.phoneNumber));
     });
 
-    on<LoadCustomerDataEvent>((event, emit) async {
-      emit(CustomerState());
-      final customerData = await loadCustomerData();
-      emit(CustomerState.fromModel(customerData));
+    on<LoadUserDataEvent>((event, emit) async {
+      emit(CustomerLoading());
+      try {
+        final userData = await apiProvider.getUserData();
+        emit(CustomerState.fromJson(userData));
+      } catch (e) {
+        emit(CustomerError(e.toString()));
+      }
     });
 
     on<RegisterUserEvent>((event, emit) async {
-  emit(CustomerState());
-  try {
-    await apiProvider.registerUser(event.userData);
-    emit(CustomerRegistered());
-  } on DioError catch (e) {
-    if (e.response?.statusCode == 400) {
-      emit(CustomerError("Bad Request: ${e.response?.data}"));
-    } else {
-      emit(CustomerError("Error: ${e.message}"));
-    }
-  } catch (e) {
-    emit(CustomerError(e.toString()));
-  }
-});
+      emit(CustomerLoading());
+      try {
+        await apiProvider.registerUser(event.userData);
+        emit(CustomerRegistered());
+      } on DioException catch (e) {
+        if (e.response?.statusCode == 400) {
+          emit(CustomerError("Bad Request: ${e.response?.data}"));
+        } else {
+          emit(CustomerError("Error: ${e.message}"));
+        }
+      } catch (e) {
+        emit(CustomerError(e.toString()));
+      }
+    });
 
+    on<UpdateUserEvent>((event, emit) async {
+      emit(CustomerLoading());
+      try {
+        await apiProvider.updateUser(event.userData);
+        emit(UserUpdated());
+      } on DioException catch (e) {
+        if (e.response?.statusCode == 401) {
+          emit(const CustomerError("Unauthorized. Please log in again."));
+        } else if (e.response?.statusCode == 400) {
+          emit(CustomerError("Bad Request: ${e.response?.data}"));
+        } else {
+          emit(CustomerError("Error: ${e.message}"));
+        }
+      } catch (e) {
+        emit(CustomerError(e.toString()));
+      }
+    });
   }
 }

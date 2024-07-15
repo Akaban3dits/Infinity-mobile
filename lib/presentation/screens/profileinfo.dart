@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:infinity_bank/presentation/blocs/text_styles.dart';
+import 'package:infinity_bank/presentation/screens/edit_user.dart';
 import 'package:infinity_bank/presentation/screens/login.dart';
 import 'package:infinity_bank/presentation/screens/register_account.dart';
 import 'package:infinity_bank/presentation/screens/register_user.dart';
@@ -32,7 +33,14 @@ class _ProfileinfoState extends State<Profileinfo> {
                 icon: Icons.account_balance_wallet,
                 title: "Billetera",
                 subtitle: "Gestiona tu billetera y tarjetas",
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const EditUserScreen(),
+                    ),
+                  );
+                },
               ),
               BtnTileSetts(
                 icon: Icons.swap_horiz,

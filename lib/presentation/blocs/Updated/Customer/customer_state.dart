@@ -1,4 +1,3 @@
-// customer_state.dart
 import 'package:equatable/equatable.dart';
 import 'package:infinity_bank/domain/models/Updated/Customers/customersModel.dart';
 
@@ -60,6 +59,19 @@ class CustomerState extends Equatable {
       idbank: model.idbank,
     );
   }
+
+  factory CustomerState.fromJson(Map<String, dynamic> json) {
+    return CustomerState(
+      id: json['id'],
+      firstName: json['name'],
+      lastName: json['lastname'],
+      email: json['email'],
+      phoneNumber: json['phone'],
+      password: json['password'],
+      rfc: json['rfc'],
+      idbank: json['id_bank'],
+    );
+  }
 }
 
 class CustomerLoading extends CustomerState {}
@@ -81,3 +93,5 @@ class CustomerError extends CustomerState {
 }
 
 class CustomerRegistered extends CustomerState {}
+
+class UserUpdated extends CustomerState {}
