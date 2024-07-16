@@ -39,8 +39,8 @@ class CustomerBloc extends Bloc<CustomerEvent, CustomerState> {
     on<LoadUserDataEvent>((event, emit) async {
       emit(CustomerLoading());
       try {
-        final userData = await apiProvider.getUserData();
-        emit(CustomerState.fromJson(userData));
+        final customer = await apiProvider.getUserData();
+        emit(CustomerState.fromModel(customer));
       } catch (e) {
         emit(CustomerError(e.toString()));
       }

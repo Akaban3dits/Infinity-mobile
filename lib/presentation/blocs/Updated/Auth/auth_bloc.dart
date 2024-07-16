@@ -1,52 +1,27 @@
-
+import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinity_bank/presentation/blocs/notifservice.dart';
 import 'auth_event.dart';
 import 'auth_state.dart';
-import 'package:dio/dio.dart';
-import 'package:infinity_bank/presentation/blocs/secure_storage_service.dart';
+import 'package:infinity_bank/domain/models/Updated/Customers/api_provider.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  final Dio _dio = Dio();
-  final SecureStorageService _secureStorageService = SecureStorageService();
+  final ApiProvider _apiProvider;
 
-  AuthBloc() : super(AuthInitial()) {
+  AuthBloc(this._apiProvider) : super(AuthInitial()) {
     on<AuthLoginRequested>(_onLoginRequested);
   }
 
   void _onLoginRequested(AuthLoginRequested event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
     try {
-      final response = await _dio.post(
-        'https://apimoviles-production.up.railway.app/auth/login',
-        data: {
-          'phone': event.username,
-          'password': event.password,
-        },
-      );
+      final token = await _apiProvider.loginUser(event.username, event.password);
 
-      print('Response data: ${response.data}');
-
-      if (response.statusCode == 200) {
-        final token = response.data['access_token'];
-        if (token != null && token is String) {
-          await _secureStorageService.writeToken(token);
-          emit(AuthAuthenticated(token));
-          NotificationService.showNotification('Login successful. Token: $token');
-        } else {
-          emit(const AuthError('Invalid token received.'));
-        }
-      } else {
-        emit(AuthError(_mapStatusCodeToMessage(response.statusCode)));
-      }
+      emit(AuthAuthenticated(token));
+      NotificationService.showNotification('Login successful. Token: $token');
     } on DioException catch (e) {
       print('DioException: ${e.message}');
-      if (e.response != null) {
-        print('Response data: ${e.response?.data}');
-        emit(AuthError(_mapStatusCodeToMessage(e.response?.statusCode)));
-      } else {
-        emit(const AuthError('Failed to connect to the server. Please check your internet connection.'));
-      }
+      emit(AuthError(_mapStatusCodeToMessage(e.response?.statusCode)));
     } catch (e) {
       print('Unexpected error: $e');
       emit(const AuthError('An unexpected error occurred'));

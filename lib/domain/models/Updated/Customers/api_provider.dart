@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:infinity_bank/presentation/blocs/secure_storage_service.dart';
+import 'package:infinity_bank/domain/models/Updated/Customers/customersModel.dart';
 
 class ApiProvider {
   final Dio _dio = Dio();
@@ -45,7 +46,7 @@ class ApiProvider {
     }
   }
 
-  Future<Map<String, dynamic>> getUserData() async {
+  Future<Customer> getUserData() async {
     final token = await _storage.readToken();
     if (token == null) {
       throw Exception("Token not found");
@@ -55,7 +56,9 @@ class ApiProvider {
         'https://apimoviles-production.up.railway.app/users',
         options: Options(headers: {'Authorization': 'Bearer $token'}),
       );
-      return response.data;
+      final data = response.data['data'];
+      print(data);
+      return Customer.fromJson(data);
     } on DioException catch (e) {
       print('DioException: ${e.message}');
       print('Response status code: ${e.response?.statusCode}');

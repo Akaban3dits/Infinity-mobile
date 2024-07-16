@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:infinity_bank/domain/models/Updated/Customers/api_provider.dart';
 import 'package:infinity_bank/presentation/blocs/Updated/Auth/auth_bloc.dart';
 import 'package:infinity_bank/presentation/blocs/Updated/Auth/auth_event.dart';
 import 'package:infinity_bank/presentation/blocs/Updated/Auth/auth_state.dart';
@@ -23,7 +24,7 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: BlocProvider(
-      create: (_) => AuthBloc(),
+      create: (_) => AuthBloc(ApiProvider()),
       child: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthAuthenticated) {

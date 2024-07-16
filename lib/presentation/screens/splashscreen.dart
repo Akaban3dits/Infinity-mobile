@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:infinity_bank/presentation/blocs/text_styles.dart';
 import 'package:infinity_bank/presentation/screens/login.dart';
-import 'package:infinity_bank/presentation/screens/register_user.dart';
 
 class SplashScreen extends StatefulWidget {
   // ignore: use_super_parameters

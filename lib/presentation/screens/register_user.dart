@@ -43,7 +43,7 @@ class _RegisterUserState extends State<RegisterUser> {
       create: (context) => CustomerBloc(
         LoadCustomerData(CustomerRepositoryImpl()),
         ApiProvider(), // Proveedor de datos para el registro
-      )..add(LoadCustomerDataEvent()),
+      ),
       child: Scaffold(
         backgroundColor: AppColorStyle.primary,
         body: Center(
@@ -63,13 +63,6 @@ class _RegisterUserState extends State<RegisterUser> {
             },
             child: BlocBuilder<CustomerBloc, CustomerState>(
               builder: (BuildContext context, CustomerState state) {
-                nameController.text = state.firstName;
-                lastNameController.text = state.lastName;
-                emailController.text = state.email;
-                passwordController.text = state.password;
-                rfcController.text = state.rfc;
-                phoneNumberController.text = state.phoneNumber;
-
                 return Form(
                   key: _formKey,
                   child: Column(
@@ -79,9 +72,7 @@ class _RegisterUserState extends State<RegisterUser> {
                         height: 50.0,
                         child: TextfUs(
                           onChanged: (value) {
-                            context
-                                .read<CustomerBloc>()
-                                .add(FirstNameChanged(value));
+                            context.read<CustomerBloc>().add(FirstNameChanged(value));
                           },
                           controller: nameController,
                           hintText: "Nombre",
@@ -100,9 +91,7 @@ class _RegisterUserState extends State<RegisterUser> {
                         height: 50.0,
                         child: TextfUs(
                           onChanged: (value) {
-                            context
-                                .read<CustomerBloc>()
-                                .add(LastNameChanged(value));
+                            context.read<CustomerBloc>().add(LastNameChanged(value));
                           },
                           controller: lastNameController,
                           hintText: "Apellido",
@@ -140,9 +129,7 @@ class _RegisterUserState extends State<RegisterUser> {
                         height: 50.0,
                         child: TextfUs(
                           onChanged: (value) {
-                            context
-                                .read<CustomerBloc>()
-                                .add(PasswordChanged(value));
+                            context.read<CustomerBloc>().add(PasswordChanged(value));
                           },
                           controller: passwordController,
                           hintText: "Contraseña",
@@ -161,9 +148,7 @@ class _RegisterUserState extends State<RegisterUser> {
                         height: 50.0,
                         child: TextfUs(
                           onChanged: (value) {
-                            context
-                                .read<CustomerBloc>()
-                                .add(PhoneNumberChanged(value));
+                            context.read<CustomerBloc>().add(PhoneNumberChanged(value));
                           },
                           controller: phoneNumberController,
                           hintText: "Teléfono",
@@ -214,12 +199,10 @@ class _RegisterUserState extends State<RegisterUser> {
                                 'rfc': rfcController.text,
                                 'phone': phoneNumberController.text,
                                 'password': passwordController.text,
-                                'id_bank': 1, // Ajusta según tu lógica
+                                'id_bank': 3, 
                               };
                               print("Sending user data: $userData"); // Imprime los datos que se están enviando
-                              context
-                                  .read<CustomerBloc>()
-                                  .add(RegisterUserEvent(userData));
+                              context.read<CustomerBloc>().add(RegisterUserEvent(userData));
                             }
                           },
                           child: const Text(

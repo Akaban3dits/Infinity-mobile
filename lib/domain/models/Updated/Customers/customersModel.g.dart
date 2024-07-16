@@ -5,27 +5,26 @@ part of 'customersModel.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-
-
-Customer _$CustomerFromJson(Map<String, dynamic> json) => Customer(
-      id: json['id'] as int,
-      firstName: json['firstName'] as String,
-      lastName: json['lastName'] as String,
-      email: json['email'] as String,
-      phoneNumber: json['phoneNumber'] as String,
-      rfc: json['rfc'] as String,
-      password: json['password'] as String,
-      idbank: json['idbank'] as int
-    );
+Customer _$CustomerFromJson(Map<String, dynamic> json) {
+  return Customer(
+    id: json['id'] as int? ?? 0,
+    firstName: json['name'] as String? ?? '',
+    lastName: json['lastname'] as String? ?? '',
+    email: json['email'] as String? ?? '',
+    phoneNumber: json['phone'] as String? ?? '',
+    rfc: json['rfc'] as String? ?? '',
+    password: json['password'] as String? ?? '',
+    idbank: json['id_bank'] as int? ?? 0,
+  );
+}
 
 Map<String, dynamic> _$CustomerToJson(Customer instance) => <String, dynamic>{
       'id': instance.id,
-      'firstName': instance.firstName,
-      'lastName': instance.lastName,
+      'name': instance.firstName,
+      'lastname': instance.lastName,
       'email': instance.email,
-      'phoneNumber': instance.phoneNumber,
+      'phone': instance.phoneNumber,
       'rfc': instance.rfc,
       'password': instance.password,
-      'idbank': instance.idbank
-
+      'id_bank': instance.idbank,
     };

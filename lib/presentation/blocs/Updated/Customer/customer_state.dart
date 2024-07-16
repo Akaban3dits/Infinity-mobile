@@ -17,9 +17,9 @@ class CustomerState extends Equatable {
     this.lastName = '',
     this.email = '',
     this.phoneNumber = '',
-    this.idbank = 0,
     this.password = '',
-    this.rfc = ''
+    this.rfc = '',
+    this.idbank = 0,
   });
 
   CustomerState copyWith({
@@ -45,7 +45,7 @@ class CustomerState extends Equatable {
   }
 
   @override
-  List<Object> get props => [id, firstName, lastName, password, idbank, rfc, email, phoneNumber];
+  List<Object> get props => [id, firstName, lastName, email, phoneNumber, password, rfc, idbank];
 
   factory CustomerState.fromModel(Customer model) {
     return CustomerState(
@@ -62,14 +62,14 @@ class CustomerState extends Equatable {
 
   factory CustomerState.fromJson(Map<String, dynamic> json) {
     return CustomerState(
-      id: json['id'],
-      firstName: json['name'],
-      lastName: json['lastname'],
-      email: json['email'],
-      phoneNumber: json['phone'],
-      password: json['password'],
-      rfc: json['rfc'],
-      idbank: json['id_bank'],
+      id: json['id'] ?? 0,
+      firstName: json['name'] ?? '',
+      lastName: json['lastname'] ?? '',
+      email: json['email'] ?? '',
+      phoneNumber: json['phone'] ?? '',
+      password: json['password'] ?? '',
+      rfc: json['rfc'] ?? '',
+      idbank: json['id_bank'] ?? 0,
     );
   }
 }

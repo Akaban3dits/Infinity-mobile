@@ -20,10 +20,21 @@ class Customer {
     required this.phoneNumber,
     required this.rfc,
     required this.password,
-    required this.idbank
+    required this.idbank,
   });
 
-  factory Customer.fromJson(Map<String, dynamic> json) =>
-      _$CustomerFromJson(json);
+  factory Customer.fromJson(Map<String, dynamic> json) {
+    return Customer(
+      id: json['id'] as int? ?? 0,
+      firstName: json['name'] as String? ?? '',
+      lastName: json['lastname'] as String? ?? '',
+      email: json['email'] as String? ?? '',
+      phoneNumber: json['phone'] as String? ?? '',
+      rfc: json['rfc'] as String? ?? '',
+      password: json['password'] as String? ?? '',
+      idbank: json['id_bank'] as int? ?? 0,
+    );
+  }
+
   Map<String, dynamic> toJson() => _$CustomerToJson(this);
 }

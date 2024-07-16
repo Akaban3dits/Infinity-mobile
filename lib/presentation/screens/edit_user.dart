@@ -8,7 +8,6 @@ import 'package:infinity_bank/presentation/blocs/Updated/Customer/customer_state
 import 'package:infinity_bank/presentation/blocs/text_styles.dart';
 import 'package:infinity_bank/presentation/widgets/texfld.dart';
 import 'package:infinity_bank/domain/models/Updated/Customers/api_provider.dart';
-
 class EditUserScreen extends StatefulWidget {
   const EditUserScreen({super.key});
 
@@ -35,7 +34,6 @@ class _EditUserScreenState extends State<EditUserScreen> {
     phoneController = TextEditingController();
     rfcController = TextEditingController();
     passwordController = TextEditingController();
-    context.read<CustomerBloc>().add(const LoadUserDataEvent());
   }
 
   @override
@@ -54,7 +52,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
     return BlocProvider(
       create: (context) => CustomerBloc(
         LoadCustomerData(CustomerRepositoryImpl()),
-        ApiProvider(), // Proveedor de datos para la actualización
+        ApiProvider(),
       )..add(const LoadUserDataEvent()),
       child: Scaffold(
         backgroundColor: AppColorStyle.primary,
@@ -78,12 +76,25 @@ class _EditUserScreenState extends State<EditUserScreen> {
                 if (state is CustomerLoading) {
                   return const CircularProgressIndicator();
                 } else if (state is CustomerState) {
-                  nameController.text = state.firstName;
-                  lastNameController.text = state.lastName;
-                  emailController.text = state.email;
-                  phoneController.text = state.phoneNumber;
-                  rfcController.text = state.rfc;
-                  passwordController.text = state.password;
+                  // Actualiza los controladores de texto cuando se carga el estado
+                  if (state.firstName.isNotEmpty) {
+                    nameController.text = state.firstName;
+                  }
+                  if (state.lastName.isNotEmpty) {
+                    lastNameController.text = state.lastName;
+                  }
+                  if (state.email.isNotEmpty) {
+                    emailController.text = state.email;
+                  }
+                  if (state.phoneNumber.isNotEmpty) {
+                    phoneController.text = state.phoneNumber;
+                  }
+                  if (state.rfc.isNotEmpty) {
+                    rfcController.text = state.rfc;
+                  }
+                  if (state.password.isNotEmpty) {
+                    passwordController.text = state.password;
+                  }
 
                   return Form(
                     key: _formKey,
