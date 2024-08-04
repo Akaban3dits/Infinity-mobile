@@ -184,7 +184,7 @@ class _ReferenciaState extends State<Referencia> {
                             NotificationService.showNotification(body);
                           },
                           style: const ButtonStyle(
-                              backgroundColor: MaterialStatePropertyAll(
+                              backgroundColor: WidgetStatePropertyAll(
                                   AppColorStyle.primary)),
                           child: Text(
                             "Pagar",

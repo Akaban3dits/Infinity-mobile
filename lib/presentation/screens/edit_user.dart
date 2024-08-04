@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:infinity_bank/domain/repositories/Updated/Customer/customer_repository_impl.dart';
-import 'package:infinity_bank/domain/usecases/Updated/Customer/loadcustomer.dart';
-import 'package:infinity_bank/presentation/blocs/Updated/Customer/customer_bloc.dart';
-import 'package:infinity_bank/presentation/blocs/Updated/Customer/customer_event.dart';
-import 'package:infinity_bank/presentation/blocs/Updated/Customer/customer_state.dart';
+import 'package:infinity_bank/domain/ApiProvider/Customer/customerProvider.dart';
+import 'package:infinity_bank/domain/Model/Customer/customerModel.dart';
+import 'package:infinity_bank/domain/Repository/Customer/customer_repository_impl.dart';
+import 'package:infinity_bank/presentation/blocs/Bloc/CustomerBLoC/customerbloc.dart';
+import 'package:infinity_bank/presentation/blocs/Bloc/CustomerBLoC/customerevent.dart';
+import 'package:infinity_bank/presentation/blocs/Bloc/CustomerBLoC/customerstate.dart';
 import 'package:infinity_bank/presentation/blocs/text_styles.dart';
 import 'package:infinity_bank/presentation/widgets/texfld.dart';
-import 'package:infinity_bank/domain/models/Updated/Customers/api_provider.dart';
+
 class EditUserScreen extends StatefulWidget {
   const EditUserScreen({super.key});
 
@@ -50,208 +51,335 @@ class _EditUserScreenState extends State<EditUserScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => CustomerBloc(
-        LoadCustomerData(CustomerRepositoryImpl()),
-        ApiProvider(),
-      )..add(const LoadUserDataEvent()),
+      create: (context) =>
+          CustomerBloc(repository: CustomerRepositoryImpl(CustomerProvider()))
+            ..add(GetCustomerEvent()),
       child: Scaffold(
         backgroundColor: AppColorStyle.primary,
-        body: Center(
-          child: BlocListener<CustomerBloc, CustomerState>(
-            listener: (context, state) {
-              if (state is UserUpdated) {
-                print("User updated successfully");
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  content: Text('User updated successfully!'),
-                ));
-              } else if (state is CustomerError) {
-                print("Error: ${state.message}");
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(state.message),
-                ));
-              }
-            },
-            child: BlocBuilder<CustomerBloc, CustomerState>(
-              builder: (BuildContext context, CustomerState state) {
-                if (state is CustomerLoading) {
-                  return const CircularProgressIndicator();
-                } else if (state is CustomerState) {
-                  // Actualiza los controladores de texto cuando se carga el estado
-                  if (state.firstName.isNotEmpty) {
-                    nameController.text = state.firstName;
-                  }
-                  if (state.lastName.isNotEmpty) {
-                    lastNameController.text = state.lastName;
-                  }
-                  if (state.email.isNotEmpty) {
-                    emailController.text = state.email;
-                  }
-                  if (state.phoneNumber.isNotEmpty) {
-                    phoneController.text = state.phoneNumber;
-                  }
-                  if (state.rfc.isNotEmpty) {
-                    rfcController.text = state.rfc;
-                  }
-                  if (state.password.isNotEmpty) {
-                    passwordController.text = state.password;
-                  }
+        body: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 80.0),
+          child: Column(
+            children: [
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Image.asset(
+                      'assets/images/InfinityVerticalLogo 1.png',
+                      width: 150,
+                    )
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20.0),
+                child: Center(
+                  child: BlocListener<CustomerBloc, CustomerState>(
+                    listener: (context, state) {
+                      if (state is CustomerUpdated) {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: const Text('Actualización Exitosa'),
+                              content: const Text(
+                                  'El usuario fue actualizado exitosamente.'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text('OK'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      } else if (state is CustomerError) {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: const Text('Error'),
+                              content: Text(state.message),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text('OK'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }
+                    },
+                    child: BlocBuilder<CustomerBloc, CustomerState>(
+                      builder: (BuildContext context, CustomerState state) {
+                        if (state is CustomerLoading) {
+                          return const CircularProgressIndicator();
+                        } else if (state is CustomerLoaded) {
+                          nameController.text = state.customer.firstName;
+                          lastNameController.text = state.customer.lastName;
+                          emailController.text = state.customer.email;
+                          phoneController.text = state.customer.phoneNumber;
+                          rfcController.text = state.customer.rfc;
+                          return Form(
+                            key: _formKey,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 50.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Text("Nombre",
+                                            style: AppTextStyles.h4s1.copyWith(
+                                                color: AppColorStyle.white)),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 50.0,
+                                  child: TextfUs(
+                                    onChanged: (value) {
+                                      context
+                                          .read<CustomerBloc>()
+                                          .add(FirstNameChanged(value));
+                                    },
+                                    controller: nameController,
+                                    hintText: "Nombre",
+                                    obscureText: false,
+                                    icon: AppIconStyle.person,
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'Please enter your name';
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                ),
+                                SizedBox(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 50.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Text("Apellido",
+                                            style: AppTextStyles.h4s1.copyWith(
+                                                color: AppColorStyle.white)),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 50.0,
+                                  child: TextfUs(
+                                    onChanged: (value) {
+                                      context
+                                          .read<CustomerBloc>()
+                                          .add(LastNameChanged(value));
+                                    },
+                                    controller: lastNameController,
+                                    hintText: "Apellido",
+                                    obscureText: false,
+                                    icon: AppIconStyle.person,
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'Please enter your lastname';
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                ),
+                                SizedBox(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 50.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Text("Correo",
+                                            style: AppTextStyles.h4s1.copyWith(
+                                                color: AppColorStyle.white)),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 50.0,
+                                  child: TextfUs(
+                                    onChanged: (value) {
+                                      context
+                                          .read<CustomerBloc>()
+                                          .add(EmailChanged(value));
+                                    },
+                                    controller: emailController,
+                                    hintText: "Correo",
+                                    obscureText: false,
+                                    icon: AppIconStyle.email,
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'Please enter your email';
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                ),
+                                SizedBox(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 50.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Text("Teléfono",
+                                            style: AppTextStyles.h4s1.copyWith(
+                                                color: AppColorStyle.white)),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 50.0,
+                                  child: TextfUs(
+                                    onChanged: (value) {
+                                      context
+                                          .read<CustomerBloc>()
+                                          .add(PhoneNumberChanged(value));
+                                    },
+                                    controller: phoneController,
+                                    hintText: "Teléfono",
+                                    obscureText: false,
+                                    icon: AppIconStyle.phone,
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'Please enter your phone';
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                ),
+                                SizedBox(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 50.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Text("RFC",
+                                            style: AppTextStyles.h4s1.copyWith(
+                                                color: AppColorStyle.white)),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 50.0,
+                                  child: TextfUs(
+                                    onChanged: (value) {
+                                      context
+                                          .read<CustomerBloc>()
+                                          .add(RFCChanged(value));
+                                    },
+                                    controller: rfcController,
+                                    hintText: "RFC",
+                                    obscureText: false,
+                                    icon: AppIconStyle.file,
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'Please enter your RFC';
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                ),
+                                const SizedBox(height: 10.0),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 70),
+                                  width: double.infinity,
+                                  height: 40.0,
+                                  child: ElevatedButton(
+                                    style: ButtonStyle(
+                                      backgroundColor: WidgetStateProperty.all(
+                                          AppColorStyle.secundary),
+                                    ),
+                                    onPressed: () async {
+                                      if (_formKey.currentState?.validate() ??
+                                          false) {
+                                        final customerData = Customer(
+                                          id: state.customer.id,
+                                          firstName: nameController.text,
+                                          lastName: lastNameController.text,
+                                          email: emailController.text,
+                                          rfc: rfcController.text,
+                                          phoneNumber: phoneController.text,
+                                          password: state.customer.password,
+                                          idbank: state.customer.idbank,
+                                        );
 
-                  return Form(
-                    key: _formKey,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          height: 50.0,
-                          child: TextfUs(
-                            onChanged: (value) {
-                              context.read<CustomerBloc>().add(FirstNameChanged(value));
-                            },
-                            controller: nameController,
-                            hintText: "Nombre",
-                            obscureText: false,
-                            icon: AppIconStyle.person,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter your name';
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                        const SizedBox(height: 10.0),
-                        SizedBox(
-                          height: 50.0,
-                          child: TextfUs(
-                            onChanged: (value) {
-                              context.read<CustomerBloc>().add(LastNameChanged(value));
-                            },
-                            controller: lastNameController,
-                            hintText: "Apellido",
-                            obscureText: false,
-                            icon: AppIconStyle.person,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter your lastname';
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                        const SizedBox(height: 10.0),
-                        SizedBox(
-                          height: 50.0,
-                          child: TextfUs(
-                            onChanged: (value) {
-                              context.read<CustomerBloc>().add(EmailChanged(value));
-                            },
-                            controller: emailController,
-                            hintText: "Correo",
-                            obscureText: false,
-                            icon: AppIconStyle.email,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter your email';
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                        const SizedBox(height: 10.0),
-                        SizedBox(
-                          height: 50.0,
-                          child: TextfUs(
-                            onChanged: (value) {
-                              context.read<CustomerBloc>().add(PhoneNumberChanged(value));
-                            },
-                            controller: phoneController,
-                            hintText: "Teléfono",
-                            obscureText: false,
-                            icon: AppIconStyle.phone,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter your phone';
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                        const SizedBox(height: 10.0),
-                        SizedBox(
-                          height: 50.0,
-                          child: TextfUs(
-                            onChanged: (value) {
-                              context.read<CustomerBloc>().add(RFCChanged(value));
-                            },
-                            controller: rfcController,
-                            hintText: "RFC",
-                            obscureText: false,
-                            icon: AppIconStyle.file,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter your RFC';
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                        const SizedBox(height: 10.0),
-                        SizedBox(
-                          height: 50.0,
-                          child: TextfUs(
-                            onChanged: (value) {
-                              context.read<CustomerBloc>().add(PasswordChanged(value));
-                            },
-                            controller: passwordController,
-                            hintText: "Contraseña",
-                            obscureText: true,
-                            icon: AppIconStyle.password,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter your password';
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                        const SizedBox(height: 10.0),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 70),
-                          width: double.infinity,
-                          height: 40.0,
-                          child: ElevatedButton(
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all(AppColorStyle.secundary),
+                                        final customerBloc =
+                                            context.read<CustomerBloc>();
+                                        final errorMessage = await customerBloc
+                                            .updateCustomerUseCase
+                                            .call(customerData);
+
+                                        if (errorMessage == null) {
+                                          customerBloc.add(UpdateCustomerEvent(
+                                              customerData));
+                                        } else {
+                                          showDialog(
+                                            // ignore: use_build_context_synchronously
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                title: const Text('Error'),
+                                                content: Text(errorMessage),
+                                                actions: [
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                    child: const Text('OK'),
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
+                                        }
+                                      }
+                                    },
+                                    child: Text(
+                                      "Actualizar",
+                                      style: AppTextStyles.h3s1
+                                          .copyWith(color: AppColorStyle.white),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                            onPressed: () {
-                              if (_formKey.currentState?.validate() ?? false) {
-                                final userData = {
-                                  'id': state.id,
-                                  'name': nameController.text,
-                                  'lastname': lastNameController.text,
-                                  'email': emailController.text,
-                                  'rfc': rfcController.text,
-                                  'phone': phoneController.text,
-                                  'password': passwordController.text,
-                                  'id_bank': state.idbank,
-                                };
-                                print("Updating user data: $userData");
-                                context.read<CustomerBloc>().add(UpdateUserEvent(userData));
-                              }
-                            },
-                            child: const Text(
-                              "Actualizar",
-                              style: TextStyle(color: AppColorStyle.white),
-                            ),
-                          ),
-                        ),
-                      ],
+                          );
+                        }
+                        return Container();
+                      },
                     ),
-                  );
-                }
-                return Container();
-              },
-            ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),

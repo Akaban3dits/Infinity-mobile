@@ -6,14 +6,14 @@ class DataCard extends StatefulWidget {
       {super.key,
       required this.money,
       required this.names,
-      required this.vig,
-      required this.vig1,
+      this.vig,
+      this.vig1,
       required this.account});
 
   final String names;
   final double money;
-  final int vig;
-  final int vig1;
+  final int? vig;
+  final int? vig1;
   final String account;
 
   @override
@@ -83,9 +83,7 @@ class _DataCardState extends State<DataCard> {
                   _buildDataContainer(
                       AppIconStyle.money, "Saldo", "\$${widget.money}"),
                   _buildDataContainer(
-                      AppIconStyle.accbox, "Numero de cuenta", widget.account),
-                  _buildDataContainer(
-                      AppIconStyle.date, "Vigencia", "${widget.vig.toString()}/${ widget.vig1.toString()}")
+                      AppIconStyle.accbox, "Numero de cuenta", widget.account)
                 ],
               ),
             ),

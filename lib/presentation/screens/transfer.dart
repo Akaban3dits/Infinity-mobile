@@ -103,7 +103,7 @@ class _TransferPageState extends State<TransferPage> {
                       return ButtonPearson(
                         link_image_profile: usuario.url,
                         name: usuario.nombre,
-                        account_num: usuario.numeroDeCuenta,
+                        account_num: "usuario.numeroDeCuenta",
                       );
                     } else {
                       return const SizedBox(width: 10);
@@ -265,7 +265,7 @@ class _TransferPageState extends State<TransferPage> {
                                 }
                               },
                               style: const ButtonStyle(
-                                  backgroundColor: MaterialStatePropertyAll(
+                                  backgroundColor: WidgetStatePropertyAll(
                                       AppColorStyle.primary)),
                               child: Text(
                                 "Enviar",
@@ -273,14 +273,14 @@ class _TransferPageState extends State<TransferPage> {
                                     .copyWith(color: AppColorStyle.white),
                               )),
                         ),
-                        SizedBox(width: 12),
+                        const SizedBox(width: 12),
                         ElevatedButton(
                             onPressed: () {
                               Navigator.pop(context);
                             },
                             style: const ButtonStyle(
                                 backgroundColor:
-                                    MaterialStatePropertyAll(Colors.red)),
+                                    WidgetStatePropertyAll(Colors.red)),
                             child: Text(
                               "Cancel operation",
                               style: AppTextStyles.h4s1
@@ -448,7 +448,7 @@ class _TransferPageState extends State<TransferPage> {
                                 }
                               },
                               style: const ButtonStyle(
-                                  backgroundColor: MaterialStatePropertyAll(
+                                  backgroundColor: WidgetStatePropertyAll(
                                       AppColorStyle.primary)),
                               child: Text(
                                 "Enviar",
@@ -465,7 +465,7 @@ class _TransferPageState extends State<TransferPage> {
                             },
                             style: const ButtonStyle(
                                 backgroundColor:
-                                    MaterialStatePropertyAll(Colors.red)),
+                                    WidgetStatePropertyAll(Colors.red)),
                             child: Text(
                               "Cancel operation",
                               style: AppTextStyles.h4s1

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:infinity_bank/domain/ApiProvider/AuthProvider/authprovider.dart';
 import 'package:infinity_bank/presentation/blocs/text_styles.dart';
 import 'package:infinity_bank/presentation/screens/edit_user.dart';
 import 'package:infinity_bank/presentation/screens/login.dart';
-import 'package:infinity_bank/presentation/screens/register_account.dart';
 import 'package:infinity_bank/presentation/screens/register_user.dart';
 import 'package:infinity_bank/presentation/widgets/TileSetting.dart';
 
 class Profileinfo extends StatefulWidget {
-  const Profileinfo({super.key});
-
+  Profileinfo({super.key});
+  final AuthProvider _authprovider = AuthProvider();
   @override
   State<Profileinfo> createState() => _ProfileinfoState();
 }
@@ -30,9 +30,21 @@ class _ProfileinfoState extends State<Profileinfo> {
           child: Column(
             children: [
               BtnTileSetts(
-                icon: Icons.account_balance_wallet,
-                title: "Billetera",
-                subtitle: "Gestiona tu billetera y tarjetas",
+                icon: Icons.person_add,
+                title: "Registrar nuevo usuario",
+                subtitle: "Crea una nueva cuenta para tus amigos",
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const RegisterUser()),
+                  );
+                },
+              ),
+              BtnTileSetts(
+                icon: Icons.edit,
+                title: "Edita tu perfil",
+                subtitle: "Edita la informacion de tu perfil",
                 onTap: () {
                   Navigator.push(
                     context,
@@ -46,25 +58,7 @@ class _ProfileinfoState extends State<Profileinfo> {
                 icon: Icons.swap_horiz,
                 title: "Límites de Transferencia",
                 subtitle: "Administra tus límites de transferencia",
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const RegisterAccount()),
-                  );
-                },
-              ),
-              BtnTileSetts(
-                icon: Icons.payment,
-                title: "Métodos de Pago",
-                subtitle: "Edita tus métodos de pago",
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const RegisterUser()),
-                  );
-                },
+                onTap: () {},
               ),
               BtnTileSetts(
                 icon: Icons.history,
@@ -82,8 +76,10 @@ class _ProfileinfoState extends State<Profileinfo> {
                 icon: Icons.exit_to_app,
                 title: "Cerrar Sesión",
                 subtitle: "Cierra la sesión de tu cuenta",
-                onTap: () {
+                onTap: () async {
+                  await widget._authprovider.logout();
                   Navigator.pushReplacement(
+                    // ignore: use_build_context_synchronously
                     context,
                     MaterialPageRoute(builder: (context) => const Login()),
                   );

@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:infinity_bank/presentation/blocs/Bloc/AccountBLoC/accountbloc.dart';
+import 'package:infinity_bank/presentation/blocs/Bloc/AccountBLoC/accountevent.dart';
+import 'package:infinity_bank/presentation/blocs/Bloc/AccountBLoC/accountstate.dart';
 import 'package:intl/intl.dart';
 import 'package:infinity_bank/presentation/blocs/text_styles.dart';
 import 'package:infinity_bank/presentation/screens/profileinfo.dart';
@@ -18,6 +22,7 @@ class _SettingsState extends State<Settings> {
   void initState() {
     super.initState();
     tabTitles = getTabTitles();
+    context.read<AccountBloc>().add(GetAccountEvent());
   }
 
   List<String> getTabTitles() {
@@ -53,27 +58,42 @@ class _SettingsState extends State<Settings> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 5),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Rosario Joahan",
-                          style: AppTextStyles.h2s1.copyWith(color: AppColorStyle.white),
-                        )
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Akaban3dits",
-                          style: AppTextStyles.h4s1.copyWith(color: AppColorStyle.white.withOpacity(0.2)),
-                        )
-                      ],
-                    ),
-                  ],
+                child: BlocBuilder<AccountBloc, AccountState>(
+                  builder: (context, state) {
+                    if (state is AccountLoaded) {
+                      final usuario = state.account.usuario;
+                      return Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "${usuario?.lastName} ${usuario?.firstName}",
+                                style: AppTextStyles.h2s1.copyWith(color: AppColorStyle.white),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                usuario!.email,
+                                style: AppTextStyles.h4s1.copyWith(color: AppColorStyle.white.withOpacity(0.2)),
+                              ),
+                            ],
+                          ),
+                        ],
+                      );
+                    } else if (state is AccountLoading) {
+                      return const CircularProgressIndicator();
+                    } else if (state is AccountError) {
+                      return Text(
+                        'Error: ${state.message}',
+                        style: AppTextStyles.h4s1.copyWith(color: AppColorStyle.white.withOpacity(0.2)),
+                      );
+                    }
+                    return Container();
+                  },
                 ),
               ),
               PreferredSize(
@@ -108,12 +128,12 @@ class _SettingsState extends State<Settings> {
                   ),
                 ),
               ),
-              const Expanded(
+              Expanded(
                 child: TabBarView(
                   children: [
                     Center(child: Profileinfo()),
-                    Center(child: Profileinfo2()),
-                    Center(child: ProfileInfo3()),
+                    const Center(child: Profileinfo2()),
+                    const Center(child: ProfileInfo3()),
                   ],
                 ),
               ),

@@ -108,7 +108,7 @@ class _InfomovesState extends State<Infomoves> {
                   },
                   style: ButtonStyle(
                       backgroundColor:
-                          MaterialStateProperty.all(AppColorStyle.red)),
+                          WidgetStateProperty.all(AppColorStyle.red)),
                   child: Text("Enviar Reclamo",
                       style: AppTextStyles.h3s1
                           .copyWith(color: AppColorStyle.white)),

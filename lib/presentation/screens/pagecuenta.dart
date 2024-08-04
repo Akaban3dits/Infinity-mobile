@@ -130,7 +130,7 @@ class _EDOscreenState extends State<EDOscreen> {
                 Expanded(
                     child: ElevatedButton(
                         style: const ButtonStyle(
-                            backgroundColor: MaterialStatePropertyAll(
+                            backgroundColor: WidgetStatePropertyAll(
                                 AppColorStyle.primary)),
                         onPressed: () {
                           String body = "Ha comenzado la descarga de tu Estado de cuenta de ${widget.month2}";

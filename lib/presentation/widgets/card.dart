@@ -6,16 +6,14 @@ import 'package:intl/intl.dart';
 class CCard extends StatefulWidget {
   const CCard(
       {super.key,
+      required this.accountF,
       required this.money,
       required this.names,
-      required this.vig,
-      required this.vig1,
       required this.account});
   final String names;
   final double money;
-  final int vig;
-  final int vig1;
   final String account;
+  final String accountF;
 
   @override
   State<CCard> createState() => _CCardState();
@@ -44,19 +42,17 @@ class _CCardState extends State<CCard> {
                     builder: (context) => DataCard(
                         money: widget.money,
                         names: widget.names,
-                        vig: widget.vig,
-                        vig1: widget.vig1,
-                        account: widget.account)));
+                        account: widget.accountF)));
           },
           style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(Colors.transparent),
-            shadowColor: MaterialStateProperty.all(Colors.transparent),
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            backgroundColor: WidgetStateProperty.all(Colors.transparent),
+            shadowColor: WidgetStateProperty.all(Colors.transparent),
+            shape: WidgetStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
             ),
-            overlayColor: MaterialStateProperty.all(Colors.transparent),
+            overlayColor: WidgetStateProperty.all(Colors.transparent),
           ),
           child: Ink(
             decoration: BoxDecoration(
@@ -119,7 +115,7 @@ class _CCardState extends State<CCard> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("**** **** **** ${widget.account}",
+                        Text(widget.account,
                             style: AppTextStyles.h3s2
                                 .copyWith(color: AppColorStyle.white)),
                         Column(
@@ -133,7 +129,7 @@ class _CCardState extends State<CCard> {
                             ),
                             Row(
                               children: [
-                                Text("${widget.vig}/${widget.vig1}",
+                                Text("25/09",
                                     style: AppTextStyles.h4s1
                                         .copyWith(color: AppColorStyle.white))
                               ],

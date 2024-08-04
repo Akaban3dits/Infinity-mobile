@@ -71,7 +71,7 @@ class ModalService {
                                   });
                                 },
                                 style: const ButtonStyle(
-                                    backgroundColor: MaterialStatePropertyAll(
+                                    backgroundColor: WidgetStatePropertyAll(
                                         AppColorStyle.primary)),
                                 child: Text(
                                   "Buscar",
@@ -91,7 +91,7 @@ class ModalService {
                                   Navigator.pop(context);
                                 },
                                 style: const ButtonStyle(
-                                    backgroundColor: MaterialStatePropertyAll(
+                                    backgroundColor: WidgetStatePropertyAll(
                                         AppColorStyle.red)),
                                 child: Text(
                                   "Cancel operation",
