@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinity_bank/domain/Model/Contacts/contactModel.dart';
-import 'package:infinity_bank/domain/entities/movements.dart';
 import 'package:infinity_bank/presentation/blocs/Bloc/AccountBLoC/accountbloc.dart';
 import 'package:infinity_bank/presentation/blocs/Bloc/AccountBLoC/accountevent.dart';
 import 'package:infinity_bank/presentation/blocs/Bloc/AccountBLoC/accountstate.dart';
 import 'package:infinity_bank/presentation/blocs/Bloc/ContactBLoC/contactbloc.dart';
 import 'package:infinity_bank/presentation/blocs/Bloc/ContactBLoC/contactevent.dart';
 import 'package:infinity_bank/presentation/blocs/Bloc/ContactBLoC/contactstate.dart';
+import 'package:infinity_bank/presentation/blocs/Bloc/TransferenceBLoC/transferencebloc.dart';
+import 'package:infinity_bank/presentation/blocs/Bloc/TransferenceBLoC/transferenceevent.dart';
+import 'package:infinity_bank/presentation/blocs/Bloc/TransferenceBLoC/transferencestate.dart';
 import 'package:infinity_bank/presentation/blocs/text_styles.dart';
 import 'package:infinity_bank/presentation/screens/moveview.dart';
 import 'package:infinity_bank/presentation/widgets/Recentlypeople.dart';
@@ -25,8 +27,19 @@ class _CreditCardState extends State<CreditCard> {
   @override
   void initState() {
     super.initState();
+    _loadInitialData();
+  }
+
+  void _loadInitialData() {
     context.read<AccountBloc>().add(GetAccountEvent());
     context.read<ContactBloc>().add(GetContactsEvent());
+    context.read<TransferenceBloc>().add(GetTransferencesEvent());
+  }
+
+  void _reloadData() {
+    context.read<AccountBloc>().add(GetAccountEvent());
+    context.read<ContactBloc>().add(GetContactsEvent());
+    context.read<TransferenceBloc>().add(GetTransferencesEvent());
   }
 
   String formatCardNumber(String cardNumber) {
@@ -54,12 +67,26 @@ class _CreditCardState extends State<CreditCard> {
     }
   }
 
+  String getUsuario(String account, List<Contact> contacts) {
+    for (var contact in contacts) {
+      if (contact.account == account) {
+        return contact.nickname;
+      }
+    }
+    return account; // Si no encuentra un contacto, devuelve la cuenta
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColorStyle.primary,
       body: SafeArea(
-        child: BlocBuilder<AccountBloc, AccountState>(
+        child: BlocConsumer<AccountBloc, AccountState>(
+          listener: (context, state) {
+            if (state is AccountLoaded) {
+              // Acciones adicionales cuando la cuenta se carga
+            }
+          },
           builder: (context, state) {
             if (state is AccountLoaded) {
               final usuario = state.account.usuario;
@@ -84,13 +111,19 @@ class _CreditCardState extends State<CreditCard> {
                     height: 200,
                     child: Center(
                       child: CCard(
-                        money: state.account.balance,
-                        names: "${usuario?.firstName} ${usuario?.lastName}",
-                        account: cards != null && cards.isNotEmpty
-                            ? formatCardNumber(cards[0].cardAccount)
-                            : "No card available",
-                        accountF: cards![0].cardAccount,
-                      ),
+                          name: "${usuario?.firstName} ${usuario?.lastName}",
+                          email: usuario!.email,
+                          phone: usuario.phoneNumber,
+                          formattedCard: cards != null && cards.isNotEmpty
+                              ? formatCardNumber(cards[0].card)
+                              : "No card available",
+                          cardNumber: cards != null && cards.isNotEmpty
+                              ? cards[0].card
+                              : "No card available",
+                          accountNumber: cards != null && cards.isNotEmpty
+                              ? cards[0].cardAccount
+                              : "No card available",
+                          balance: state.account.balance),
                     ),
                   ),
                   Row(
@@ -110,27 +143,48 @@ class _CreditCardState extends State<CreditCard> {
                     builder: (context, contactState) {
                       if (contactState is ContactsLoaded) {
                         final contacts = contactState.contacts;
+                        if (contacts.isEmpty) {
+                          return SizedBox(
+                            height: 120,
+                            child: Center(
+                              child: Text(
+                                'No se encontró ningún contacto',
+                                style: AppTextStyles.h3s1
+                                    .copyWith(color: AppColorStyle.white),
+                              ),
+                            ),
+                          );
+                        }
+
+                        const maxContacts = 6;
+                        final displayedContacts = contacts.length > maxContacts
+                            ? maxContacts
+                            : contacts.length;
                         return SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                const SizedBox(width: 10),
-                                ...List<Widget>.generate(
-                                    contacts.length * 2 - 1, (index) {
-                                  if (index % 2 == 0) {
-                                    Contact contact = contacts[index ~/ 2];
-                                    return ButtonPearson(
-                                      link_image_profile:
-                                          'https://cdn.icon-icons.com/icons2/37/PNG/512/contacts_3695.png',
-                                      name: contact.nickname,
-                                      account_num: contact.account,
-                                    );
-                                  } else {
-                                    return const SizedBox(width: 10);
-                                  }
-                                }),
-                              ]),
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              const SizedBox(width: 10),
+                              ...List<Widget>.generate(
+                                  displayedContacts * 2 - 1, (index) {
+                                if (index % 2 == 0) {
+                                  Contact contact = contacts[index ~/ 2];
+                                  return ButtonPearson(
+                                    name: contact.nickname,
+                                    linkImageProfile:
+                                        'https://i.pinimg.com/564x/e2/41/db/e241dbae7142883c41e5a3e8ef6156eb.jpg',
+                                    accountNum: contact.account,
+                                    owner: usuario.firstName,
+                                    accountowner: cards?[0].cardAccount ?? "",
+                                    onSuccess: _reloadData,
+                                  );
+                                } else {
+                                  return const SizedBox(width: 10);
+                                }
+                              }),
+                            ],
+                          ),
                         );
                       } else if (contactState is ContactLoading) {
                         return const Center(child: CircularProgressIndicator());
@@ -185,24 +239,135 @@ class _CreditCardState extends State<CreditCard> {
                             ),
                             const SizedBox(height: 5),
                             Expanded(
-                              child: ListView.builder(
-                                itemCount:
-                                    MoveList.length > 5 ? 5 : MoveList.length,
-                                itemBuilder: (context, index) {
-                                  final cl = MoveList[index];
-                                  return MovesData(
-                                    usuario: cl.usuario,
-                                    monto: cl.monto,
-                                    fecha: cl.fecha,
-                                    tipo: cl.tipo,
-                                    estado: cl.estado,
-                                    detalle: cl.detalle,
-                                    id: cl.id,
-                                    url: cl.url,
-                                  );
+                              child: BlocBuilder<TransferenceBloc,
+                                  TransferenceState>(
+                                builder: (context, transferenceState) {
+                                  if (transferenceState
+                                      is TransferencesLoaded) {
+                                    final transferences =
+                                        transferenceState.transferences;
+                                    if (transferences.isEmpty) {
+                                      return Center(
+                                          child: Text(
+                                              'No existen movimientos realizados o recibidos.',
+                                              style: AppTextStyles.h4s1
+                                                  .copyWith(
+                                                      color: AppColorStyle
+                                                          .white)));
+                                    }
+
+                                    final userAccounts = cards
+                                        ?.expand((card) =>
+                                            [card.card, card.cardAccount])
+                                        .toList();
+                                    final recentTransferences =
+                                        transferences.reversed.take(5).toList();
+
+                                    return BlocBuilder<ContactBloc,
+                                        ContactState>(
+                                      builder: (context, contactState) {
+                                        if (contactState is ContactsLoaded) {
+                                          final contacts =
+                                              contactState.contacts;
+
+                                          return ListView.builder(
+                                            itemCount:
+                                                recentTransferences.length,
+                                            itemBuilder: (context, index) {
+                                              final transference =
+                                                  recentTransferences[index];
+
+                                              bool isSent =
+                                                  userAccounts != null &&
+                                                      userAccounts.contains(
+                                                          transference
+                                                              .senderAccount);
+                                              bool isReceived =
+                                                  userAccounts != null &&
+                                                      userAccounts.contains(
+                                                          transference
+                                                              .receptorAccount);
+
+                                              String type;
+                                              String estado;
+
+                                              if (isSent) {
+                                                type = "Transferencia enviada";
+                                                estado = "Enviado";
+                                              } else if (isReceived) {
+                                                type = "Transferencia recibida";
+                                                estado = "Recibido";
+                                              } else {
+                                                type = "Desconocido";
+                                                estado = "Desconocido";
+                                              }
+
+                                              String usuario = getUsuario(
+                                                isSent
+                                                    ? transference
+                                                        .receptorAccount
+                                                    : transference
+                                                        .senderAccount,
+                                                contacts,
+                                              );
+
+                                              return MovesData(
+                                                usuario: usuario,
+                                                monto: transference.amount,
+                                                tipo: type,
+                                                estado: estado,
+                                                detalle: transference.concept,
+                                                id: isSent
+                                                    ? transference
+                                                        .receptorAccount
+                                                    : transference
+                                                        .senderAccount,
+                                                enviado: isSent,
+                                              );
+                                            },
+                                          );
+                                        } else if (contactState
+                                            is ContactLoading) {
+                                          return const Center(
+                                              child:
+                                                  CircularProgressIndicator());
+                                        } else if (contactState
+                                            is ContactError) {
+                                          return Center(
+                                            child: Text(
+                                              'Error al cargar contactos: ${contactState.message}',
+                                              style: AppTextStyles.h3s1
+                                                  .copyWith(color: Colors.red),
+                                            ),
+                                          );
+                                        } else {
+                                          return const Center(
+                                              child: Text(
+                                                  'Estado desconocido de contactos.'));
+                                        }
+                                      },
+                                    );
+                                  } else if (transferenceState
+                                      is TransferenceLoading) {
+                                    return const Center(
+                                        child: CircularProgressIndicator());
+                                  } else if (transferenceState
+                                      is TransferenceError) {
+                                    return Center(
+                                      child: Text(
+                                        'Error al cargar transferencias: ${transferenceState.message}',
+                                        style: AppTextStyles.h3s1
+                                            .copyWith(color: Colors.red),
+                                      ),
+                                    );
+                                  } else {
+                                    return const Center(
+                                        child: Text(
+                                            'Estado desconocido de transferencias.'));
+                                  }
                                 },
                               ),
-                            ),
+                            )
                           ],
                         ),
                       ),

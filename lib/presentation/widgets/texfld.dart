@@ -9,9 +9,10 @@ class TextfUs extends StatefulWidget {
     required this.icon,
     this.controller,
     this.onChanged,
-    this.keyboard,
+    this.keyboardType,
     this.validator,
-    this.ocultar = false, 
+    this.ocultar = false,
+    this.maxLength,
   });
 
   final String hintText;
@@ -19,9 +20,10 @@ class TextfUs extends StatefulWidget {
   final IconData icon;
   final TextEditingController? controller;
   final ValueChanged<String>? onChanged;
-  final TextInputType? keyboard;
+  final TextInputType? keyboardType;
   final String? Function(String?)? validator;
-  final bool ocultar; 
+  final bool ocultar;
+  final int? maxLength;
 
   @override
   // ignore: library_private_types_in_public_api
@@ -42,11 +44,12 @@ class _TextfUsState extends State<TextfUs> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 30.0),
       child: TextFormField(
-        keyboardType: widget.keyboard,
+        keyboardType: widget.keyboardType,
         onChanged: widget.onChanged,
         obscureText: _obscureText,
         controller: widget.controller,
         validator: widget.validator,
+        maxLength: widget.maxLength,
         decoration: InputDecoration(
           enabledBorder: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(15)),
@@ -72,6 +75,7 @@ class _TextfUsState extends State<TextfUs> {
                   },
                 )
               : null,
+          counterText: '', // Elimina el texto del contador
         ),
       ),
     );

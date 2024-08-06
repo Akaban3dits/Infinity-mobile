@@ -2,26 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:infinity_bank/presentation/blocs/notifservice.dart';
 import 'package:infinity_bank/presentation/blocs/text_styles.dart';
 
-// ignore: must_be_immutable
 class Infomoves extends StatefulWidget {
-  Infomoves({
+  const Infomoves({
     super.key,
     required this.usuario,
     required this.monto,
-    required this.fecha,
+    this.fecha,
     required this.tipo,
     required this.estado,
     required this.detalle,
     required this.id,
   });
 
-  String usuario;
-  double monto; 
-  DateTime fecha;
-  String tipo;
-  String estado;
-  String detalle;
-  String id;
+  final String usuario;
+  final double monto;
+  final DateTime? fecha;
+  final String tipo;
+  final String estado;
+  final String detalle;
+  final String id;
 
   @override
   State<Infomoves> createState() => _InfomovesState();
@@ -36,10 +35,10 @@ class _InfomovesState extends State<Infomoves> {
         iconTheme: const IconThemeData(color: AppColorStyle.white),
         title: Row(
           children: [
-            const Icon(AppIconStyle.info, color: AppColorStyle.white),
+            const Icon(Icons.info, color: AppColorStyle.white),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 4),
-              child: Text("Informacion del movimiento",
+              child: Text("Información del movimiento",
                   style:
                       AppTextStyles.h3s1.copyWith(color: AppColorStyle.white)),
             )
@@ -85,17 +84,12 @@ class _InfomovesState extends State<Infomoves> {
                       ],
                     ),
                   ),
-                  _buildDataContainer(AppIconStyle.key, "ID", widget.id),
+                  _buildDataContainer(Icons.key, "ID", widget.id),
+                  _buildDataContainer(Icons.person, "Usuario", widget.usuario),
                   _buildDataContainer(
-                      AppIconStyle.person, "Usuario", widget.usuario),
-                  _buildDataContainer(
-                      AppIconStyle.money, "Monto", "\$${widget.monto}"),
-                  _buildDataContainer(AppIconStyle.date, "Fecha",
-                      widget.fecha.toIso8601String().split('T').first),
-                  _buildDataContainer(
-                      AppIconStyle.info, "Estado", widget.estado),
-                  _buildDataContainer(
-                      AppIconStyle.details, "Detalle", widget.detalle),
+                      Icons.money, "Monto", "\$${widget.monto}"),
+                  _buildDataContainer(Icons.info, "Estado", widget.estado),
+                  _buildDataContainer(Icons.details, "Detalle", widget.detalle),
                 ],
               ),
             ),
@@ -153,24 +147,30 @@ class _InfomovesState extends State<Infomoves> {
       builder: (BuildContext context) {
         return AlertDialog(
           backgroundColor: AppColorStyle.primary,
-          title: Text('Confirmación', style: AppTextStyles.h3s1.copyWith(color: AppColorStyle.white)),
-          content: Text('¿Deseas reclamar el siguiente movimiento?', style: AppTextStyles.h4s1.copyWith(color: AppColorStyle.white)),
+          title: Text('Confirmación',
+              style: AppTextStyles.h3s1.copyWith(color: AppColorStyle.white)),
+          content: Text('¿Deseas reclamar el siguiente movimiento?',
+              style: AppTextStyles.h4s1.copyWith(color: AppColorStyle.white)),
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                String body = "El reclamo al movimiento con id ${widget.id} fue enviado exitosamente";
-                
-                Navigator.of(context).pop(); 
+                String body =
+                    "El reclamo al movimiento con id ${widget.id} fue enviado exitosamente";
+
+                Navigator.of(context).pop();
                 NotificationService.showNotification(body);
-                
               },
-              child: Text('Sí', style: AppTextStyles.h4s1.copyWith(color: AppColorStyle.white)),
+              child: Text('Sí',
+                  style:
+                      AppTextStyles.h4s1.copyWith(color: AppColorStyle.white)),
             ),
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(); 
+                Navigator.of(context).pop();
               },
-              child: Text('No', style: AppTextStyles.h4s1.copyWith(color: AppColorStyle.white)),
+              child: Text('No',
+                  style:
+                      AppTextStyles.h4s1.copyWith(color: AppColorStyle.white)),
             ),
           ],
         );

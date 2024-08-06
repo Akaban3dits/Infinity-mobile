@@ -24,6 +24,11 @@ class ContactBloc extends Bloc<ContactEvent, ContactState> {
     on<CreateContactEvent>(_onCreateContactEvent);
     on<UpdateContactEvent>(_onUpdateContactEvent);
     on<DeleteContactEvent>(_onDeleteContactEvent);
+    on<NickNameChanged>(_onNickNameChanged);
+    on<EmailChanged>(_onEmailChanged);
+    on<PhoneNumberChanged>(_onPhoneNumberChanged);
+    on<BankNameChanged>(_onBankNameChanged);
+    on<AccountNumberChanged>(_onAccountNumberChanged);
   }
 
   Future<void> _onGetContactsEvent(
@@ -56,7 +61,8 @@ class ContactBloc extends Bloc<ContactEvent, ContactState> {
       UpdateContactEvent event, Emitter<ContactState> emit) async {
     emit(ContactLoading());
     try {
-      final errorMessage = await updateContactUseCase.call(event.id, event.contact);
+      final errorMessage =
+          await updateContactUseCase.call(event.id, event.contact);
       if (errorMessage == null) {
         emit(ContactUpdated());
       } else {
@@ -79,6 +85,66 @@ class ContactBloc extends Bloc<ContactEvent, ContactState> {
       }
     } catch (e) {
       emit(ContactError("Error deleting contact: $e"));
+    }
+  }
+
+  void _onNickNameChanged(NickNameChanged event, Emitter<ContactState> emit) {
+    if (state is ContactsLoaded) {
+      final updatedContacts = (state as ContactsLoaded).contacts.map(
+        (contact) {
+          return contact.copyWith(nickname: event.nickname);
+        },
+      ).toList();
+
+      emit(ContactsLoaded(updatedContacts));
+    }
+  }
+
+  void _onEmailChanged(EmailChanged event, Emitter<ContactState> emit) {
+    if (state is ContactsLoaded) {
+      final updatedContacts = (state as ContactsLoaded).contacts.map(
+        (contact) {
+          return contact.copyWith(email: event.email);
+        },
+      ).toList();
+
+      emit(ContactsLoaded(updatedContacts));
+    }
+  }
+
+  void _onPhoneNumberChanged(PhoneNumberChanged event, Emitter<ContactState> emit) {
+    if (state is ContactsLoaded) {
+      final updatedContacts = (state as ContactsLoaded).contacts.map(
+        (contact) {
+          return contact.copyWith(phone: event.phone);
+        },
+      ).toList();
+
+      emit(ContactsLoaded(updatedContacts));
+    }
+  }
+
+  void _onBankNameChanged(BankNameChanged event, Emitter<ContactState> emit) {
+    if (state is ContactsLoaded) {
+      final updatedContacts = (state as ContactsLoaded).contacts.map(
+        (contact) {
+          return contact.copyWith(bankname: event.bankname);
+        },
+      ).toList();
+
+      emit(ContactsLoaded(updatedContacts));
+    }
+  }
+
+  void _onAccountNumberChanged(AccountNumberChanged event, Emitter<ContactState> emit) {
+    if (state is ContactsLoaded) {
+      final updatedContacts = (state as ContactsLoaded).contacts.map(
+        (contact) {
+          return contact.copyWith(account: event.account);
+        },
+      ).toList();
+
+      emit(ContactsLoaded(updatedContacts));
     }
   }
 }

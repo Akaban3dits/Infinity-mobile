@@ -19,6 +19,31 @@ class TransferencesLoaded extends TransferenceState {
 
   @override
   List<Object?> get props => [transferences];
+
+  TransferencesLoaded copyWith({
+    List<Transference>? transferences,
+  }) {
+    return TransferencesLoaded(
+      transferences ?? this.transferences,
+    );
+  }
+}
+
+class TransferenceEditing extends TransferenceState {
+  final Transference transference;
+
+  const TransferenceEditing(this.transference);
+
+  @override
+  List<Object?> get props => [transference];
+
+  TransferenceEditing copyWith({
+    Transference? transference,
+  }) {
+    return TransferenceEditing(
+      transference ?? this.transference,
+    );
+  }
 }
 
 class TransferenceCreated extends TransferenceState {

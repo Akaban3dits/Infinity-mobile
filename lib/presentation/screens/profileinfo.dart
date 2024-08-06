@@ -3,7 +3,7 @@ import 'package:infinity_bank/domain/ApiProvider/AuthProvider/authprovider.dart'
 import 'package:infinity_bank/presentation/blocs/text_styles.dart';
 import 'package:infinity_bank/presentation/screens/edit_user.dart';
 import 'package:infinity_bank/presentation/screens/login.dart';
-import 'package:infinity_bank/presentation/screens/register_user.dart';
+import 'package:infinity_bank/presentation/screens/registercontact.dart';
 import 'package:infinity_bank/presentation/widgets/TileSetting.dart';
 
 class Profileinfo extends StatefulWidget {
@@ -30,18 +30,6 @@ class _ProfileinfoState extends State<Profileinfo> {
           child: Column(
             children: [
               BtnTileSetts(
-                icon: Icons.person_add,
-                title: "Registrar nuevo usuario",
-                subtitle: "Crea una nueva cuenta para tus amigos",
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const RegisterUser()),
-                  );
-                },
-              ),
-              BtnTileSetts(
                 icon: Icons.edit,
                 title: "Edita tu perfil",
                 subtitle: "Edita la informacion de tu perfil",
@@ -50,6 +38,19 @@ class _ProfileinfoState extends State<Profileinfo> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => const EditUserScreen(),
+                    ),
+                  );
+                },
+              ),
+              BtnTileSetts(
+                icon: Icons.person_add,
+                title: "Añade un amigo o contacto",
+                subtitle: "Envia más facil tus transferencias.",
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const RegisterContact(),
                     ),
                   );
                 },

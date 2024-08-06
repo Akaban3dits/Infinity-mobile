@@ -19,22 +19,16 @@ class ServicesLoaded extends ServiceState {
 
   @override
   List<Object?> get props => [services];
+
+  ServicesLoaded copyWith({
+    List<Service>? services,
+  }) {
+    return ServicesLoaded(
+      services ?? this.services,
+    );
+  }
 }
 
-class ServiceCreated extends ServiceState {
-  final Service service;
-
-  const ServiceCreated(this.service);
-
-  @override
-  List<Object?> get props => [service];
-}
-
-class ServiceUpdated extends ServiceState {}
-
-class ServiceDeleted extends ServiceState {}
-
-class ServiceIconUploaded extends ServiceState {}
 
 class ServiceError extends ServiceState {
   final String message;

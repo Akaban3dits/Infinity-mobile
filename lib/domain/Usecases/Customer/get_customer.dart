@@ -18,7 +18,6 @@ class GetCustomerUseCase {
   }
 
   bool isValidCustomer(Customer customer) {
-    // ignore: unnecessary_null_comparison
     return CustomerValidator.validate(customer) == null;
   }
 }

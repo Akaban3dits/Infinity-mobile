@@ -78,7 +78,7 @@ class _SettingsState extends State<Settings> {
                             children: [
                               Text(
                                 usuario!.email,
-                                style: AppTextStyles.h4s1.copyWith(color: AppColorStyle.white.withOpacity(0.2)),
+                                style: AppTextStyles.h4s1.copyWith(color: AppColorStyle.white.withOpacity(0.4)),
                               ),
                             ],
                           ),

@@ -13,7 +13,7 @@ class UpdateAccountUseCase {
       throw Exception(errorMessage);
     }
     try {
-      return await repository.updateAccount(account.id!, account);
+      return await repository.updateAccount(account.id, account);
     } catch (e) {
       throw Exception('Error al actualizar la cuenta: $e');
     }

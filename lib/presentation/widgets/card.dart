@@ -6,14 +6,20 @@ import 'package:intl/intl.dart';
 class CCard extends StatefulWidget {
   const CCard(
       {super.key,
-      required this.accountF,
-      required this.money,
-      required this.names,
-      required this.account});
-  final String names;
-  final double money;
-  final String account;
-  final String accountF;
+      required this.formattedCard,
+      required this.name,
+      required this.email,
+      required this.phone,
+      required this.cardNumber,
+      required this.accountNumber,
+      required this.balance});
+  final String name;
+  final String email;
+  final String phone;
+  final String cardNumber;
+  final String accountNumber;
+  final double balance;
+  final String formattedCard;
 
   @override
   State<CCard> createState() => _CCardState();
@@ -25,7 +31,7 @@ class _CCardState extends State<CCard> {
   void initState() {
     super.initState();
     // Formatea el número con comas y lo asigna a la variable
-    numeroConComas = NumberFormat("#,##0.00", "en_US").format(widget.money);
+    numeroConComas = NumberFormat("#,##0.00", "en_US").format(widget.balance);
   }
 
   @override
@@ -40,9 +46,12 @@ class _CCardState extends State<CCard> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => DataCard(
-                        money: widget.money,
-                        names: widget.names,
-                        account: widget.accountF)));
+                        accountNumber: widget.accountNumber,
+                        phone: widget.phone,
+                        name: widget.name,
+                        balance: widget.balance,
+                        email: widget.email,
+                        cardNumber: widget.cardNumber)));
           },
           style: ButtonStyle(
             backgroundColor: WidgetStateProperty.all(Colors.transparent),
@@ -115,7 +124,7 @@ class _CCardState extends State<CCard> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(widget.account,
+                        Text(widget.formattedCard,
                             style: AppTextStyles.h3s2
                                 .copyWith(color: AppColorStyle.white)),
                         Column(
@@ -140,7 +149,7 @@ class _CCardState extends State<CCard> {
                     ),
                     Row(
                       children: [
-                        Text(widget.names,
+                        Text(widget.name,
                             style: AppTextStyles.h4s1
                                 .copyWith(color: AppColorStyle.white))
                       ],

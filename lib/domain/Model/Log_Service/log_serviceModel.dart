@@ -4,15 +4,15 @@ part 'log_serviceModel.g.dart';
 
 @JsonSerializable()
 class LogService {
-  int id;
-  String amount;
+  int? id;
+  double amount; // Mantenemos double aquí
   String reference;
   int idService;
   int idUsers;
   int idAccount;
 
   LogService({
-    required this.id,
+    this.id,
     required this.amount,
     required this.reference,
     required this.idService,

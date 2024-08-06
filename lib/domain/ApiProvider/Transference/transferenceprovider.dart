@@ -6,11 +6,13 @@ import 'package:infinity_bank/domain/Model/Transference/transferenceModel.dart';
 class TransferenceProvider {
   final Dio _dio = ApiClient().dio;
 
-  Future<Transference> createTransference(Map<String, dynamic> createTransferenceDto) async {
+  Future<Transference> createTransference(
+      Map<String, dynamic> createTransferenceDto) async {
     try {
       final response = await _dio.post(
         '/transferences',
         data: jsonEncode(createTransferenceDto),
+        
       );
       final data = response.data['data'];
       return Transference.fromJson(data);
@@ -24,18 +26,9 @@ class TransferenceProvider {
     try {
       final response = await _dio.get('/transferences');
       final List<dynamic> data = response.data['data'];
-      return data.map((transference) => Transference.fromJson(transference)).toList();
-    } catch (e) {
-      _handleError(e);
-      rethrow;
-    }
-  }
-
-  Future<Transference> getTransference(int id) async {
-    try {
-      final response = await _dio.get('/transferences/$id');
-      final data = response.data;
-      return Transference.fromJson(data);
+      return data
+          .map((transference) => Transference.fromJson(transference))
+          .toList();
     } catch (e) {
       _handleError(e);
       rethrow;

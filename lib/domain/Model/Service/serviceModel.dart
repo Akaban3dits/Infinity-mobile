@@ -4,10 +4,10 @@ part 'serviceModel.g.dart';
 
 @JsonSerializable()
 class Service {
-  int id;
-  String name;
-  bool status;
-  String icono;
+  final int id;
+  final String name;
+  final bool status;
+  final String icono;
 
   Service({
     required this.id,
@@ -16,7 +16,17 @@ class Service {
     required this.icono,
   });
 
-  factory Service.fromJson(Map<String, dynamic> json) => _$ServiceFromJson(json);
+  factory Service.fromJson(Map<String, dynamic> json) {
+    return Service(
+      id: json['id'] is int
+          ? json['id'] as int
+          : int.tryParse(json['id'] as String) ?? 0,
+      name: json['name'] as String,
+      status: json['status'] as bool,
+      icono: json['icono'] as String,
+    );
+  }
 
   Map<String, dynamic> toJson() => _$ServiceToJson(this);
+
 }

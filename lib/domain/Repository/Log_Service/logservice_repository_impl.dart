@@ -27,14 +27,4 @@ class LogServiceRepositoryImpl implements LogServiceRepository {
       throw Exception("Failed to get log services: $e");
     }
   }
-
-  @override
-  Future<LogService> getLogService(int id) async {
-    try {
-      final logService = await _provider.getLogService(id);
-      return logService;
-    } catch (e) {
-      throw Exception("Failed to get log service: $e");
-    }
-  }
 }

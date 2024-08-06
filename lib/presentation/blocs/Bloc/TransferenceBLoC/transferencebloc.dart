@@ -16,31 +16,62 @@ class TransferenceBloc extends Bloc<TransferenceEvent, TransferenceState> {
         super(TransferenceInitial()) {
     on<GetTransferencesEvent>(_onGetTransferencesEvent);
     on<CreateTransferenceEvent>(_onCreateTransferenceEvent);
+    on<ConceptChanged>(_onConceptChanged);
+    on<AmountChanged>(_onAmountChanged);
+    on<AccountChanged>(_onAccountChanged);
+  }
+
+  void _onConceptChanged(ConceptChanged event, Emitter<TransferenceState> emit) {
+    if (state is TransferenceEditing) {
+      final updatedTransference = (state as TransferenceEditing).transference
+          .copyWith(concept: event.concept);
+      emit(TransferenceEditing(updatedTransference));
+    }
+  }
+
+  void _onAmountChanged(AmountChanged event, Emitter<TransferenceState> emit) {
+    if (state is TransferenceEditing) {
+      final updatedTransference = (state as TransferenceEditing).transference
+          .copyWith(amount: event.amount);
+      emit(TransferenceEditing(updatedTransference));
+    }
+  }
+
+  void _onAccountChanged(AccountChanged event, Emitter<TransferenceState> emit) {
+    if (state is TransferenceEditing) {
+      final updatedTransference = (state as TransferenceEditing).transference
+          .copyWith(receptorAccount: event.account);
+      emit(TransferenceEditing(updatedTransference));
+    }
   }
 
   Future<void> _onGetTransferencesEvent(
-      GetTransferencesEvent event, Emitter<TransferenceState> emit) async {
+    GetTransferencesEvent event, Emitter<TransferenceState> emit) async {
     emit(TransferenceLoading());
     try {
       final transferences = await getTransferencesUseCase.call();
       emit(TransferencesLoaded(transferences));
     } catch (e) {
-      emit(TransferenceError("Error obtaining transfers: $e"));
+      emit(TransferenceError("Error obteniendo las transferencias: $e"));
     }
   }
 
   Future<void> _onCreateTransferenceEvent(
-      CreateTransferenceEvent event, Emitter<TransferenceState> emit) async {
-    emit(TransferenceLoading());
-    try {
-      final errorMessage = await createTransferenceUseCase.call(event.transference);
-      if (errorMessage == null) {
-        emit(TransferenceCreated(event.transference));
-      } else {
-        emit(TransferenceError(errorMessage));
-      }
-    } catch (e) {
-      emit(TransferenceError("Error creating transfer: $e"));
+    CreateTransferenceEvent event, Emitter<TransferenceState> emit) async {
+  emit(TransferenceLoading());
+
+  try {
+    final errorMessage = await createTransferenceUseCase.call(event.transference);
+    
+    if (errorMessage == null) {
+      add(GetTransferencesEvent());
+      emit(TransferenceCreated(event.transference));
+    } else {
+      emit(TransferenceError(errorMessage));
     }
+  } catch (e) {
+    emit(TransferenceError("Error creando la transferencia: $e"));
   }
+}
+
 }

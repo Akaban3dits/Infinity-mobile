@@ -9,7 +9,7 @@ class AppTextStyles {
   static const TextStyle h3s1 =
       TextStyle(fontSize: 20.0, fontFamily: 'Coolvetica');
   static const TextStyle h4s1 =
-      TextStyle(fontSize: 16.0, fontFamily: 'Coolvetica');
+      TextStyle(fontSize: 14.0, fontFamily: 'Coolvetica');
   //* Segundo estilo Monofonto
   static const TextStyle h1s2 =
       TextStyle(fontSize: 32.0, fontFamily: 'Monofonto');

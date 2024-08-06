@@ -2,21 +2,29 @@ import 'package:infinity_bank/domain/Model/Contacts/contactModel.dart';
 
 class ContactValidator {
   static String? validate(Contact contact) {
-    if (contact.nickname.isEmpty || contact.nickname.length > 50) {
-      return 'El apodo es inválido. No debe estar vacío ni exceder los 50 caracteres.';
+    if (contact.nickname.isEmpty ||
+        RegExp(r'[^\w\sáéíóúÁÉÍÓÚñÑüÜ]').hasMatch(contact.nickname) ||
+        RegExp(r'\d').hasMatch(contact.nickname) ||
+        contact.nickname.length < 3) {
+      return 'El apodo no puede contener caracteres especiales, números o ser inferior a 3 caracteres.';
     }
-    if (contact.email.isEmpty || !RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(contact.email)) {
-      return 'Correo electrónico inválido.';
+
+    if (!RegExp(r'^[^\s@]+@[^\s@]+\.[^\s@]+$').hasMatch(contact.email)) {
+      return 'El correo electrónico no es válido.';
     }
-    if (contact.phone.isEmpty || !RegExp(r'^\d+$').hasMatch(contact.phone)) {
-      return 'Número de teléfono inválido. Solo se permiten números.';
+
+    if (!RegExp(r'^\d{10,}$').hasMatch(contact.phone)) {
+      return 'El teléfono debe tener al menos 10 dígitos.';
     }
-    if (contact.bankname.isEmpty) {
-      return 'El nombre del banco no puede estar vacío.';
+
+    if (contact.bankname.isEmpty || contact.bankname.length < 3) {
+      return 'El nombre del banco debe tener al menos 3 caracteres y no puede estar vacío.';
     }
-    if (contact.account.isEmpty || !RegExp(r'^\d+$').hasMatch(contact.account)) {
-      return 'Número de cuenta inválido. Solo se permiten números.';
+
+    if (!RegExp(r'^\d{16}$').hasMatch(contact.account)) {
+      return 'La cuenta debe tener exactamente 16 caracteres numéricos.';
     }
+
     return null;
   }
 }

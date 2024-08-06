@@ -5,7 +5,7 @@ part 'contactModel.g.dart';
 @JsonSerializable()
 class Contact {
   int? id;
-  int idUser;
+  int? idUser;
   String nickname;
   String email;
   String phone;
@@ -14,7 +14,7 @@ class Contact {
 
   Contact({
     this.id,
-    required this.idUser,
+    this.idUser,
     required this.nickname,
     required this.email,
     required this.phone,
@@ -25,4 +25,24 @@ class Contact {
   factory Contact.fromJson(Map<String, dynamic> json) => _$ContactFromJson(json);
 
   Map<String, dynamic> toJson() => _$ContactToJson(this);
+
+  Contact copyWith({
+    int? id,
+    int? idUser,
+    String? nickname,
+    String? email,
+    String? phone,
+    String? bankname,
+    String? account,
+  }) {
+    return Contact(
+      id: id ?? this.id,
+      idUser: idUser ?? this.idUser,
+      nickname: nickname ?? this.nickname,
+      email: email ?? this.email,
+      phone: phone ?? this.phone,
+      bankname: bankname ?? this.bankname,
+      account: account ?? this.account,
+    );
+  }
 }

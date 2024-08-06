@@ -6,8 +6,8 @@ class AccountValidator {
       return 'El balance debe ser un número positivo.';
     }
 
-    if (account.status < 0 || account.status > 2) {
-      return 'Estado de cuenta inválido. Debe estar entre 0 y 2.';
+    if (account.status != 0) {
+      return 'Estado de cuenta inválido. Debe ser igual a 0.';
     }
 
     return null;

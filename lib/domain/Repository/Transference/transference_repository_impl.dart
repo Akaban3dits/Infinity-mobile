@@ -10,7 +10,7 @@ class TransferenceRepositoryImpl implements TransferenceRepository {
   @override
   Future<Transference> createTransference(Transference transference) async {
     try {
-      final createdTransference = await _provider.createTransference(transference.toJson());
+      final createdTransference = await _provider.createTransference(transference.toPostJson());
       return createdTransference;
     } catch (e) {
       throw Exception("Failed to create transference: $e");
@@ -22,18 +22,8 @@ class TransferenceRepositoryImpl implements TransferenceRepository {
     try {
       final transferences = await _provider.getTransferences();
       return transferences;
-    } catch (e) {
+    } catch ( e) {
       throw Exception("Failed to get transferences: $e");
-    }
-  }
-
-  @override
-  Future<Transference> getTransference(int id) async {
-    try {
-      final transference = await _provider.getTransference(id);
-      return transference;
-    } catch (e) {
-      throw Exception("Failed to get transference: $e");
     }
   }
 }

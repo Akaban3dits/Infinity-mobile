@@ -1,5 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:infinity_bank/domain/entities/movements.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:infinity_bank/domain/Model/Contacts/contactModel.dart';
+import 'package:infinity_bank/domain/Model/Transference/transferenceModel.dart';
+import 'package:infinity_bank/presentation/blocs/Bloc/AccountBLoC/accountevent.dart';
+import 'package:infinity_bank/presentation/blocs/Bloc/ContactBLoC/contactevent.dart';
+import 'package:infinity_bank/presentation/blocs/Bloc/TransferenceBLoC/transferencebloc.dart';
+import 'package:infinity_bank/presentation/blocs/Bloc/TransferenceBLoC/transferenceevent.dart';
+import 'package:infinity_bank/presentation/blocs/Bloc/TransferenceBLoC/transferencestate.dart';
+import 'package:infinity_bank/presentation/blocs/Bloc/ContactBLoC/contactbloc.dart';
+import 'package:infinity_bank/presentation/blocs/Bloc/ContactBLoC/contactstate.dart';
+import 'package:infinity_bank/presentation/blocs/Bloc/AccountBLoC/accountbloc.dart';
+import 'package:infinity_bank/presentation/blocs/Bloc/AccountBLoC/accountstate.dart';
 import 'package:infinity_bank/presentation/blocs/text_styles.dart';
 import 'package:infinity_bank/presentation/widgets/movesinformation.dart';
 
@@ -12,37 +23,49 @@ class Moveview extends StatefulWidget {
 
 class _MoveviewState extends State<Moveview> {
   TextEditingController searchController = TextEditingController();
-  List<MovementsBank> filteredList = [];
+  List<Transference> filteredList = [];
+  List<String> userAccounts = []; // Aquí se incluirán las cuentas del usuario
 
   @override
   void initState() {
     super.initState();
-    filteredList =
-        MoveList;
+    context.read<TransferenceBloc>().add(GetTransferencesEvent());
+    context.read<ContactBloc>().add(GetContactsEvent());
+    context.read<AccountBloc>().add(GetAccountEvent());
   }
 
-  void filterSearchResults(String query) {
+  void filterSearchResults(
+      String query, List<Transference> transferences, List<Contact> contacts) {
     if (query.isEmpty) {
       setState(() {
-        filteredList = MoveList;
+        filteredList = transferences;
       });
       return;
     }
 
-    List<MovementsBank> dummySearchList = [];
-    dummySearchList.addAll(MoveList);
-    if (query.isNotEmpty) {
-      List<MovementsBank> dummyListData = [];
-      for (var item in dummySearchList) {
-        if (item.usuario.toLowerCase().contains(query.toLowerCase())) {
-          dummyListData.add(item);
-        }
+    List<Transference> dummyListData = [];
+    for (var item in transferences) {
+      final contactName = getUsuario(item.receptorAccount, contacts);
+      final contactAccount = item.receptorAccount;
+
+      if (contactName.toLowerCase().contains(query.toLowerCase()) ||
+          contactAccount.toLowerCase().contains(query.toLowerCase())) {
+        dummyListData.add(item);
       }
-      setState(() {
-        filteredList = dummyListData;
-      });
-      return;
     }
+
+    setState(() {
+      filteredList = dummyListData;
+    });
+  }
+
+  String getUsuario(String account, List<Contact> contacts) {
+    for (var contact in contacts) {
+      if (contact.account == account) {
+        return contact.nickname;
+      }
+    }
+    return account;
   }
 
   @override
@@ -63,11 +86,23 @@ class _MoveviewState extends State<Moveview> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
-              onChanged: filterSearchResults,
+              onChanged: (query) {
+                final transferences = context.read<TransferenceBloc>().state
+                        is TransferencesLoaded
+                    ? (context.read<TransferenceBloc>().state
+                            as TransferencesLoaded)
+                        .transferences
+                    : <Transference>[];
+                final contacts =
+                    context.read<ContactBloc>().state is ContactsLoaded
+                        ? (context.read<ContactBloc>().state as ContactsLoaded)
+                            .contacts
+                        : <Contact>[];
+
+                filterSearchResults(query, transferences, contacts);
+              },
               controller: searchController,
-              style: const TextStyle(
-                  color: Colors
-                      .white),
+              style: const TextStyle(color: Colors.white),
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.blueGrey[900],
@@ -86,7 +121,8 @@ class _MoveviewState extends State<Moveview> {
                 ),
                 focusedBorder: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                  borderSide: BorderSide(color: AppColorStyle.secundary, width: 2.0),
+                  borderSide:
+                      BorderSide(color: AppColorStyle.secundary, width: 2.0),
                 ),
               ),
             ),
@@ -100,21 +136,87 @@ class _MoveviewState extends State<Moveview> {
                       topRight: Radius.circular(20))),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: ListView.separated(
-                  itemCount: filteredList.length,
-                  itemBuilder: (context, index) {
-                    final MovementsBank cl = filteredList[index];
-                    return MovesData(
-                        usuario: cl.usuario,
-                        monto: cl.monto,
-                        fecha: cl.fecha,
-                        tipo: cl.tipo,
-                        estado: cl.estado,
-                        detalle: cl.detalle,
-                        id: cl.id,
-                        url: cl.url);
+                child: BlocBuilder<AccountBloc, AccountState>(
+                  builder: (context, accountState) {
+                    return BlocBuilder<TransferenceBloc, TransferenceState>(
+                      builder: (context, transferenceState) {
+                        return BlocBuilder<ContactBloc, ContactState>(
+                          builder: (context, contactState) {
+                            if (accountState is AccountLoaded &&
+                                transferenceState is TransferencesLoaded &&
+                                contactState is ContactsLoaded) {
+                              filteredList = filteredList.isEmpty
+                                  ? transferenceState.transferences
+                                  : filteredList;
+
+                              final contacts = contactState.contacts;
+                              userAccounts = accountState.account.cards!
+                                  .expand(
+                                      (card) => [card.card, card.cardAccount])
+                                  .toList();
+
+                              if (filteredList.isEmpty) {
+                                return Center(
+                                  child: Text(
+                                    'No existen movimientos realizados o recibidos',
+                                    style: AppTextStyles.h3s1
+                                        .copyWith(color: Colors.white),
+                                  ),
+                                );
+                              }
+
+                              return ListView.separated(
+                                itemCount: filteredList.length,
+                                itemBuilder: (context, index) {
+                                  final Transference cl = filteredList[index];
+                                  bool isSent =
+                                      userAccounts.contains(cl.senderAccount);
+                                  userAccounts.contains(cl.receptorAccount);
+                                  String usuario = getUsuario(
+                                    isSent
+                                        ? cl.receptorAccount
+                                        : cl.senderAccount,
+                                    contacts,
+                                  );
+
+                                  return MovesData(
+                                    usuario: usuario,
+                                    monto: cl.amount,
+                                    tipo: "Transferencia",
+                                    estado: isSent ? "Enviado" : "Recibido",
+                                    detalle: cl.concept,
+                                    id: isSent
+                                        ? cl.receptorAccount
+                                        : cl.senderAccount,
+                                    enviado: isSent,
+                                  );
+                                },
+                                separatorBuilder: (context, index) =>
+                                    const Divider(),
+                              );
+                            } else if (transferenceState
+                                    is TransferenceLoading ||
+                                contactState is ContactLoading ||
+                                accountState is AccountLoading) {
+                              return const Center(
+                                  child: CircularProgressIndicator());
+                            } else if (transferenceState is TransferenceError) {
+                              return Center(
+                                child: Text(
+                                  'Error: ${transferenceState.message}',
+                                  style: AppTextStyles.h3s1
+                                      .copyWith(color: Colors.red),
+                                ),
+                              );
+                            } else {
+                              return const Center(
+                                  child: Text('Estado desconocido.'));
+                            }
+                          },
+                        );
+                      },
+                    );
                   },
-                  separatorBuilder: (context, index) => const Divider(),
                 ),
               ),
             ),

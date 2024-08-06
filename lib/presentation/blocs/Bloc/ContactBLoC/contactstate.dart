@@ -19,7 +19,16 @@ class ContactsLoaded extends ContactState {
 
   @override
   List<Object?> get props => [contacts];
+
+  ContactsLoaded copyWith({
+    List<Contact>? contacts,
+  }) {
+    return ContactsLoaded(
+      contacts ?? this.contacts,
+    );
+  }
 }
+
 
 class ContactCreated extends ContactState {
   final Contact contact;
@@ -28,6 +37,8 @@ class ContactCreated extends ContactState {
 
   @override
   List<Object?> get props => [contact];
+
+  
 }
 
 class ContactUpdated extends ContactState {}

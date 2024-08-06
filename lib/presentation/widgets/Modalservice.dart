@@ -1,9 +1,5 @@
-
-// ignore_for_file: file_names
-
-// ignore: duplicate_ignore
-// ignore: file_names
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; // Necesario para usar inputFormatters
 import 'package:infinity_bank/presentation/blocs/text_styles.dart';
 
 class ModalService {
@@ -40,6 +36,10 @@ class ModalService {
                           child: TextField(
                             keyboardType: TextInputType.number,
                             controller: referencia,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                              LengthLimitingTextInputFormatter(12),
+                            ],
                             decoration: InputDecoration(
                               fillColor: AppColorStyle.white,
                               filled: true,
@@ -64,11 +64,15 @@ class ModalService {
                           children: [
                             ElevatedButton(
                                 onPressed: () {
-                                  Navigator.pop(context);
-                                  Future.delayed(const Duration(seconds: 1),
-                                      () {
-                                    navigationFunction(referencia.text);
-                                  });
+                                  if (_validateInput(referencia.text)) {
+                                    Navigator.pop(context);
+                                    Future.delayed(const Duration(seconds: 1),
+                                        () {
+                                      navigationFunction(referencia.text);
+                                    });
+                                  } else {
+                                    _showValidationError(context);
+                                  }
                                 },
                                 style: const ButtonStyle(
                                     backgroundColor: WidgetStatePropertyAll(
@@ -106,5 +110,44 @@ class ModalService {
                 ],
               ),
             ));
+  }
+
+  static bool _validateInput(String input) {
+    if (input.isEmpty) {
+      return false;
+    } else if (input.length != 12) {
+      return false;
+    }
+    return true;
+  }
+
+  static void _showValidationError(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text(
+            "Error",
+            style: AppTextStyles.h3s1,
+          ),
+          content: const Text(
+            "La referencia debe contener 12 caracteres numéricos.",
+            style: AppTextStyles.h4s1,
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text(
+                "Aceptar",
+                style: AppTextStyles.h4s1
+                    .copyWith(color: AppColorStyle.primary),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }

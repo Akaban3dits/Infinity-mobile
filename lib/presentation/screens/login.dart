@@ -6,6 +6,7 @@ import 'package:infinity_bank/presentation/blocs/Bloc/AuthBLoC/AuthEvent.dart';
 import 'package:infinity_bank/presentation/blocs/Bloc/AuthBLoC/AuthState.dart';
 import 'package:infinity_bank/presentation/blocs/text_styles.dart';
 import 'package:infinity_bank/presentation/screens/home.dart';
+import 'package:infinity_bank/presentation/screens/register_user.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:infinity_bank/presentation/widgets/texfld.dart';
 
@@ -129,6 +130,20 @@ class _LoginState extends State<Login> {
                                   "Log In",
                                   style: TextStyle(color: AppColorStyle.white),
                                 ),
+                        ),
+                      ),
+                      const SizedBox(height: 2.0),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const RegisterUser()),
+                          );
+                        },
+                        child: Text(
+                          "Create a new account",
+                          style: AppTextStyles.h4s1
+                              .copyWith(color: AppColorStyle.white),
                         ),
                       ),
                       // const SizedBox(

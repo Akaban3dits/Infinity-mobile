@@ -2,20 +2,25 @@ import 'package:infinity_bank/domain/Model/Transference/transferenceModel.dart';
 
 class TransferenceValidator {
   static String? validate(Transference transference) {
-
+    // Validar número de cuenta del receptor
     if (transference.receptorAccount.isEmpty ||
-        !RegExp(r'^\d+$').hasMatch(transference.receptorAccount)) {
-      return 'Número de cuenta del receptor inválido. Solo se permiten números.';
+        transference.receptorAccount.length != 12 ||
+        !RegExp(r'^\d{12}$').hasMatch(transference.receptorAccount)) {
+      return 'Número de cuenta del receptor inválido. Debe tener exactamente 12 dígitos.';
     }
-    if (transference.amount <= 0) {
-      return 'La cantidad debe ser mayor que cero.';
+    
+    // Validar cantidad
+    if (transference.amount <= 50) {
+      return 'La cantidad debe ser mayor que 50.';
     }
-    if (transference.concept.isEmpty) {
-      return 'El concepto no puede estar vacío.';
+    
+    // Validar concepto
+    if (transference.concept.isEmpty ||
+        transference.concept.length < 6 ||
+        transference.concept.length > 35) {
+      return 'El concepto debe tener entre 6 y 35 caracteres.';
     }
-    if (transference.owner.isEmpty) {
-      return 'El nombre del propietario no puede estar vacío.';
-    }
+
     return null;
   }
 }

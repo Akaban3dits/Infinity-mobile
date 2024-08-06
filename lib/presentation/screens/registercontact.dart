@@ -1,50 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter/services.dart'; // Importar para usar Clipboard
-import 'package:infinity_bank/domain/Model/Customer/customerModel.dart';
-import 'package:infinity_bank/presentation/blocs/Bloc/CustomerBLoC/customerbloc.dart';
-import 'package:infinity_bank/presentation/blocs/Bloc/CustomerBLoC/customerevent.dart';
-import 'package:infinity_bank/presentation/blocs/Bloc/CustomerBLoC/customerstate.dart';
+import 'package:infinity_bank/domain/Model/Contacts/contactModel.dart';
+import 'package:infinity_bank/presentation/blocs/Bloc/ContactBLoC/contactbloc.dart';
+import 'package:infinity_bank/presentation/blocs/Bloc/ContactBLoC/contactevent.dart';
+import 'package:infinity_bank/presentation/blocs/Bloc/ContactBLoC/contactstate.dart';
 import 'package:infinity_bank/presentation/blocs/text_styles.dart';
-import 'package:infinity_bank/presentation/screens/login.dart';
 import 'package:infinity_bank/presentation/widgets/texfld.dart';
 
-class RegisterUser extends StatefulWidget {
-  const RegisterUser({super.key});
+class RegisterContact extends StatefulWidget {
+  const RegisterContact({super.key});
 
   @override
-  State<RegisterUser> createState() => _RegisterUserState();
+  State<RegisterContact> createState() => _RegisterContactState();
 }
 
-class _RegisterUserState extends State<RegisterUser> {
+class _RegisterContactState extends State<RegisterContact> {
   final _formKey = GlobalKey<FormState>();
 
-  late TextEditingController nameController;
-  late TextEditingController lastNameController;
+  late TextEditingController nicknameController;
   late TextEditingController emailController;
   late TextEditingController phoneController;
-  late TextEditingController rfcController;
-  late TextEditingController passwordController;
+  late TextEditingController bankNameController;
+  late TextEditingController accountController;
 
   @override
   void initState() {
     super.initState();
-    nameController = TextEditingController();
-    lastNameController = TextEditingController();
+    nicknameController = TextEditingController();
     emailController = TextEditingController();
     phoneController = TextEditingController();
-    rfcController = TextEditingController();
-    passwordController = TextEditingController();
+    bankNameController = TextEditingController();
+    accountController = TextEditingController();
   }
 
   @override
   void dispose() {
-    nameController.dispose();
-    lastNameController.dispose();
+    nicknameController.dispose();
     emailController.dispose();
-    passwordController.dispose();
-    rfcController.dispose();
     phoneController.dispose();
+    bankNameController.dispose();
+    accountController.dispose();
     super.dispose();
   }
 
@@ -69,44 +64,36 @@ class _RegisterUserState extends State<RegisterUser> {
   }
 
   void _validateAndSubmit() {
-    if (nameController.text.isEmpty) {
-      _showValidationError(context, 'Por favor, ingrese su nombre');
-      return;
-    }
-    if (lastNameController.text.isEmpty) {
-      _showValidationError(context, 'Por favor, ingrese su apellido');
+    if (nicknameController.text.isEmpty) {
+      _showValidationError(context, 'Por favor, ingrese el nickname');
       return;
     }
     if (emailController.text.isEmpty) {
-      _showValidationError(context, 'Por favor, ingrese su correo');
-      return;
-    }
-    if (passwordController.text.isEmpty) {
-      _showValidationError(context, 'Por favor, ingrese su contraseña');
+      _showValidationError(context, 'Por favor, ingrese el correo');
       return;
     }
     if (phoneController.text.isEmpty) {
-      _showValidationError(context, 'Por favor, ingrese su teléfono');
+      _showValidationError(context, 'Por favor, ingrese el teléfono');
       return;
     }
-    if (rfcController.text.isEmpty) {
-      _showValidationError(context, 'Por favor, ingrese su RFC');
+    if (bankNameController.text.isEmpty) {
+      _showValidationError(context, 'Por favor, ingrese el nombre del banco');
+      return;
+    }
+    if (accountController.text.isEmpty) {
+      _showValidationError(context, 'Por favor, ingrese el número de cuenta');
       return;
     }
 
-    final customerData = Customer(
-      firstName: nameController.text,
-      lastName: lastNameController.text,
+    final newContact = Contact(
+      nickname: nicknameController.text,
       email: emailController.text,
-      rfc: rfcController.text,
-      phoneNumber: phoneController.text,
-      password: passwordController.text,
-      idbank: 3,
+      phone: phoneController.text,
+      bankname: bankNameController.text,
+      account: accountController.text,
     );
 
-    context.read<CustomerBloc>().add(CreateCustomerEvent(customerData));
-
-    Clipboard.setData(ClipboardData(text: phoneController.text));
+    context.read<ContactBloc>().add(CreateContactEvent(newContact));
   }
 
   @override
@@ -133,16 +120,15 @@ class _RegisterUserState extends State<RegisterUser> {
                   child: Center(
                     child: Image.asset(
                       "assets/images/InfinityVerticalLogo 1.png",
-                      width:
-                          100.0, // Ajusta el tamaño de la imagen si es necesario
+                      width: 100.0, // Ajusta el tamaño de la imagen si es necesario
                     ),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: BlocListener<CustomerBloc, CustomerState>(
+                  child: BlocListener<ContactBloc, ContactState>(
                     listener: (context, state) {
-                      if (state is CustomerCreated) {
+                      if (state is ContactCreated) {
                         // Mostrar diálogo de éxito
                         showDialog(
                           context: context,
@@ -150,27 +136,22 @@ class _RegisterUserState extends State<RegisterUser> {
                             return AlertDialog(
                               title: const Text('Registro Exitoso'),
                               content: const Text(
-                                  'El usuario fue registrado exitosamente.'),
+                                  'El contacto fue registrado exitosamente.'),
                               actions: [
                                 TextButton(
                                   onPressed: () {
                                     // Limpiar los campos del formulario
-                                    nameController.clear();
-                                    lastNameController.clear();
+                                    nicknameController.clear();
                                     emailController.clear();
                                     phoneController.clear();
-                                    rfcController.clear();
-                                    passwordController.clear();
+                                    bankNameController.clear();
+                                    accountController.clear();
 
                                     // Cerrar el diálogo
                                     Navigator.of(context).pop();
 
-                                    // Navegar a la página de éxito
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => const Login()),
-                                    );
+                                    // Volver a la página anterior o realizar otra acción si es necesario
+                                    Navigator.pop(context);
                                   },
                                   child: const Text('OK'),
                                 ),
@@ -178,7 +159,7 @@ class _RegisterUserState extends State<RegisterUser> {
                             );
                           },
                         );
-                      } else if (state is CustomerError) {
+                      } else if (state is ContactError) {
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
@@ -198,25 +179,28 @@ class _RegisterUserState extends State<RegisterUser> {
                         );
                       }
                     },
-                    child: BlocBuilder<CustomerBloc, CustomerState>(
-                      builder: (BuildContext context, CustomerState state) {
+                    child: BlocBuilder<ContactBloc, ContactState>(
+                      builder: (BuildContext context, ContactState state) {
                         return Form(
                           key: _formKey,
                           child: Column(
                             children: [
-                              _buildTextField("Nombre", nameController,
-                                  AppIconStyle.person),
-                              _buildTextField("Apellido", lastNameController,
+                              _buildTextField("Nickname", nicknameController,
                                   AppIconStyle.person),
                               _buildTextField("Correo", emailController,
                                   AppIconStyle.email),
-                              _buildTextField("Contraseña", passwordController,
-                                  AppIconStyle.password,
-                                  obscureText: true, ocultar: true),
                               _buildTextField("Teléfono", phoneController,
-                                  AppIconStyle.phone),
+                                  AppIconStyle.phone,
+                                  keyboardType: TextInputType.phone),
+                              _buildTextField("Nombre del Banco",
+                                  bankNameController, Icons.account_balance),
                               _buildTextField(
-                                  "RFC", rfcController, AppIconStyle.file),
+                                "Número de Cuenta",
+                                accountController,
+                                Icons.account_balance_wallet_outlined,
+                                maxLength: 16,
+                                keyboardType: TextInputType.number,
+                              ),
                               const SizedBox(height: 20.0),
                               Container(
                                 padding:
@@ -253,7 +237,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
   Widget _buildTextField(
       String label, TextEditingController controller, IconData icon,
-      {bool obscureText = false, bool ocultar = false}) {
+      {bool obscureText = false, bool ocultar = false, int? maxLength, TextInputType? keyboardType}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -270,6 +254,8 @@ class _RegisterUserState extends State<RegisterUser> {
             obscureText: obscureText,
             icon: icon,
             ocultar: ocultar,
+            maxLength: maxLength, // Pasar el valor de maxLength aquí
+            keyboardType: keyboardType, // Pasar el valor de keyboardType aquí
           ),
         ),
         const SizedBox(height: 10.0),

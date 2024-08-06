@@ -6,7 +6,7 @@ part 'accountModel.g.dart';
 
 @JsonSerializable()
 class Account {
-  int? id;
+  int id;
   int idUser;
   double balance;
   int status;
@@ -14,7 +14,7 @@ class Account {
   Customer? usuario;
 
   Account({
-    this.id,
+    required this.id,
     required this.idUser,
     required this.balance,
     required this.status,

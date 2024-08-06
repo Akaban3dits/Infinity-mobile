@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; // Importa el paquete para el portapapeles
 import 'package:infinity_bank/presentation/blocs/text_styles.dart';
 
 class DataCard extends StatefulWidget {
   const DataCard(
       {super.key,
-      required this.money,
-      required this.names,
-      this.vig,
-      this.vig1,
-      required this.account});
+      required this.accountNumber,
+      required this.phone,
+      required this.name,
+      required this.balance,
+      required this.email,
+      required this.cardNumber});
 
-  final String names;
-  final double money;
-  final int? vig;
-  final int? vig1;
-  final String account;
+  final String name;
+  final String email;
+  final String phone;
+  final String cardNumber;
+  final String accountNumber;
+  final double balance;
 
   @override
   State<DataCard> createState() => _DataCardState();
@@ -79,11 +82,19 @@ class _DataCardState extends State<DataCard> {
                     ),
                   ),
                   _buildDataContainer(
-                      AppIconStyle.user, "Usuario", widget.names),
+                      AppIconStyle.user, "Usuario", widget.name),
+                  _buildDataContainer(AppIconStyle.money, "Saldo",
+                      "\$${widget.balance.toStringAsFixed(2)}"),
+                  _buildDataContainer(AppIconStyle.accbox, "Numero de cuenta",
+                      widget.accountNumber,
+                      isCopyable: true),
+                  _buildDataContainer(AppIconStyle.accbox, "Numero de tarjeta",
+                      widget.cardNumber,
+                      isCopyable: true),
                   _buildDataContainer(
-                      AppIconStyle.money, "Saldo", "\$${widget.money}"),
+                      AppIconStyle.money, "Correo electronico", widget.email),
                   _buildDataContainer(
-                      AppIconStyle.accbox, "Numero de cuenta", widget.account)
+                      AppIconStyle.money, "Telefono", widget.phone),
                 ],
               ),
             ),
@@ -93,28 +104,48 @@ class _DataCardState extends State<DataCard> {
     );
   }
 
-  Widget _buildDataContainer(IconData icon, String label, String data) {
+  Widget _buildDataContainer(IconData icon, String label, String data,
+      {bool isCopyable = false}) {
     double screenWidth = MediaQuery.of(context).size.width;
     double containerWidth = (screenWidth - 60) / 2;
 
-    return Container(
-      width: containerWidth,
-      padding: const EdgeInsets.all(8),
-      margin: const EdgeInsets.symmetric(horizontal: 4),
-      decoration: BoxDecoration(
-        color: AppColorStyle.secundary2,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, color: AppColorStyle.white),
-          Text(label,
-              style: AppTextStyles.h3s1.copyWith(color: AppColorStyle.white)),
-          Text(data,
-              textAlign: TextAlign.center,
-              style: AppTextStyles.h4s1.copyWith(color: AppColorStyle.white)),
-        ],
+    return GestureDetector(
+      onTap: () {
+        if (isCopyable) {
+          Clipboard.setData(ClipboardData(text: data));
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Se ha copiado en el portapapeles')),
+          );
+        }
+      },
+      child: Container(
+        width: containerWidth,
+        padding: const EdgeInsets.all(8),
+        margin: const EdgeInsets.symmetric(horizontal: 4),
+        decoration: BoxDecoration(
+          color: AppColorStyle.secundary2,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(icon, color: AppColorStyle.white),
+                if (isCopyable) ...[
+                  const SizedBox(width: 8),
+                  const Icon(Icons.copy, color: AppColorStyle.white),
+                ],
+              ],
+            ),
+            Text(label,
+                style: AppTextStyles.h3s1.copyWith(color: AppColorStyle.white)),
+            Text(data,
+                textAlign: TextAlign.center,
+                style: AppTextStyles.h4s1.copyWith(color: AppColorStyle.white)),
+          ],
+        ),
       ),
     );
   }

@@ -23,7 +23,6 @@ class CustomerProvider {
     try {
       final response = await _dio.get('/users');
       final data = response.data['data'];
-      print(data);
       return Customer.fromJson(data);
     } catch (e) {
       _handleError(e);
